@@ -1,0 +1,448 @@
+/*
+ Copyright 2019 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+
+import XCTest
+@testable import NCMB
+
+/// NCMBRole のテストクラスです。
+final class NCMBRoleTests: NCMBTestCase {
+
+    func test_isIgnoredKey() {
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["takanokun"] = 42
+        XCTAssertTrue(sut.isIgnoredKey(field: "objectId"))
+        XCTAssertTrue(sut.isIgnoredKey(field: "acl"))
+        XCTAssertTrue(sut.isIgnoredKey(field: "createDate"))
+        XCTAssertTrue(sut.isIgnoredKey(field: "updateDate"))
+        XCTAssertFalse(sut.isIgnoredKey(field: "roleName"))
+        XCTAssertFalse(sut.isIgnoredKey(field: "belongRole"))
+        XCTAssertFalse(sut.isIgnoredKey(field: "belongUser"))
+        XCTAssertFalse(sut.isIgnoredKey(field: "takanokun"))
+    }
+
+    func test_isIgnoredKey_setFieldValue() {
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["objectId"] = "abc"
+        sut["acl"] = NCMBACL.default
+        sut["createDate"] = "def"
+        sut["updateDate"] = "ghi"
+        sut["roleName"] = "jkl"
+        sut["belongRole"] = "mno"
+        sut["belongUser"] = "pqr"
+        sut["takanokun"] = "stu"
+        XCTAssertNil(sut["objectId"])
+        XCTAssertNil(sut["acl"])
+        XCTAssertNil(sut["createDate"])
+        XCTAssertNil(sut["updateDate"])
+        XCTAssertEqual(sut["roleName"], "jkl")
+        XCTAssertEqual(sut["belongRole"], "mno")
+        XCTAssertEqual(sut["belongUser"], "pqr")
+        XCTAssertEqual(sut["takanokun"], "stu")
+    }
+
+    func test_roleName() {
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        XCTAssertEqual(sut.roleName, "Testrole")
+        sut.roleName = "takanokun"
+        XCTAssertEqual(sut.roleName, "takanokun")
+    }
+
+    func test_fetch_success() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["field2"] = "value2"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let result : NCMBResult<Void> = sut.fetch()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+        XCTAssertEqual(sut.objectId, "abcdefg12345")
+        XCTAssertNil(sut["field1"])
+        XCTAssertEqual(sut["field2"], "value2")
+    }
+
+    func test_fetch_failure() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let result : NCMBResult<Void> = sut.fetch()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+        XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+        XCTAssertEqual(sut.objectId, "abcdefg12345")
+        XCTAssertEqual(sut["field1"], "value1")
+    }
+
+    func test_fetchInBackground_success() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["field2"] = "value2"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_fetchInBackground_success")
+        sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertEqual(sut.objectId, "abcdefg12345")
+            XCTAssertNil(sut["field1"])
+            XCTAssertEqual(sut["field2"], "value2")
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_fetchInBackground_failure() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_fetchInBackground_failure")
+        sut.fetchInBackground(callback: { result in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+            XCTAssertEqual(sut.objectId, "abcdefg12345")
+            XCTAssertEqual(sut["field1"], "value1")
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_fetchInBackground_reset_modifiedFields() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["field2"] = "value2"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_fetchInBackground_reset_modifiedFields")
+        sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
+            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+                XCTAssertEqual(executor.requests.count, 2)
+                XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{}")
+                expectation?.fulfill()
+            })
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_save_success_insert() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["field1"] = "value1"
+
+        let result : NCMBResult<Void> = sut.save()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+        XCTAssertEqual(executor.requests.count, 1)
+        XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
+        XCTAssertEqual(sut.objectId, "abcdefg12345")
+        XCTAssertEqual(sut["field1"], "value1")
+        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+    }
+
+    func test_save_success_update() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+        XCTAssertEqual(sut.needUpdate, true)
+
+        let result : NCMBResult<Void> = sut.save()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+        XCTAssertEqual(executor.requests.count, 1)
+        XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.put)
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"field1\":\"value1\""))
+        XCTAssertEqual(sut.objectId, "abcdefg12345")
+        XCTAssertEqual(sut["field1"], "value1")
+        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut.needUpdate, false)
+    }
+
+    func test_save_failure() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["field1"] = "value1"
+
+        let result : NCMBResult<Void> = sut.save()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+        XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+        XCTAssertEqual(sut["field1"], "value1")
+    }
+
+    func test_saveInBackground_success_insert() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_success_insert")
+        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+
+            XCTAssertEqual(executor.requests.count, 1)
+            XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
+
+            XCTAssertEqual(sut.objectId, "abcdefg12345")
+            XCTAssertEqual(sut["field1"], "value1")
+            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_saveInBackground_success_update() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+        XCTAssertEqual(sut.needUpdate, true)
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_success_update")
+        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+
+            XCTAssertEqual(executor.requests.count, 1)
+            XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.put)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"field1\":\"value1\""))
+
+            XCTAssertEqual(sut.objectId, "abcdefg12345")
+            XCTAssertEqual(sut["field1"], "value1")
+            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut.needUpdate, false)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_saveInBackground_failure() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_failure")
+        sut.saveInBackground(callback: { result in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+            XCTAssertEqual(sut["field1"], "value1")
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_saveInBackground_reset_modifiedFields() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_reset_modifiedFields")
+        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            sut["field2"] = "value2"
+            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+                XCTAssertEqual(executor.requests.count, 2)
+                XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field2\":\"value2\"}")
+                expectation?.fulfill()
+            })
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_saveInBackground_modifiedFields_null() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_modifiedFields_null")
+        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            sut.removeField(field: "field1")
+            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+                XCTAssertEqual(executor.requests.count, 2)
+                XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field1\":null}")
+                expectation?.fulfill()
+            })
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_delete_success() {
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 201)
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let result : NCMBResult<Void> = sut.delete()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+        XCTAssertNil(sut.objectId)
+        XCTAssertNil(sut["field1"])
+    }
+
+    func test_delete_failure() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let result : NCMBResult<Void> = sut.delete()
+
+        XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+        XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+        XCTAssertEqual(sut.objectId, "abcdefg12345")
+        XCTAssertEqual(sut["field1"], "value1")
+    }
+
+    func test_deleteInBackground_success() {
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 201)
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_deleteInBackground_success")
+        sut.deleteInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertNil(sut.objectId)
+            XCTAssertNil(sut["field1"])
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_deleteInBackground_failure() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_deleteInBackground_failure")
+        sut.deleteInBackground(callback: { result in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+            XCTAssertEqual(sut.objectId, "abcdefg12345")
+            XCTAssertEqual(sut["field1"], "value1")
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    func test_deleteInBackground_reset_modifiedFields() {
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBRole = NCMBRole(roleName: "Testrole")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "value1"
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_deleteInBackground_reset_modifiedFields")
+        sut.deleteInBackground(callback: { (result: NCMBResult<Void>) in
+            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+                XCTAssertEqual(executor.requests.count, 2)
+                XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{}")
+                expectation?.fulfill()
+            })
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
+    static var allTests = [
+        ("test_isIgnoredKey", test_isIgnoredKey),
+        ("test_isIgnoredKey_setFieldValue", test_isIgnoredKey_setFieldValue),
+        ("test_roleName", test_roleName),
+        ("test_fetch_success", test_fetch_success),
+        ("test_fetch_failure", test_fetch_failure),
+        ("test_fetchInBackground_success", test_fetchInBackground_success),
+        ("test_fetchInBackground_failure", test_fetchInBackground_failure),
+        ("test_fetchInBackground_reset_modifiedFields", test_fetchInBackground_reset_modifiedFields),
+        ("test_save_success_insert", test_save_success_insert),
+        ("test_save_success_update", test_save_success_update),
+        ("test_save_failure", test_save_failure),
+        ("test_saveInBackground_success_insert", test_saveInBackground_success_insert),
+        ("test_saveInBackground_success_update", test_saveInBackground_success_update),
+        ("test_saveInBackground_failure", test_saveInBackground_failure),
+        ("test_saveInBackground_reset_modifiedFields", test_saveInBackground_reset_modifiedFields),
+        ("test_saveInBackground_modifiedFields_null", test_saveInBackground_modifiedFields_null),
+        ("test_delete_success", test_delete_success),
+        ("test_delete_failure", test_delete_failure),
+        ("test_deleteInBackground_success", test_deleteInBackground_success),
+        ("test_deleteInBackground_failure", test_deleteInBackground_failure),
+        ("test_deleteInBackground_reset_modifiedFields", test_deleteInBackground_reset_modifiedFields),
+    ]
+}
