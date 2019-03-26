@@ -1,10 +1,10 @@
-# ニフクラ mobile backend swift SDKについて
+# ニフクラ mobile backend Swift SDKについて
 
 ## 概要
 
-ニフクラ mobile backend iOS SDKは、
+ニフクラ mobile backend Swift SDKは、
 モバイルアプリのバックエンド機能を提供するクラウドサービス
-[ニフクラ mobile backend](https://mbaas.nifcloud.com)用の swift SDK です。
+[ニフクラ mobile backend](https://mbaas.nifcloud.com)用の Swift SDK です。
 
 - プッシュ通知
 - データストア
@@ -17,13 +17,13 @@
 
 ## 動作環境
 
-- swift version 4.2
-- iOS 10.x
+- Swift version 4.2
+- iOS 12.0
 - Xcode10.x
 
 ## 開発者検証バージョン
 
-この SDK につきましては現在、開発者検証バージョンです。テクニカルサポート対応バージョンではありませんので御注意ください。
+この SDK につきましては現在、デベロッパープレビュー版です。テクニカルサポート対応バージョンではありませんので御注意ください。
 
 ### 現在未実装部分について
 
