@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13B449642248DCE200C115A0 /* NCMB_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B449632248DCE200C115A0 /* NCMB_Info.plist */; };
-		13B449662248DCF800C115A0 /* NCMBTests_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B449652248DCF800C115A0 /* NCMBTests_Info.plist */; };
 		13B70D37224208CE000AA26F /* NCMB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70CF3224208CD000AA26F /* NCMB.swift */; };
 		13B70D38224208CE000AA26F /* NCMBRequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70CF5224208CD000AA26F /* NCMBRequestExecutor.swift */; };
 		13B70D39224208CE000AA26F /* NCMBSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70CF6224208CD000AA26F /* NCMBSessionProtocol.swift */; };
@@ -642,7 +640,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B449642248DCE200C115A0 /* NCMB_Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,7 +647,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B449662248DCF800C115A0 /* NCMBTests_Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
