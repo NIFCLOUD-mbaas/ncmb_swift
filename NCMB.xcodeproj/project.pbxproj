@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13B449642248DCE200C115A0 /* NCMB_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B449632248DCE200C115A0 /* NCMB_Info.plist */; };
-		13B449662248DCF800C115A0 /* NCMBTests_Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B449652248DCF800C115A0 /* NCMBTests_Info.plist */; };
 		13B70D37224208CE000AA26F /* NCMB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70CF3224208CD000AA26F /* NCMB.swift */; };
 		13B70D38224208CE000AA26F /* NCMBRequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70CF5224208CD000AA26F /* NCMBRequestExecutor.swift */; };
 		13B70D39224208CE000AA26F /* NCMBSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70CF6224208CD000AA26F /* NCMBSessionProtocol.swift */; };
@@ -106,7 +104,6 @@
 		13B70DD3224208EC000AA26F /* NCMBRequestExecutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D9A224208EB000AA26F /* NCMBRequestExecutorTests.swift */; };
 		13B70DD4224208EC000AA26F /* NCMBFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D9B224208EB000AA26F /* NCMBFileTests.swift */; };
 		13B70DD5224208EC000AA26F /* NCMBInstallationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D9C224208EB000AA26F /* NCMBInstallationTests.swift */; };
-		13B70DD6224208EC000AA26F /* NCMBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D9D224208EB000AA26F /* NCMBTests.swift */; };
 		13B70DD7224208EC000AA26F /* NCMBJsonConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D9F224208EB000AA26F /* NCMBJsonConverterTests.swift */; };
 		13B70DD8224208EC000AA26F /* NCMBDateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA0224208EB000AA26F /* NCMBDateFormatterTests.swift */; };
 		13B70DD9224208EC000AA26F /* NCMBBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA1224208EB000AA26F /* NCMBBaseTests.swift */; };
@@ -126,6 +123,7 @@
 		13B70DE7224208EC000AA26F /* NCMBQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DB1224208EB000AA26F /* NCMBQueryTests.swift */; };
 		13CA4FE2224207F600310D2C /* NCMB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CA4FD8224207F600310D2C /* NCMB.framework */; };
 		13CA4FE9224207F600310D2C /* NCMB.h in Headers */ = {isa = PBXBuildFile; fileRef = 13CA4FDB224207F600310D2C /* NCMB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E9EA6142270D7E700BDE03A /* NCMBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EA6132270D7E700BDE03A /* NCMBTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,7 +236,6 @@
 		13B70D9A224208EB000AA26F /* NCMBRequestExecutorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBRequestExecutorTests.swift; sourceTree = "<group>"; };
 		13B70D9B224208EB000AA26F /* NCMBFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBFileTests.swift; sourceTree = "<group>"; };
 		13B70D9C224208EB000AA26F /* NCMBInstallationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBInstallationTests.swift; sourceTree = "<group>"; };
-		13B70D9D224208EB000AA26F /* NCMBTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NCMBTests.swift; path = ../../../Documents/swift/ncmb_swift_trial/ncmb_swift/Tests/NCMBTests/NCMBTests.swift; sourceTree = "<group>"; };
 		13B70D9F224208EB000AA26F /* NCMBJsonConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBJsonConverterTests.swift; sourceTree = "<group>"; };
 		13B70DA0224208EB000AA26F /* NCMBDateFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBDateFormatterTests.swift; sourceTree = "<group>"; };
 		13B70DA1224208EB000AA26F /* NCMBBaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBBaseTests.swift; sourceTree = "<group>"; };
@@ -259,6 +256,7 @@
 		13CA4FD8224207F600310D2C /* NCMB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NCMB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13CA4FDB224207F600310D2C /* NCMB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCMB.h; sourceTree = "<group>"; };
 		13CA4FE1224207F600310D2C /* NCMBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NCMBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E9EA6132270D7E700BDE03A /* NCMBTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,8 +538,8 @@
 				13B70DB1224208EB000AA26F /* NCMBQueryTests.swift */,
 				13B70D8E224208EB000AA26F /* NCMBRoleTests.swift */,
 				13B70D8F224208EB000AA26F /* NCMBScriptTests.swift */,
-				13B70D9D224208EB000AA26F /* NCMBTests.swift */,
 				13B70D74224208EA000AA26F /* NCMBUserTests.swift */,
+				7E9EA6132270D7E700BDE03A /* NCMBTests.swift */,
 				13B70D94224208EB000AA26F /* network */,
 				13B70D7B224208EB000AA26F /* service */,
 				13B70D75224208EA000AA26F /* user */,
@@ -642,7 +640,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B449642248DCE200C115A0 /* NCMB_Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,7 +647,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B449662248DCF800C115A0 /* NCMBTests_Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,9 +734,9 @@
 				13B70DDA224208EC000AA26F /* NCMBDeviceSystemTests.swift in Sources */,
 				13B70DB3224208EC000AA26F /* NCMBGoogleParametersTests.swift in Sources */,
 				13B70DCB224208EC000AA26F /* NCMBApiErrorCodeTests.swift in Sources */,
-				13B70DD6224208EC000AA26F /* NCMBTests.swift in Sources */,
 				13B70DC2224208EC000AA26F /* NCMBPushServiceTests.swift in Sources */,
 				13B70DC8224208EC000AA26F /* MockResponseBuilder.swift in Sources */,
+				7E9EA6142270D7E700BDE03A /* NCMBTests.swift in Sources */,
 				13B70DDB224208EC000AA26F /* NCMBAddUniqueOperatorTests.swift in Sources */,
 				13B70DB4224208EC000AA26F /* NCMBAnonymousUtilsTests.swift in Sources */,
 				13B70DCA224208EC000AA26F /* NCMBScriptTests.swift in Sources */,
