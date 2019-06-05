@@ -121,20 +121,34 @@ REST API リクエストの成功／失敗が完了するかタイムアウト�
 * MockResponseBuilder: テストコード内で疑似的なAPIレスポンスを利用する場合に、その生成を手助けするクラス。
 * NCMBTestUtil: テストコードで使用する頻度の高い処理を持つクラス。
 
-### NCMB/service/
+### NCMB/service/ 配下のコードに対するテストコード実装について
 
 `NCMB/service/` 配下のコードについては以下の内容をテストコードに含める。
 
-* NCMBRequestExecutorProtocol で使用する `NCMBRequest` 内容の妥当性。
-* REST API リクエスト成功時の 戻り値 `NCMBResult<NCMBResponse>` について欠損していないこと。
-* REST API リクエスト失敗時の 戻り値 `NCMBResult<NCMBResponse>` について欠損していないこと。
+* NCMBRequestExecutorProtocol に渡される `NCMBRequest` の内容の妥当性。
+* REST API リクエスト成功／失敗時それぞれについての 戻り値 NCMBResult<NCMBResponse> について内容が欠損していないこと。
 
-### NCMB/
+例: NCMBObjectService.save() に対する、NCMBTests/NCMBObjectServiceTests の以下の4メソッド
+
+* test_save_request_post()
+* test_save_request_put()
+* test_save_recieveResponse()
+* test_save_invalidRequest()
+
+### NCMB/ 直下のコードに対するテストコード実装について
 
 `NCMB/` 直下のコードについては、以下の内容を同期／非同期メソッドそれぞれテストコードに含める。
 
-* REST API リクエスト成功時の挙動 
-* REST API リクエスト失敗時の挙動
+* REST API リクエスト成功／失敗時それぞれについての挙動 
+
+例: NCMBObject.save() 、NCMBObject.saveInBackground() に対する、NCMBTests/NCMBObjectTests の以下の3メソッド
+
+* test_save_success_insert()
+* test_save_success_update()
+* test_save_failure()
+* test_saveInBackground_success_insert()
+* test_saveInBackground_success_update()
+* test_saveInBackground_failure()
 
 ## 開発フロー
 
