@@ -98,15 +98,15 @@ final class NCMBPointerTests: NCMBTestCase {
     
     func test_equatable() {
         let lhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
-        let rhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
+        let rhs1 : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
         
-        XCTAssertEqual(lhs, rhs)
+        XCTAssertEqual(lhs, rhs1)
     }
 
     func test_NO_equatable_className() {
         let lhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
-        let rhs : NCMBPointer = NCMBPointer(className: "hoge", objectId: "hogehoge12345678")
-        XCTAssertNotEqual(lhs, rhs)
+        let rhs1 : NCMBPointer = NCMBPointer(className: "hoge", objectId: "hogehoge12345678")
+        XCTAssertNotEqual(lhs, rhs1)
     }
     
     func test_NO_equatable_objectId() {

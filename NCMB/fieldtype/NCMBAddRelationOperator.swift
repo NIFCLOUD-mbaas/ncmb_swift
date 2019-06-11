@@ -20,8 +20,6 @@ public struct NCMBAddRelationOperator {
     static let CLASSNAME_FIELD_NAME : String = "className"
     static let CLASSNAME_OBJECTID : String = "objects"
 
-
-
     /// フィールドへの追加対象の要素配列を定義
     public var elements : [NCMBPointer]
 
@@ -31,7 +29,6 @@ public struct NCMBAddRelationOperator {
     public init(elements: [NCMBPointer] = []) {
         self.elements = elements
     }
-
 
     // 渡されたJsonオブジェクトをNCMBAddRelationOperatorに変換する
     static func createInstance(object: Any) -> NCMBAddRelationOperator? {
@@ -49,25 +46,22 @@ public struct NCMBAddRelationOperator {
     // 渡されたJsonオブジェクトがcreateInstanceで変換可能かチェック
     private static func checkType(object: [String : Any]) -> Bool {
         return NCMBFieldTypeUtil.checkOperationField(object: object, typename: TYPENAME)
-    }//ok, searches __op, AddRelation
-    
-    
-    
+    }
+        
     // 渡されたJsonオブジェクトから使用するメンバ変数elementsを取得
-    //[string:array]かどうか search --> pointer に変換
     private static func getElements(object : [String : Any]) -> [NCMBPointer]? {
-            if let elements = object["objects"]{
-                if let elements = elements as? Array<Any>{
-                            var pointers : Array<NCMBPointer> = []
-                            for data in elements{
-                                if let a = NCMBPointer.createInstance(object: data){
-                                    pointers.append(a)
-                                }
-                            }
-                            return pointers
+        if let elements = object["objects"]{
+            if let elements = elements as? Array<Any>{
+                var pointers : Array<NCMBPointer> = []
+                for data in elements{
+                    if let a = NCMBPointer.createInstance(object: data){
+                        pointers.append(a)
+                    }
                 }
-                
+                return pointers
             }
+            
+        }
         return nil
     }
 
@@ -78,9 +72,7 @@ public struct NCMBAddRelationOperator {
         var values : [[String : Any]] = []
         for data in elements{
                 values.append(data.toObject())
-            
         }
-        
         object[NCMBAddRelationOperator.CLASSNAME_OBJECTID] = values
         return object
     }
