@@ -43,9 +43,9 @@ class NCMBFieldTypeConverter {
         if let pointer = NCMBPointer.createInstance(object: object) {
             return pointer
         }
-//         if let relation = NCMBRelation.createInstance(object: object) {
-//             return relation
-//        }
+        // if let relation = NCMBRelation.createInstance(object: object) {
+        //     return relation
+        // }
         if let geoPoint = NCMBGeoPoint.createInstance(object: object) {
             return geoPoint
         }
@@ -80,9 +80,9 @@ class NCMBFieldTypeConverter {
         if let pointer = value as? NCMBPointer {
             return pointer.toObject()
         }
-//         if let relation = value as? NCMBRelation {
-//             return relation.toObject()
-//        }
+        // if let relation = value as? NCMBRelation {
+        //     return relation.toObject()
+        // }
         if let geoPoint = value as? NCMBGeoPoint {
             return geoPoint.toObject()
         }

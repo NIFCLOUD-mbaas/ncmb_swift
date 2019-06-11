@@ -45,7 +45,6 @@ final class NCMBAddRelationOperatorTests: NCMBTestCase {
         let addRelationOperator : NCMBAddRelationOperator? = NCMBAddRelationOperator.createInstance(object: object)
         XCTAssertEqual(addRelationOperator!.elements.count, 0)
     }
-    // kokomadekaita
     
     func test_createInstance_success3() {
         var object : [String : Any] = [:]

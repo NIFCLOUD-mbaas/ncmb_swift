@@ -54,8 +54,8 @@ public struct NCMBAddRelationOperator {
             if let elements = elements as? Array<Any>{
                 var pointers : Array<NCMBPointer> = []
                 for data in elements{
-                    if let a = NCMBPointer.createInstance(object: data){
-                        pointers.append(a)
+                    if let element = NCMBPointer.createInstance(object: data){
+                        pointers.append(element)
                     }
                 }
                 return pointers
