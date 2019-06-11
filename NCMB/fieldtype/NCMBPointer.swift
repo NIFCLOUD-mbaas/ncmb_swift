@@ -15,7 +15,7 @@
  */
 
 /// ポインタ型のフィールドを操作するための構造体です。
-public struct NCMBPointer {
+public struct NCMBPointer : Equatable {
     static let TYPENAME : String = "Pointer"
     static let CLASSNAME_FIELD_NAME : String = "className"
     static let OBJECTID_FIELD_NAME : String = "objectId"
@@ -66,4 +66,12 @@ public struct NCMBPointer {
         object[NCMBPointer.OBJECTID_FIELD_NAME] = self.objectId
         return object
     }
+    
+    // 同値であるかチェック
+    public static func == (lhs: NCMBPointer, rhs: NCMBPointer) -> Bool{
+        return
+            lhs.className == rhs.className &&
+            lhs.objectId == rhs.objectId
+    }
+    
 }

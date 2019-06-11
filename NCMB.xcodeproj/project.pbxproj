@@ -123,6 +123,8 @@
 		13B70DE7224208EC000AA26F /* NCMBQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DB1224208EB000AA26F /* NCMBQueryTests.swift */; };
 		13CA4FE2224207F600310D2C /* NCMB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CA4FD8224207F600310D2C /* NCMB.framework */; };
 		13CA4FE9224207F600310D2C /* NCMB.h in Headers */ = {isa = PBXBuildFile; fileRef = 13CA4FDB224207F600310D2C /* NCMB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27744AC422A8A81B0050AB26 /* NCMBAddRelationOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27744AC322A8A81A0050AB26 /* NCMBAddRelationOperator.swift */; };
+		27744AC622A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27744AC522A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift */; };
 		7E9EA6142270D7E700BDE03A /* NCMBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EA6132270D7E700BDE03A /* NCMBTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -256,6 +258,8 @@
 		13CA4FD8224207F600310D2C /* NCMB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NCMB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13CA4FDB224207F600310D2C /* NCMB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCMB.h; sourceTree = "<group>"; };
 		13CA4FE1224207F600310D2C /* NCMBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NCMBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		27744AC322A8A81A0050AB26 /* NCMBAddRelationOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBAddRelationOperator.swift; sourceTree = "<group>"; };
+		27744AC522A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBAddRelationOperatorTests.swift; sourceTree = "<group>"; };
 		7E9EA6132270D7E700BDE03A /* NCMBTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -335,11 +339,12 @@
 			isa = PBXGroup;
 			children = (
 				13B70D18224208CE000AA26F /* NCMBIncrementOperator.swift */,
-				13B70D19224208CE000AA26F /* NCMBDateField.swift */,
 				13B70D1A224208CE000AA26F /* NCMBGeoPoint.swift */,
+				13B70D19224208CE000AA26F /* NCMBDateField.swift */,
 				13B70D1B224208CE000AA26F /* NCMBFieldTypeConverter.swift */,
 				13B70D1C224208CE000AA26F /* NCMBFieldTypeUtil.swift */,
 				13B70D1D224208CE000AA26F /* NCMBAddOperator.swift */,
+				27744AC322A8A81A0050AB26 /* NCMBAddRelationOperator.swift */,
 				13B70D1E224208CE000AA26F /* NCMBRemoveOperator.swift */,
 				13B70D1F224208CE000AA26F /* NCMBAddUniqueOperator.swift */,
 				13B70D20224208CE000AA26F /* NCMBACL.swift */,
@@ -459,6 +464,7 @@
 			children = (
 				13B70DA4224208EB000AA26F /* NCMBAddUniqueOperatorTests.swift */,
 				13B70DA5224208EB000AA26F /* NCMBIncrementOperatorTests.swift */,
+				27744AC522A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift */,
 				13B70DA6224208EB000AA26F /* NCMBDateFieldTests.swift */,
 				13B70DA7224208EB000AA26F /* NCMBPointerTests.swift */,
 				13B70DA8224208EB000AA26F /* NCMBFieldTypeConverterTests.swift */,
@@ -674,6 +680,7 @@
 				13B70D45224208CE000AA26F /* NCMBGoogleParameters.swift in Sources */,
 				13B70D3C224208CE000AA26F /* NCMBHTTPMethod.swift in Sources */,
 				13B70D3D224208CE000AA26F /* NCMBRequestExecutorFactory.swift in Sources */,
+				27744AC422A8A81B0050AB26 /* NCMBAddRelationOperator.swift in Sources */,
 				13B70D58224208CE000AA26F /* NCMBDateField.swift in Sources */,
 				13B70D5E224208CE000AA26F /* NCMBAddUniqueOperator.swift in Sources */,
 				13B70D5C224208CE000AA26F /* NCMBAddOperator.swift in Sources */,
@@ -767,6 +774,7 @@
 				13B70DB5224208EC000AA26F /* NCMBFacebookParametersTests.swift in Sources */,
 				13B70DBB224208EC000AA26F /* NCMBObjectServiceTests.swift in Sources */,
 				13B70DBF224208EC000AA26F /* NCMBRequestPasswordResetServiceTests.swift in Sources */,
+				27744AC622A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift in Sources */,
 				13B70DB2224208EC000AA26F /* NCMBUserTests.swift in Sources */,
 				13B70DC5224208EC000AA26F /* MockRequestExecutor.swift in Sources */,
 				13B70DCD224208EC000AA26F /* NCMBPushTests.swift in Sources */,
