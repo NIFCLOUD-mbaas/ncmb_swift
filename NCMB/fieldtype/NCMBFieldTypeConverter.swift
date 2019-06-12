@@ -34,9 +34,9 @@ class NCMBFieldTypeConverter {
         if let addRelationOperator = NCMBAddRelationOperator.createInstance(object: object) {
              return addRelationOperator
         }
-        // if let removeRelationOperator = NCMBRemoveRelationOperator.createInstance(object: object) {
-        //     return removeRelationOperator
-        // }
+         if let removeRelationOperator = NCMBRemoveRelationOperator.createInstance(object: object) {
+             return removeRelationOperator
+         }
         if let dateField = NCMBDateField.createInstance(object: object) {
             return dateField.date
         }
@@ -71,9 +71,9 @@ class NCMBFieldTypeConverter {
          if let addRelationOperator = value as? NCMBAddRelationOperator {
              return addRelationOperator.toObject()
         }
-        // if let removeRelationOperator = value as? NCMBRemoveRelationOperator {
-        //     return removeRelationOperator.toObject()
-        // }
+         if let removeRelationOperator = value as? NCMBRemoveRelationOperator {
+             return removeRelationOperator.toObject()
+         }
         if let date = value as? Date {
             return NCMBDateField.convertObject(date: date)
         }
