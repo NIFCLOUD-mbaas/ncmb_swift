@@ -71,9 +71,20 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         XCTAssertEqual((addRelationOperator! as! NCMBAddRelationOperator).elements[0] , NCMBPointer(className: "TestClass", objectId: "hogeHOGE12345678"))
      }
 
-    // func test_convertToFieldValue_NCMBRemoveRelationOperator() {
-    // TBD
-    // }
+    func test_convertToFieldValue_NCMBRemoveRelationOperator() {
+        var object : [String : Any] = [:]
+        object["__op"] = "RemoveRelation"
+        object["className"] = "TestClass"
+        var pointerJson : [String : Any] = [:]
+        pointerJson["__type"] = "Pointer"
+        pointerJson["className"] = "TestClass"
+        pointerJson["objectId"] = "hogeHOGE12345678"
+        object["objects"] = [pointerJson]
+        
+        let removeRelationOperator = NCMBFieldTypeConverter.convertToFieldValue(object: object)
+        XCTAssertEqual((removeRelationOperator! as! NCMBRemoveRelationOperator).elements.count, 1)
+        XCTAssertEqual((removeRelationOperator! as! NCMBRemoveRelationOperator).elements[0] , NCMBPointer(className: "TestClass", objectId: "hogeHOGE12345678"))
+    }
 
     func test_convertToFieldValue_Date() {
         var object : [String : Any] = [:]
@@ -177,9 +188,25 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[1]["objectId"] as! String, "hogeHOGE90123456")
      }
 
-    // func test_converToObject_NCMBRemoveRelationOperator() {
-    // TBD
-    // }
+    func test_converToObject_NCMBRemoveRelationOperator() {
+        let JsontoObject1 = NCMBPointer(className: "TestClass", objectId: "hogeHOGE12345678")
+        let JsontoObject2 = NCMBPointer(className: "TestClass", objectId: "hogeHOGE90123456")
+        let removeRelationOperator = NCMBRemoveRelationOperator(elements: [JsontoObject1,JsontoObject2])
+        
+        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: removeRelationOperator)
+        XCTAssertEqual(object!["__op"]! as! String, "RemoveRelation")
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>).count, 2)
+        
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[0].count, 3)
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[0]["__type"] as! String, "Pointer")
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[0]["className"] as! String, "TestClass")
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[0]["objectId"] as! String, "hogeHOGE12345678")
+        
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[1].count, 3)
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[1]["__type"] as! String, "Pointer")
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[1]["className"] as! String, "TestClass")
+        XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>)[1]["objectId"] as! String, "hogeHOGE90123456")
+    }
 
     func test_converToObject_Date() {
         let date = Date(timeIntervalSince1970: 507904496.789)
@@ -228,7 +255,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         ("test_convertToFieldValue_NCMBAddUniqueOperator", test_convertToFieldValue_NCMBAddUniqueOperator),
         ("test_convertToFieldValue_NCMBRemoveOperator", test_convertToFieldValue_NCMBRemoveOperator),
          ("test_convertToFieldValue_NCMBAddRelationOperator", test_convertToFieldValue_NCMBAddRelationOperator),
-        // ("test_convertToFieldValue_NCMBRemoveRelationOperator", test_convertToFieldValue_NCMBRemoveRelationOperator),
+         ("test_convertToFieldValue_NCMBRemoveRelationOperator", test_convertToFieldValue_NCMBRemoveRelationOperator),
         ("test_convertToFieldValue_Date", test_convertToFieldValue_Date),
         ("test_convertToFieldValue_NCMBPointer", test_convertToFieldValue_NCMBPointer),
         // ("test_convertToFieldValue_NCMBRelation", test_convertToFieldValue_NCMBRelation),
@@ -241,7 +268,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         ("test_converToObject_NCMBAddUniqueOperator", test_converToObject_NCMBAddUniqueOperator),
         ("test_converToObject_NCMBRemoveOperator", test_converToObject_NCMBRemoveOperator),
          ("test_converToObject_NCMBAddRelationOperator", test_converToObject_NCMBAddRelationOperator),
-        // ("test_converToObject_NCMBRemoveRelationOperator", test_converToObject_NCMBRemoveRelationOperator),
+         ("test_converToObject_NCMBRemoveRelationOperator", test_converToObject_NCMBRemoveRelationOperator),
         ("test_converToObject_Date", test_converToObject_Date),
         ("test_converToObject_NCMBPointer", test_converToObject_NCMBPointer),
         // ("test_converToObject_NCMBRelation", test_converToObject_NCMBRelation),
