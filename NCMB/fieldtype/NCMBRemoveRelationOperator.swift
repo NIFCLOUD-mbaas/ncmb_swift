@@ -20,7 +20,7 @@ public struct NCMBRemoveRelationOperator {
     static let CLASSNAME_FIELD_NAME : String = "className"
     static let CLASSNAME_OBJECTID : String = "objects"
 
-    /// フィールドへの追加対象の要素配列を定義
+    /// フィールドからの削除対象の要素配列を定義
     public var elements : [NCMBPointer]
 
     /// コンストラクタです。
