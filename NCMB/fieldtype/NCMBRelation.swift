@@ -15,7 +15,7 @@
  */
 
 /// リレーション型のフィールドを出力するための構造体です。
-public struct NCMBRelation : Equatable {
+public struct NCMBRelation {
     static let TYPENAME : String = "Relation"
     static let CLASSNAME_FIELD_NAME : String = "className"
     
