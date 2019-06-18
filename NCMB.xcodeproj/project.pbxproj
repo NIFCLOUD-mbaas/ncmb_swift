@@ -127,6 +127,8 @@
 		27744AC622A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27744AC522A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift */; };
 		2795B99322B083CD00AAEB57 /* NCMBRemoveRelationOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795B99222B083CC00AAEB57 /* NCMBRemoveRelationOperatorTests.swift */; };
 		2795B99522B08D7700AAEB57 /* NCMBRemoveRelationOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795B99422B08D7700AAEB57 /* NCMBRemoveRelationOperator.swift */; };
+		2795BAA922B86DBE00AAEB57 /* NCMBRelationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795BAA822B86DBE00AAEB57 /* NCMBRelationTests.swift */; };
+		2795BAAB22B8728400AAEB57 /* NCMBRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2795BAAA22B8728400AAEB57 /* NCMBRelation.swift */; };
 		7E9EA6142270D7E700BDE03A /* NCMBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EA6132270D7E700BDE03A /* NCMBTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -264,6 +266,8 @@
 		27744AC522A8A83C0050AB26 /* NCMBAddRelationOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBAddRelationOperatorTests.swift; sourceTree = "<group>"; };
 		2795B99222B083CC00AAEB57 /* NCMBRemoveRelationOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBRemoveRelationOperatorTests.swift; sourceTree = "<group>"; };
 		2795B99422B08D7700AAEB57 /* NCMBRemoveRelationOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBRemoveRelationOperator.swift; sourceTree = "<group>"; };
+		2795BAA822B86DBE00AAEB57 /* NCMBRelationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCMBRelationTests.swift; sourceTree = "<group>"; };
+		2795BAAA22B8728400AAEB57 /* NCMBRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCMBRelation.swift; sourceTree = "<group>"; };
 		7E9EA6132270D7E700BDE03A /* NCMBTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -354,6 +358,7 @@
 				13B70D1F224208CE000AA26F /* NCMBAddUniqueOperator.swift */,
 				13B70D20224208CE000AA26F /* NCMBACL.swift */,
 				13B70D21224208CE000AA26F /* NCMBPointer.swift */,
+				2795BAAA22B8728400AAEB57 /* NCMBRelation.swift */,
 			);
 			path = fieldtype;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 				13B70DAB224208EB000AA26F /* NCMBRemoveOperatorTests.swift */,
 				13B70DAC224208EB000AA26F /* NCMBACLTests.swift */,
 				13B70DAD224208EB000AA26F /* NCMBGeoPointTests.swift */,
+				2795BAA822B86DBE00AAEB57 /* NCMBRelationTests.swift */,
 			);
 			path = fieldtype;
 			sourceTree = "<group>";
@@ -680,6 +686,7 @@
 				13B70D4A224208CE000AA26F /* NCMBApiError.swift in Sources */,
 				13B70D61224208CE000AA26F /* NCMBResult.swift in Sources */,
 				13B70D3F224208CE000AA26F /* NCMBRequestExecutorProtocol.swift in Sources */,
+				2795BAAB22B8728400AAEB57 /* NCMBRelation.swift in Sources */,
 				13B70D70224208CE000AA26F /* NCMBRequestServiceProtocol.swift in Sources */,
 				13B70D39224208CE000AA26F /* NCMBSessionProtocol.swift in Sources */,
 				13B70D62224208CE000AA26F /* NCMBBase.swift in Sources */,
@@ -775,6 +782,7 @@
 				13B70DBD224208EC000AA26F /* NCMBFileServiceTests.swift in Sources */,
 				13B70DB7224208EC000AA26F /* NCMBObjectTests.swift in Sources */,
 				13B70DE3224208EC000AA26F /* NCMBACLTests.swift in Sources */,
+				2795BAA922B86DBE00AAEB57 /* NCMBRelationTests.swift in Sources */,
 				13B70DBC224208EC000AA26F /* NCMBInstallationServiceTests.swift in Sources */,
 				13B70DCF224208EC000AA26F /* NCMBRequestExecutorFactoryTests.swift in Sources */,
 				13B70DDE224208EC000AA26F /* NCMBPointerTests.swift in Sources */,
