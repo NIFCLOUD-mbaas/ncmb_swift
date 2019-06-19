@@ -104,9 +104,13 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         XCTAssertEqual((pointer! as! NCMBPointer).objectId, "abcde12345")
     }
 
-    // func test_convertToFieldValue_NCMBRelation() {
-    // TBD
-    // }
+    func test_convertToFieldValue_NCMBRelation() {
+        var object : [String : Any] = [:]
+        object["__type"] = "Relation"
+        object["className"] = "TestClass"
+        let relation = NCMBFieldTypeConverter.convertToFieldValue(object: object)
+        XCTAssertEqual((relation! as! NCMBRelation).className, "TestClass")
+    }
 
     func test_convertToFieldValue_NCMBGeoPoint() {
         var object : [String : Any] = [:]
@@ -223,9 +227,12 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         XCTAssertEqual(object!["objectId"]! as! String, "abcde12345")
     }
 
-    // func test_converToObject_NCMBRelation() {
-    // TBD
-    // }
+     func test_converToObject_NCMBRelation() {
+        let relation = NCMBRelation(className: "TestClass")
+        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: relation)
+        XCTAssertEqual(object!["__type"]! as! String, "Relation")
+        XCTAssertEqual(object!["className"]! as! String, "TestClass")
+     }
 
     func test_converToObject_NCMBGeoPoint() {
         let geoPoint = NCMBGeoPoint(latitude: 35.6666269, longitude: 139.765607)
@@ -258,7 +265,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
          ("test_convertToFieldValue_NCMBRemoveRelationOperator", test_convertToFieldValue_NCMBRemoveRelationOperator),
         ("test_convertToFieldValue_Date", test_convertToFieldValue_Date),
         ("test_convertToFieldValue_NCMBPointer", test_convertToFieldValue_NCMBPointer),
-        // ("test_convertToFieldValue_NCMBRelation", test_convertToFieldValue_NCMBRelation),
+        ("test_convertToFieldValue_NCMBRelation", test_convertToFieldValue_NCMBRelation),
         ("test_convertToFieldValue_NCMBGeoPoint", test_convertToFieldValue_NCMBGeoPoint),
         // ("test_convertToFieldValue_NCMBObjectField", test_convertToFieldValue_NCMBObjectField),
         ("test_convertToFieldValue_Int", test_convertToFieldValue_Int),
@@ -271,7 +278,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
          ("test_converToObject_NCMBRemoveRelationOperator", test_converToObject_NCMBRemoveRelationOperator),
         ("test_converToObject_Date", test_converToObject_Date),
         ("test_converToObject_NCMBPointer", test_converToObject_NCMBPointer),
-        // ("test_converToObject_NCMBRelation", test_converToObject_NCMBRelation),
+        ("test_converToObject_NCMBRelation", test_converToObject_NCMBRelation),
         ("test_converToObject_NCMBGeoPoint", test_converToObject_NCMBGeoPoint),
         // ("test_converToObject_NCMBObjectField", test_converToObject_NCMBObjectField),
         ("test_converToObject_Int", test_converToObject_Int),
