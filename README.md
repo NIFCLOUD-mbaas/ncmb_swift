@@ -174,8 +174,10 @@
 ポインタは1つのオブジェクトへの参照しか持つことができませんが、
 リレーションを利用することで、特定クラスの複数オブジェクトと関連づけることが可能です。
 リレーションを追加・削除する場合は、それぞれ `NCMBAddRelationOperator` と `NCMBRemoveRelationOperator` という構造体を使用します。
+リレーションの取得には `NCMBRelation` を使用します。
 
 ##### リレーションの新規作成
+
 ```Swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
@@ -198,6 +200,7 @@ object.saveInBackground(callback: { result in
 ```
 
 ##### リレーションの追加
+
 ```Swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
@@ -221,6 +224,7 @@ object.saveInBackground(callback: { result in
 })
 ```
 ##### リレーションの削除
+
 ```Swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
@@ -244,6 +248,29 @@ object.saveInBackground(callback: { result in
 })
 ```
 
+##### リレーションの取得
+
+```Swift
+// testクラスへのNCMBObjectを設定
+let object : NCMBObject = NCMBObject(className: "test")
+
+// objectIdプロパティを設定
+object.objectId = "ATfLxBq683MF3zy9"
+
+object.fetchInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 取得に成功した場合の処理
+        print("取得に成功しました")
+        if let relation : NCMBRelation = object["NewRelation"] {
+            print("relation value: \(relation)")
+        }
+    case let .failure(error):
+        // 取得に失敗した場合の処理
+        print("取得に失敗しました: \(error)")
+    }
+})
+```
 #### オブジェクトの検索を行う
 
 ```Swift
