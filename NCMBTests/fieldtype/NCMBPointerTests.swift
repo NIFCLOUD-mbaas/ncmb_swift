@@ -88,6 +88,21 @@ final class NCMBPointerTests: NCMBTestCase {
         XCTAssertNil(pointer)
     }
 
+    func test_initialize_success() {
+        let object : NCMBObject = NCMBObject(className: "TestClass")
+        object.objectId = "abcde12345"
+        let pointer : NCMBPointer? = NCMBPointer(dataobject: object)
+        XCTAssertEqual(pointer!.className, "TestClass")
+        XCTAssertEqual(pointer!.objectId, "abcde12345")
+    }
+    
+    func test_initialize_lackingObjectIdField() {
+        let object : NCMBObject = NCMBObject(className: "TestClass")
+        object.objectId = nil
+        let pointer : NCMBPointer? = NCMBPointer(dataobject: object)
+        XCTAssertNil(pointer)
+    }
+
     func test_toObject() {
         let pointer = NCMBPointer(className: "TestClass", objectId: "abcde12345")
         var object : [String : Any] = pointer.toObject()
