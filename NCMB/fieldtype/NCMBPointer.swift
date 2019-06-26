@@ -34,6 +34,20 @@ public struct NCMBPointer : Equatable {
         self.className = className
         self.objectId = objectId
     }
+    
+    /// コンストラクタです。
+    /// objectIdが無いものを引数として渡すとnilが返る
+    ///
+    /// - Parameter dataobject: ポインタ指示先のオブジェクト
+    public init?(dataobject: NCMBBase){
+        if let objectIdInitializar:String = dataobject.objectId  {
+            self.className = dataobject.className
+            self.objectId = objectIdInitializar
+        }
+        else {
+            return nil
+        }
+    }
 
     static func createInstance(object: Any) -> NCMBPointer? {
         if let object = object as? [String : Any] {
