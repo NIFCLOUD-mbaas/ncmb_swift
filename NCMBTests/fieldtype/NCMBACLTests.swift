@@ -47,27 +47,41 @@ final class NCMBACLTests: NCMBTestCase {
 
         var rw1 : [String : Bool] = [:]
         rw1["read"] = true
-        rw1["write"] = false
+        rw1["write"] = true
         object["abcd"] = rw1
 
-        var rw2 : [String : String] = [:]
-        rw2["read"] = "true"
-        rw2["write"] = "false"
+        var rw2 : [String : Bool] = [:]
+        rw2["read"] = true
         object["efgh"] = rw2
 
         var rw3 : [String : Bool] = [:]
-        rw3["read"] = false
         rw3["write"] = true
         object["ijkl"] = rw3
+
+        let rw4 : [String : Bool] = [:]
+        object["mnop"] = rw4
+
+        var rw5 : [String : String] = [:]
+        rw5["read"] = "true"
+        object["qrst"] = rw5
 
         let sut = NCMBACL(object: object)
 
         XCTAssertEqual(sut.getReadable(key: "abcd"), true)
-        XCTAssertEqual(sut.getWritable(key: "abcd"), false)
-        XCTAssertNil(sut.getReadable(key: "efgh"))
-        XCTAssertNil(sut.getWritable(key: "efgh"))
+        XCTAssertEqual(sut.getWritable(key: "abcd"), true)
+
+        XCTAssertEqual(sut.getReadable(key: "efgh"), true)
+        XCTAssertEqual(sut.getWritable(key: "efgh"), false)
+
         XCTAssertEqual(sut.getReadable(key: "ijkl"), false)
         XCTAssertEqual(sut.getWritable(key: "ijkl"), true)
+
+        XCTAssertEqual(sut.getReadable(key: "mnop"), false)
+        XCTAssertEqual(sut.getWritable(key: "mnop"), false)
+
+        XCTAssertNil(sut.getReadable(key: "qrst"))
+        XCTAssertNil(sut.getWritable(key: "qrst"))
+
         XCTAssertNil(sut.getReadable(key: "*"))
         XCTAssertNil(sut.getWritable(key: "*"))
     }
@@ -159,16 +173,16 @@ final class NCMBACLTests: NCMBTestCase {
         let result : [String : [String : Bool]] = sut.toObject()
 
         XCTAssertEqual(result.count, 3)
-        XCTAssertEqual(result["abcd"]!.count, 2)
+        XCTAssertEqual(result["abcd"]!.count, 1)
         XCTAssertEqual(result["abcd"]!["read"], true)
-        XCTAssertEqual(result["abcd"]!["write"], false)
+        XCTAssertNil(result["abcd"]!["write"])
         XCTAssertNil(result["efgh"])
-        XCTAssertEqual(result["ijkl"]!.count, 2)
-        XCTAssertEqual(result["ijkl"]!["read"], false)
+        XCTAssertEqual(result["ijkl"]!.count, 1)
+        XCTAssertNil(result["ijkl"]!["read"])
         XCTAssertEqual(result["ijkl"]!["write"], true)
         XCTAssertNil(result["mnop"])
-        XCTAssertEqual(result["qrst"]!.count, 2)
-        XCTAssertEqual(result["qrst"]!["read"], false)
+        XCTAssertEqual(result["qrst"]!.count, 1)
+        XCTAssertNil(result["qrst"]!["read"])
         XCTAssertEqual(result["qrst"]!["write"], true)
         XCTAssertNil(result["uvwx"])
         XCTAssertNil(result["*"])
