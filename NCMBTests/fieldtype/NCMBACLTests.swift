@@ -42,104 +42,238 @@ final class NCMBACLTests: NCMBTestCase {
         XCTAssertEqual(sut.getWritable(key: "*"), true)
     }
 
-    func test_init_params() {
+    func test_init_params_readWrite() {
         var object : [String : Any] = [:]
-
-        var rw1 : [String : Bool] = [:]
-        rw1["read"] = true
-        rw1["write"] = true
-        object["abcd"] = rw1
-
-        var rw2 : [String : Bool] = [:]
-        rw2["read"] = true
-        object["efgh"] = rw2
-
-        var rw3 : [String : Bool] = [:]
-        rw3["write"] = true
-        object["ijkl"] = rw3
-
-        let rw4 : [String : Bool] = [:]
-        object["mnop"] = rw4
-
-        var rw5 : [String : String] = [:]
-        rw5["read"] = "true"
-        object["qrst"] = rw5
-
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = true
+        object["abcd"] = rw
+        
         let sut = NCMBACL(object: object)
-
+        
         XCTAssertEqual(sut.getReadable(key: "abcd"), true)
         XCTAssertEqual(sut.getWritable(key: "abcd"), true)
-
+    }
+    
+    func test_init_params_readOnly() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        object["efgh"] = rw
+        
+        let sut = NCMBACL(object: object)
+        
         XCTAssertEqual(sut.getReadable(key: "efgh"), true)
         XCTAssertEqual(sut.getWritable(key: "efgh"), false)
-
+    }
+    
+    func test_init_params_writeOnly() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["write"] = true
+        object["ijkl"] = rw
+        
+        let sut = NCMBACL(object: object)
+        
         XCTAssertEqual(sut.getReadable(key: "ijkl"), false)
         XCTAssertEqual(sut.getWritable(key: "ijkl"), true)
-
+    }
+    
+    func test_init_params_none() {
+        var object : [String : Any] = [:]
+        
+        let rw : [String : Bool] = [:]
+        object["mnop"] = rw
+        
+        let sut = NCMBACL(object: object)
+        
         XCTAssertEqual(sut.getReadable(key: "mnop"), false)
         XCTAssertEqual(sut.getWritable(key: "mnop"), false)
-
+    }
+    
+    func test_init_params_invalid() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : String] = [:]
+        rw["read"] = "true"
+        object["qrst"] = rw
+        
+        let sut = NCMBACL(object: object)
+        
         XCTAssertNil(sut.getReadable(key: "qrst"))
         XCTAssertNil(sut.getWritable(key: "qrst"))
+    }
 
+    func test_init_params_existAllkey() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = true
+        object["*"] = rw
+        
+        let sut = NCMBACL(object: object)
+        
+        XCTAssertEqual(sut.getReadable(key: "*"), true)
+        XCTAssertEqual(sut.getWritable(key: "*"), true)
+    }
+    
+    func test_init_params_notExistAllkey() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = true
+        object["abcd"] = rw
+        
+        let sut = NCMBACL(object: object)
+        
         XCTAssertNil(sut.getReadable(key: "*"))
         XCTAssertNil(sut.getWritable(key: "*"))
     }
-
-    func test_put() {
-        var object : [String : Any] = [:]
-
-        var rw1 : [String : Bool] = [:]
-        rw1["read"] = true
-        rw1["write"] = false
-        object["abcd"] = rw1
-
-        var rw2 : [String : Bool] = [:]
-        rw2["read"] = true
-        rw2["write"] = false
-        object["efgh"] = rw2
-
+    
+    func test_put_notExistBefore() {
+        let object : [String : Any] = [:]
+        
         var sut = NCMBACL(object: object)
         sut.put(key: "ijkl", readable: false, writable: true)
-        sut.put(key: "efgh", readable: false, writable: true)
-
-        XCTAssertEqual(sut.getReadable(key: "abcd"), true)
-        XCTAssertEqual(sut.getWritable(key: "abcd"), false)
-        XCTAssertEqual(sut.getReadable(key: "efgh"), false)
-        XCTAssertEqual(sut.getWritable(key: "efgh"), true)
+        
         XCTAssertEqual(sut.getReadable(key: "ijkl"), false)
         XCTAssertEqual(sut.getWritable(key: "ijkl"), true)
+    }
+    
+    func test_put_ExistBefore() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = false
+        object["efgh"] = rw
+        
+        var sut = NCMBACL(object: object)
+        sut.put(key: "efgh", readable: false, writable: true)
+        
+        XCTAssertEqual(sut.getReadable(key: "efgh"), false)
+        XCTAssertEqual(sut.getWritable(key: "efgh"), true)
+    }
+    
+    func test_put_DontRemoveBeforeData() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = false
+        object["abcd"] = rw
+        
+        var sut = NCMBACL(object: object)
+        sut.put(key: "ijkl", readable: false, writable: true)
+        
+        XCTAssertEqual(sut.getReadable(key: "abcd"), true)
+        XCTAssertEqual(sut.getWritable(key: "abcd"), false)
+    }
+
+    func test_put_PutAllkey() {
+        let object : [String : Any] = [:]
+        
+        var sut = NCMBACL(object: object)
+        sut.put(key: "*", readable: false, writable: true)
+        
+        XCTAssertEqual(sut.getReadable(key: "*"), false)
+        XCTAssertEqual(sut.getWritable(key: "*"), true)
+    }
+    
+    func test_put_notAddAllkeyWithoutPutAllkey() {
+        let object : [String : Any] = [:]
+        
+        var sut = NCMBACL(object: object)
+        sut.put(key: "abcd", readable: false, writable: true)
+        
         XCTAssertNil(sut.getReadable(key: "*"))
         XCTAssertNil(sut.getWritable(key: "*"))
     }
-
-    func test_remove() {
+    
+    func test_remove_otherValue() {
         var object : [String : Any] = [:]
-
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = false
+        object["abcd"] = rw
+        
+        var sut = NCMBACL(object: object)
+        sut.remove(key: "efgh")
+        
+        XCTAssertEqual(sut.getReadable(key: "abcd"), true)
+        XCTAssertEqual(sut.getWritable(key: "abcd"), false)
+    }
+    
+    func test_remove_existBefore() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = false
+        object["efgh"] = rw
+        
+        var sut = NCMBACL(object: object)
+        sut.remove(key: "efgh")
+        
+        XCTAssertNil(sut.getReadable(key: "efgh"))
+        XCTAssertNil(sut.getWritable(key: "efgh"))
+    }
+    
+    func test_remove_notExistBefore() {
+        let object : [String : Any] = [:]
+        
+        var sut = NCMBACL(object: object)
+        sut.remove(key: "ijkl")
+        
+        XCTAssertNil(sut.getReadable(key: "ijkl"))
+        XCTAssertNil(sut.getWritable(key: "ijkl"))
+    }
+    
+    func test_remove_allKeyExistBefore() {
+        var object : [String : Any] = [:]
+        
         var rw1 : [String : Bool] = [:]
         rw1["read"] = true
         rw1["write"] = false
-        object["abcd"] = rw1
-
+        object["*"] = rw1
+        
         var rw2 : [String : Bool] = [:]
         rw2["read"] = true
         rw2["write"] = false
         object["efgh"] = rw2
-
+        
         var sut = NCMBACL(object: object)
-        sut.remove(key: "efgh")
-        sut.remove(key: "ijkl")
-
-        XCTAssertEqual(sut.getReadable(key: "abcd"), true)
-        XCTAssertEqual(sut.getWritable(key: "abcd"), false)
-        XCTAssertNil(sut.getReadable(key: "efgh"))
-        XCTAssertNil(sut.getWritable(key: "efgh"))
-        XCTAssertNil(sut.getReadable(key: "ijkl"))
-        XCTAssertNil(sut.getWritable(key: "ijkl"))
+        sut.remove(key: "*")
+        
+        XCTAssertEqual(sut.getReadable(key: "efgh"), true)
+        XCTAssertEqual(sut.getWritable(key: "efgh"), false)
         XCTAssertNil(sut.getReadable(key: "*"))
         XCTAssertNil(sut.getWritable(key: "*"))
     }
-
+    
+    func test_remove_allKeyNotExistBefore() {
+        var object : [String : Any] = [:]
+        
+        var rw : [String : Bool] = [:]
+        rw["read"] = true
+        rw["write"] = false
+        object["efgh"] = rw
+        
+        var sut = NCMBACL(object: object)
+        sut.remove(key: "*")
+        
+        XCTAssertEqual(sut.getReadable(key: "efgh"), true)
+        XCTAssertEqual(sut.getWritable(key: "efgh"), false)
+        XCTAssertNil(sut.getReadable(key: "*"))
+        XCTAssertNil(sut.getWritable(key: "*"))
+    }
+    
     func test_toObject() {
         var object : [String : Any] = [:]
 
@@ -200,14 +334,37 @@ final class NCMBACLTests: NCMBTestCase {
         XCTAssertEqual(result["*"]!["write"], true)
     }
 
+    func test_toObject_empty() {
+        let sut = NCMBACL.empty
+        
+        let result : [String : [String : Bool]] = sut.toObject()
+        
+        XCTAssertEqual(result.count, 0)
+    }
+    
     static var allTests = [
         ("test_constant_default", test_constant_default),
         ("test_constant_empty", test_constant_empty),
         ("test_init_default", test_init_default),
-        ("test_init_params", test_init_params),
-        ("test_put", test_put),
-        ("test_remove", test_remove),
+        ("test_init_params_readWrite", test_init_params_readWrite),
+        ("test_init_params_readOnly", test_init_params_readOnly),
+        ("test_init_params_writeOnly", test_init_params_writeOnly),
+        ("test_init_params_none", test_init_params_none),
+        ("test_init_params_invalid", test_init_params_invalid),
+        ("test_init_params_existAllkey", test_init_params_existAllkey),
+        ("test_init_params_notExistAllkey", test_init_params_notExistAllkey),
+        ("test_put_notExistBefore", test_put_notExistBefore),
+        ("test_put_ExistBefore", test_put_ExistBefore),
+        ("test_put_DontRemoveBeforeData", test_put_DontRemoveBeforeData),
+        ("test_put_PutAllkey", test_put_PutAllkey),
+        ("test_put_notAddAllkeyWithoutPutAllkey", test_put_notAddAllkeyWithoutPutAllkey),
+        ("test_remove_otherValue", test_remove_otherValue),
+        ("test_remove_existBefore", test_remove_existBefore),
+        ("test_remove_notExistBefore", test_remove_notExistBefore),
+        ("test_remove_allKeyExistBefore", test_remove_allKeyExistBefore),
+        ("test_remove_allKeyNotExistBefore", test_remove_allKeyNotExistBefore),
         ("test_toObject", test_toObject),
         ("test_toObject_default", test_toObject_default),
+        ("test_toObject_empty", test_toObject_empty),
     ]
 }
