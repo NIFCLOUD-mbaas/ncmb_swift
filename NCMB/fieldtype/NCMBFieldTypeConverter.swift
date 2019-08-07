@@ -31,21 +31,21 @@ class NCMBFieldTypeConverter {
         if let removeOperator = NCMBRemoveOperator.createInstance(object: object) {
             return removeOperator
         }
-        // if let addRelationOperator = NCMBAddRelationOperator.createInstance(object: object) {
-        //     return addRelationOperator
-        // }
-        // if let removeRelationOperator = NCMBRemoveRelationOperator.createInstance(object: object) {
-        //     return removeRelationOperator
-        // }
+        if let addRelationOperator = NCMBAddRelationOperator.createInstance(object: object) {
+             return addRelationOperator
+        }
+         if let removeRelationOperator = NCMBRemoveRelationOperator.createInstance(object: object) {
+             return removeRelationOperator
+         }
         if let dateField = NCMBDateField.createInstance(object: object) {
             return dateField.date
         }
         if let pointer = NCMBPointer.createInstance(object: object) {
             return pointer
         }
-        // if let relation = NCMBRelation.createInstance(object: object) {
-        //     return relation
-        // }
+        if let relation = NCMBRelation.createInstance(object: object) {
+            return relation
+        }
         if let geoPoint = NCMBGeoPoint.createInstance(object: object) {
             return geoPoint
         }
@@ -68,21 +68,21 @@ class NCMBFieldTypeConverter {
         if let removeOperator = value as? NCMBRemoveOperator {
             return removeOperator.toObject()
         }
-        // if let addRelationOperator = value as? NCMBAddRelationOperator {
-        //     return addRelationOperator.toObject()
-        // }
-        // if let removeRelationOperator = value as? NCMBRemoveRelationOperator {
-        //     return removeRelationOperator.toObject()
-        // }
+         if let addRelationOperator = value as? NCMBAddRelationOperator {
+             return addRelationOperator.toObject()
+        }
+         if let removeRelationOperator = value as? NCMBRemoveRelationOperator {
+             return removeRelationOperator.toObject()
+         }
         if let date = value as? Date {
             return NCMBDateField.convertObject(date: date)
         }
         if let pointer = value as? NCMBPointer {
             return pointer.toObject()
         }
-        // if let relation = value as? NCMBRelation {
-        //     return relation.toObject()
-        // }
+        if let relation = value as? NCMBRelation {
+            return relation.toObject()
+        }
         if let geoPoint = value as? NCMBGeoPoint {
             return geoPoint.toObject()
         }

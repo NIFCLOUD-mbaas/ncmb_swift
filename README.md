@@ -29,9 +29,6 @@
 
 以下の機能につきましては現在実装中です。今後順次、提供いたします。
 
-* データストア
-  * ポインタ操作
-  * リレーション操作
 * クエリ
   * 副問い合わせ
   * 位置情報検索
@@ -170,6 +167,108 @@
 
 * TBD
 
+#### リレーション
+
+ポインタは1つのオブジェクトへの参照しか持つことができませんが、
+リレーションを利用することで、特定クラスの複数オブジェクトと関連づけることが可能です。
+リレーションを追加・削除する場合は、それぞれ `NCMBAddRelationOperator` と `NCMBRemoveRelationOperator` という構造体を使用します。
+リレーションの取得には `NCMBRelation` を使用します。
+
+##### リレーションの新規作成
+
+```Swift
+// testクラスへのNCMBObjectを設定
+let object : NCMBObject = NCMBObject(className: "test")
+let pointerA = NCMBPointer(className: "test", objectId: "84lywBlhwuA8SeUo")
+let pointerB = NCMBPointer(className: "test", objectId: "SqG3oH0tgXx50hT7")
+
+object["NewRelation"] = NCMBAddRelationOperator(elements: [pointerA, pointerB])
+
+// データストアへの登録を実施
+object.saveInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 保存に成功した場合の処理
+        print("保存に成功しました")
+    case let .failure(error):
+        // 保存に失敗した場合の処理
+        print("保存に失敗しました: \(error)")
+    }
+})
+```
+
+##### リレーションの追加
+
+```Swift
+// testクラスへのNCMBObjectを設定
+let object : NCMBObject = NCMBObject(className: "test")
+let pointerC = NCMBPointer(className: "test", objectId: "2tEvocmtRTllMgQT")
+
+// objectIdプロパティを設定
+object.objectId = "ATfLxBq683MF3zy9"
+
+object["NewRelation"] = NCMBAddRelationOperator(elements: [PointerC])
+
+// データストアへの登録を実施
+object.saveInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 保存に成功した場合の処理
+        print("保存に成功しました")
+    case let .failure(error):
+        // 保存に失敗した場合の処理
+        print("保存に失敗しました: \(error)")
+    }
+})
+```
+##### リレーションの削除
+
+```Swift
+// testクラスへのNCMBObjectを設定
+let object : NCMBObject = NCMBObject(className: "test")
+let pointerC = NCMBPointer(className: "test", objectId: "2tEvocmtRTllMgQT")
+
+// objectIdプロパティを設定
+object.objectId = "ATfLxBq683MF3zy9"
+
+object["NewRelation"] = NCMBRemoveRelationOperator(elements: [PointerC])
+
+// データストアへの登録を実施
+object.saveInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 保存に成功した場合の処理
+        print("保存に成功しました")
+    case let .failure(error):
+        // 保存に失敗した場合の処理
+        print("保存に失敗しました: \(error)")
+    }
+})
+```
+
+##### リレーションの取得
+
+```Swift
+// testクラスへのNCMBObjectを設定
+let object : NCMBObject = NCMBObject(className: "test")
+
+// objectIdプロパティを設定
+object.objectId = "ATfLxBq683MF3zy9"
+
+object.fetchInBackground(callback: { result in
+    switch result {
+    case .success:
+        // 取得に成功した場合の処理
+        print("取得に成功しました")
+        if let relation : NCMBRelation = object["NewRelation"] {
+            print("relation value: \(relation)")
+        }
+    case let .failure(error):
+        // 取得に失敗した場合の処理
+        print("取得に失敗しました: \(error)")
+    }
+})
+```
 #### オブジェクトの検索を行う
 
 ```Swift

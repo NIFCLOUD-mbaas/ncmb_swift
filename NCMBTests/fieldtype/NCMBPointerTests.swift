@@ -88,6 +88,37 @@ final class NCMBPointerTests: NCMBTestCase {
         XCTAssertNil(pointer)
     }
 
+    func test_initialize_success() {
+        let object : NCMBObject = NCMBObject(className: "TestClass")
+        object.objectId = "abcde12345"
+        let pointer : NCMBPointer? = NCMBPointer(dataobject: object)
+        XCTAssertEqual(pointer!.className, "TestClass")
+        XCTAssertEqual(pointer!.objectId, "abcde12345")
+    }
+    
+    func test_initialize_lackingObjectIdField() {
+        let object : NCMBObject = NCMBObject(className: "TestClass")
+        object.objectId = nil
+        let pointer : NCMBPointer? = NCMBPointer(dataobject: object)
+        XCTAssertNil(pointer)
+    }
+    
+    func test_initialize_Installation(){
+        let installation : NCMBInstallation = NCMBInstallation()
+        installation.objectId = "abcde12345"
+        let pointer : NCMBPointer? = NCMBPointer(dataobject: installation)
+        XCTAssertEqual(pointer!.className, "installation")
+        XCTAssertEqual(pointer!.objectId, "abcde12345")
+    }
+
+    func test_initialize_User(){
+        let user : NCMBUser = NCMBUser()
+        user.objectId = "abcde12345"
+        let pointer : NCMBPointer? = NCMBPointer(dataobject: user)
+        XCTAssertEqual(pointer!.className, "user")
+        XCTAssertEqual(pointer!.objectId, "abcde12345")
+    }
+    
     func test_toObject() {
         let pointer = NCMBPointer(className: "TestClass", objectId: "abcde12345")
         var object : [String : Any] = pointer.toObject()
@@ -95,6 +126,32 @@ final class NCMBPointerTests: NCMBTestCase {
         XCTAssertEqual(object["className"]! as! String, "TestClass")
         XCTAssertEqual(object["objectId"]! as! String, "abcde12345")
     }
+    
+    func test_equatable() {
+        let lhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
+        let rhs1 : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
+        
+        XCTAssertEqual(lhs, rhs1)
+    }
+
+    func test_NO_equatable_className() {
+        let lhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
+        let rhs1 : NCMBPointer = NCMBPointer(className: "hoge", objectId: "hogehoge12345678")
+        XCTAssertNotEqual(lhs, rhs1)
+    }
+    
+    func test_NO_equatable_objectId() {
+        let lhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
+        let rhs2 : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge1234hoge")
+        XCTAssertNotEqual(lhs, rhs2)
+    }
+    
+    func test_NO_equatable_all() {
+        let lhs : NCMBPointer = NCMBPointer(className: "test", objectId: "hogehoge12345678")
+        let rhs3 : NCMBPointer = NCMBPointer(className: "hoge", objectId: "hogehoge1234hoge")
+        XCTAssertNotEqual(lhs, rhs3)
+    }
+    
 
     static var allTests = [
         ("test_createInstance_success", test_createInstance_success),

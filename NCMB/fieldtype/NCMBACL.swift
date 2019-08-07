@@ -129,8 +129,8 @@ private struct NCMBAccessControlValue {
     }
 
     static func convert(acl: Any?) -> NCMBAccessControlValue? {
-        var read : Bool = true
-        var write : Bool = true
+        var read : Bool = false
+        var write : Bool = false
         if let acl = acl as? [String : Bool] {
             if let aclread = acl[FIELD_READ] {
                 read = aclread
@@ -145,8 +145,12 @@ private struct NCMBAccessControlValue {
 
     func toObject() -> [String : Bool] {
         var object : [String : Bool] = [:]
-        object[NCMBAccessControlValue.FIELD_READ] = self.readable
-        object[NCMBAccessControlValue.FIELD_WRITE] = self.writable
+        if (self.readable) {
+            object[NCMBAccessControlValue.FIELD_READ] = true
+        }
+        if (self.writable) {
+            object[NCMBAccessControlValue.FIELD_WRITE] = true
+        }
         return object
     }
 }

@@ -51,7 +51,7 @@ final class NCMBBaseTests: NCMBTestCase {
 
         let json = try! sut.toJson()!
         XCTAssertTrue(String(data: json, encoding: .utf8)!.contains("\"acl\":{\"abcd\":"))
-        XCTAssertTrue(String(data: json, encoding: .utf8)!.contains("\"write\":false"))
+        XCTAssertFalse(String(data: json, encoding: .utf8)!.contains("\"write\""))
         XCTAssertTrue(String(data: json, encoding: .utf8)!.contains("\"read\":true"))
     }
 
