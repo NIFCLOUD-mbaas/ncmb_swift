@@ -552,7 +552,7 @@ final class NCMBInstallationTests: NCMBTestCase {
         NCMBLocalFileManagerFactory.setInstance(manager: manager)
         _ = NCMBInstallation.currentInstallation
         XCTAssertEqual(manager.saveLog.count, 1)
-        XCTAssertTrue(String(data: manager.saveLog[0].data, encoding: .utf8)!.contains("\"sdkVersion\":\"0.1.0\""))
+        XCTAssertTrue(String(data: manager.saveLog[0].data, encoding: .utf8)!.contains("\"sdkVersion\":\"0.2.0\""))
         XCTAssertEqual(manager.saveLog[0].type, NCMBLocalFileType.currentInstallation)
     }
 
