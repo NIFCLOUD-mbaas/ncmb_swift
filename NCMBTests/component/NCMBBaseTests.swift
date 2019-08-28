@@ -442,6 +442,83 @@ final class NCMBBaseTests: NCMBTestCase {
         XCTAssertEqual(base["field1"], "takanokun")
         XCTAssertEqual(base2["field1"], "takano_san")
     }
+    
+    //fieldsがStringのみの場合
+    func test_description_basic() {
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "takanokun"
+        sut["field2"] = "42"
+        let nilValue: String? = nil
+        sut["field3"] = nilValue
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42}")
+    }
+    
+    //fieldsが整数を持つ場合
+    func test_description_fields_have_int() {
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "takanokun"
+        sut["field2"] = 42
+        let nilValue: String? = nil
+        sut["field3"] = nilValue
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42}")
+    }
+    
+    //fieldsが全てnilの場合
+    func test_description_fields_all_nil(){
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = "abcdefg12345"
+        let nilValue: String? = nil
+        sut["field1"] = nilValue
+        sut["field2"] = nilValue
+        sut["field3"] = nilValue
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345}")
+    }
+    
+    //objectIdがnilの場合
+    func test_description_objectId_is_nill(){
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = nil
+        let nilValue: String? = nil
+        sut["field1"] = "takanokun"
+        sut["field2"] = "42"
+        sut["field3"] = nilValue
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=nil,field1=takanokun,field2=42}")
+    }
+    
+    //fieldが小数を持つ場合
+    func test_description_fields_have_double(){
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = "abcdefg12345"
+        sut["field1"] = "takanokun"
+        sut["field2"] = "42"
+        sut["field3"] = 15.2
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42,field3=15.2}")
+    }
+    
+    //fieldがブール値を持つ場合
+    func test_description_fields_have_boolean(){
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = "abcdefg12345"
+        let nilValue: String? = nil
+        sut["field1"] = false
+        sut["field2"] = true
+        sut["field3"] = nilValue
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=false,field2=true}")
+    }
+    
+    //fieldがソートされているかのテスト
+    func test_description_fields_is_sorted(){
+        let sut : NCMBObject = NCMBObject(className: "TestClass")
+        sut.objectId = "abcdefg12345"
+        sut["abc"] = "takanokun"
+        sut["cba"] = "42"
+        sut["acd"] = 15.2
+        sut["cba1"] = "test"
+        sut["cba2"] = "42"
+        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,abc=takanokun,acd=15.2,cba=42,cba1=test,cba2=42}")
+    }
 
     static var allTests = [
         ("test_property_acl_decode", test_property_acl_decode),
@@ -477,4 +554,5 @@ final class NCMBBaseTests: NCMBTestCase {
         ("test_isIgnoredKey_setFieldValue", test_isIgnoredKey_setFieldValue),
         ("test_copy", test_copy),
     ]
+
 }
