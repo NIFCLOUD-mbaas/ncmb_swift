@@ -17,7 +17,7 @@
 import Foundation
 
 /// nifcloud mobile backend データストアを操作するためのクラスです。 
-public class NCMBBase {
+public class NCMBBase : CustomStringConvertible {
 
     static let FIELDNAME_OBJECTID : String = "objectId"
     static let FIELDNAME_ACL : String = "acl"
@@ -228,25 +228,25 @@ public class NCMBBase {
             }else{
                 outputString += "className=nil"
             }
-            
+
             if let objectId = self._fields[NCMBBase.FIELDNAME_OBJECTID] as? String{
                 outputString += ",objectId=\(objectId)"
             }else{
                 outputString += ",objectId=nil"
             }
-            
+
             let sortedKeys = Array(self._fields.keys).sorted(by:<)
             for key in sortedKeys{
                 if NCMBBase.IGNORED_KEYS.contains(key){
                     continue
                 }
-                
+
                 if let value = self._fields[key]{
                     outputString += ",\(key)=\(value)"
                 }
             }
             outputString += "}"
-            
+
             return outputString
         }
     }
