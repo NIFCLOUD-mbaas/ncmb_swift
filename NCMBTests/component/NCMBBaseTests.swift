@@ -451,7 +451,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["field2"] = "42"
         let nilValue: String? = nil
         sut["field3"] = nilValue
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42}")
     }
     
     //fieldsが整数を持つ場合
@@ -462,7 +462,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["field2"] = 42
         let nilValue: String? = nil
         sut["field3"] = nilValue
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42}")
     }
     
     //fieldsが全てnilの場合
@@ -473,7 +473,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["field1"] = nilValue
         sut["field2"] = nilValue
         sut["field3"] = nilValue
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=abcdefg12345}")
     }
     
     //objectIdがnilの場合
@@ -484,7 +484,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["field1"] = "takanokun"
         sut["field2"] = "42"
         sut["field3"] = nilValue
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=nil,field1=takanokun,field2=42}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=nil,field1=takanokun,field2=42}")
     }
     
     //fieldが小数を持つ場合
@@ -494,7 +494,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["field1"] = "takanokun"
         sut["field2"] = "42"
         sut["field3"] = 15.2
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42,field3=15.2}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=abcdefg12345,field1=takanokun,field2=42,field3=15.2}")
     }
     
     //fieldがブール値を持つ場合
@@ -505,7 +505,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["field1"] = false
         sut["field2"] = true
         sut["field3"] = nilValue
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,field1=false,field2=true}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=abcdefg12345,field1=false,field2=true}")
     }
     
     //fieldがソートされているかのテスト
@@ -517,7 +517,7 @@ final class NCMBBaseTests: NCMBTestCase {
         sut["acd"] = 15.2
         sut["cba1"] = "test"
         sut["cba2"] = "42"
-        XCTAssertEqual(sut.description, "{className=TestClass,objectId=abcdefg12345,abc=takanokun,acd=15.2,cba=42,cba1=test,cba2=42}")
+        XCTAssertEqual("\(sut)", "{className=TestClass,objectId=abcdefg12345,abc=takanokun,acd=15.2,cba=42,cba1=test,cba2=42}")
     }
 
     static var allTests = [
