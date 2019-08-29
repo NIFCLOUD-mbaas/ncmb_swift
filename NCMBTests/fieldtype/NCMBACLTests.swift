@@ -342,6 +342,55 @@ final class NCMBACLTests: NCMBTestCase {
         XCTAssertEqual(result.count, 0)
     }
     
+    //aclが全員のみの場合
+    func test_acl_description_default() {
+        let sut = NCMBACL.default
+        
+        XCTAssertEqual("\(sut)","{\"*\"=(read=true,write=true)}")
+    }
+    
+    //aclが何もない場合
+    func test_acl_description_empty() {
+        let sut = NCMBACL.empty
+        
+        XCTAssertEqual("\(sut)","{}")
+    }
+    
+    func test_acl_description_object() {
+        var sut = NCMBACL.empty
+        sut.put(key: "efgh", readable: false, writable: true)
+        
+        XCTAssertEqual("\(sut)","{\"efgh\"=(read=false,write=true)}")
+    }
+    
+    func test_acl_description_role() {
+        var sut = NCMBACL.empty
+        sut.put(key: "role:admin", readable: true, writable: true)
+        sut.put(key: "role:test", readable: true, writable: false)
+        
+        XCTAssertEqual("\(sut)","{\"role:admin\"=(read=true,write=true),\"role:test\"=(read=true,write=false)}")
+    }
+    
+    func test_acl_description_default_object_role() {
+        var sut = NCMBACL.default
+        sut.put(key: "abcd", readable: true, writable: false)
+        sut.put(key: "role:admin", readable: true, writable: true)
+        sut.put(key: "role:test", readable: false, writable: false)
+        
+        XCTAssertEqual("\(sut)","{\"*\"=(read=true,write=true),\"abcd\"=(read=true,write=false),\"role:admin\"=(read=true,write=true),\"role:test\"=(read=false,write=false)}")
+    }
+    
+    func test_acl_description_sort(){
+        var sut = NCMBACL.default
+        sut.put(key: "abc", readable: true, writable: false)
+        sut.put(key: "cde", readable: false, writable: true)
+        sut.put(key: "bcd", readable: false, writable: false)
+        sut.put(key: "abc2", readable: true, writable: true)
+        sut.put(key: "abc1", readable: true, writable: true)
+        
+        XCTAssertEqual("\(sut)","{\"*\"=(read=true,write=true),\"abc\"=(read=true,write=false),\"abc1\"=(read=true,write=true),\"abc2\"=(read=true,write=true),\"bcd\"=(read=false,write=false),\"cde\"=(read=false,write=true)}")
+    }
+    
     static var allTests = [
         ("test_constant_default", test_constant_default),
         ("test_constant_empty", test_constant_empty),
