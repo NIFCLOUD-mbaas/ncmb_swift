@@ -16,7 +16,7 @@
 
 
 /// ACL情報を表す構造体です。
-public struct NCMBACL {
+public struct NCMBACL : CustomStringConvertible{
 
     /// すべてに該当するキー名称です。
     public static let ACL_PUBLIC : String = "*"
@@ -69,14 +69,14 @@ public struct NCMBACL {
         self.acl = acl
     }
 
-    func getReadable(key: String) -> Bool? {
+    public func getReadable(key: String) -> Bool? {
         if let value = self.acl[key] {
             return value.readable
         }
         return nil
     }
 
-    func getWritable(key: String) -> Bool? {
+    public func getWritable(key: String) -> Bool? {
         if let value = self.acl[key] {
             return value.writable
         }
@@ -90,16 +90,30 @@ public struct NCMBACL {
         }
         return object
     }
+    
+    public var description: String {
+        var outputArray : [String] = []
+        
+        let sortedKeys = Array(self.acl.keys).sorted(by:<)
+        for key in sortedKeys {
+            if let value : NCMBAccessControlValue = self.acl[key] {
+                outputArray.append("\"\(key)\"=\(value)")
+            }
+        }
+        
+        let outputString = "{\(outputArray.joined(separator: ","))}"
+        return outputString
+    }
 
 }
 
 /// キーに対するアクセスコントロールを管理するクラスです。
-private struct NCMBAccessControlValue {
+private struct NCMBAccessControlValue : CustomStringConvertible{
     private var read : Bool
     private var write : Bool
     private static let FIELD_READ = "read"
     private static let FIELD_WRITE = "write"
-
+    
     init() {
         self.read = true
         self.write = true
@@ -153,4 +167,9 @@ private struct NCMBAccessControlValue {
         }
         return object
     }
+    
+    public var description: String {
+        return "(read=\(self.readable),write=\(self.writable))"
+    }
+    
 }
