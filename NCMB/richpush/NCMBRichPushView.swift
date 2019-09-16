@@ -14,12 +14,12 @@
  limitations under the License.
  */
 
-import WebKit
-
-let IMAGE_SIZE = 25
 
 #if os(iOS)
+import WebKit
 import UIKit
+
+let IMAGE_SIZE = 25
 
 class NCMBRichPushView: UIViewController, WKNavigationDelegate {
     
