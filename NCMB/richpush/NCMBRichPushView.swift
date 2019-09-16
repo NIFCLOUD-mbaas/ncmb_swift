@@ -14,10 +14,12 @@
  limitations under the License.
  */
 
-import UIKit
 import WebKit
 
 let IMAGE_SIZE = 25
+
+#if os(iOS)
+import UIKit
 
 class NCMBRichPushView: UIViewController, WKNavigationDelegate {
     
@@ -37,6 +39,10 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         let webConfiguration = WKWebViewConfiguration()
         webConfiguration.suppressesIncrementalRendering = true;
         
+        view.frame = CGRect(x: 0,
+                            y: 0,
+                            width: Int(view.frame.width),
+                            height: Int(view.frame.height * 0.8))
         let viewSize:CGSize = view.frame.size
         
         var safeAreaTop:Int = 0
@@ -48,7 +54,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         }
         
         let rect = CGRect(x: 0,
-                          y: safeAreaTop,
+                          y: safeAreaTop + Int(viewSize.height * 0.1),
                           width: Int(viewSize.width),
                           height: Int(viewSize.height) - safeAreaTop - safeAreaBottom - IMAGE_SIZE*2)
         
@@ -57,8 +63,8 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         view.addSubview(_webView)
         _webView.load(myRequest)
         
-        let buttonRect =  CGRect(x: Int(viewSize.width/2) - 50,
-                                 y: Int(viewSize.height) - safeAreaBottom - IMAGE_SIZE,
+        let buttonRect =  CGRect(x: Int((viewSize.width)/2) - 50,
+                                 y: Int((viewSize.height)) - safeAreaBottom - IMAGE_SIZE + Int(viewSize.height * 0.1),
                                  width: 100,
                                  height: IMAGE_SIZE)
         let closeButton = getCloseButton(frame: buttonRect, color: UIColor.black)
@@ -71,7 +77,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         
         view.addSubview(_activityIndicator)
         showActivityIndicator(show: true)
-        view.backgroundColor = UIColor.gray
+        view.backgroundColor = UIColor.clear
         
     }
     
@@ -129,3 +135,4 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
     }
     
 }
+#endif

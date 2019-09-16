@@ -15,6 +15,9 @@
  */
 
 import Foundation
+#if os(iOS)
+    import UIKit
+#endif
 
 /// プッシュ通知を操作するクラスです。
 public class NCMBPush : NCMBBase {
@@ -420,7 +423,9 @@ public class NCMBPush : NCMBBase {
             richPushView.richUrl = urlStr
             richPushView.closeCallback = completion
             DispatchQueue.main.async {
-                UIApplication.shared.keyWindow?.rootViewController?.present(richPushView, animated: true, completion: nil)
+                #if os(iOS)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(richPushView, animated: true, completion: nil)
+                #endif
             }
         }
     }
