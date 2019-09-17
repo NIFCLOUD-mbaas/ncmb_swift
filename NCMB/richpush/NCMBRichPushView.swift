@@ -77,7 +77,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         
         view.addSubview(_activityIndicator)
         showActivityIndicator(show: true)
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.gray
         
     }
     
