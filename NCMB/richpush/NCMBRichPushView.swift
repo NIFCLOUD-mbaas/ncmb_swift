@@ -42,7 +42,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         view.frame = CGRect(x: 0,
                             y: 0,
                             width: Int(view.frame.width),
-                            height: Int(view.frame.height * 0.8))
+                            height: Int(view.frame.height * 0.9))
         let viewSize:CGSize = view.frame.size
         
         var safeAreaTop:Int = 0
@@ -54,7 +54,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         }
         
         let rect = CGRect(x: 0,
-                          y: safeAreaTop + Int(viewSize.height * 0.1),
+                          y: safeAreaTop + Int(viewSize.height * 0.05),
                           width: Int(viewSize.width),
                           height: Int(viewSize.height) - safeAreaTop - safeAreaBottom - IMAGE_SIZE*2)
         
@@ -64,7 +64,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         _webView.load(myRequest)
         
         let buttonRect =  CGRect(x: Int((viewSize.width)/2) - 50,
-                                 y: Int((viewSize.height)) - safeAreaBottom - IMAGE_SIZE + Int(viewSize.height * 0.1),
+                                 y: Int((viewSize.height)) - safeAreaBottom - IMAGE_SIZE + Int(viewSize.height * 0.05),
                                  width: 100,
                                  height: IMAGE_SIZE)
         let closeButton = getCloseButton(frame: buttonRect, color: UIColor.black)
