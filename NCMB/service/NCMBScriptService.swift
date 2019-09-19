@@ -32,16 +32,28 @@ struct NCMBScriptService {
                 name: String,
                 headers: [String : String?],
                 queries: [String : String?],
-                body: Data?,
+                body: [String : Any?],
                 callback: @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
-        let request : NCMBRequest = createRequest(name: name, headers: headers, queries: queries, body: body)
+        let request : NCMBRequest
+        do {
+            request = try createRequest(name: name, headers: headers, queries: queries, body: body)
+        } catch let error {
+            let result = NCMBResult<NCMBResponse>.failure(error)
+            callback(result)
+            return;
+        }
         let executor : NCMBRequestExecutorProtocol = NCMBRequestExecutorFactory.getInstance()
         executor.exec(request: request, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             callback(result)
         })
     }
 
-    func createRequest(name: String, headers: [String : String?], queries : [String : String?], body : Data?) -> NCMBRequest {
+    func createRequest(
+                name: String,
+                headers: [String : String?],
+                queries: [String : String?],
+                body: [String : Any?]) throws -> NCMBRequest {
+        let data: Data? = try convertToJson(body: body)
         let request : NCMBRequest = NCMBRequest(
                 domainURL: self.endpoint,
                 apiVersion: self.apiVersion,
@@ -50,7 +62,19 @@ struct NCMBScriptService {
                 subpath: [name],
                 headers: headers,
                 queries: queries,
-                body: body)
+                contentType: NCMBRequest.DEFAULT_CONTENT_TYPE,
+                body: data)
         return request
+    }
+    
+    func convertToJson(body: [String: Any?]) throws -> Data? {
+        if body.count == 0 {
+            return nil
+        }
+        do {
+            return try NCMBJsonConverter.convertToJson(body)
+        } catch {
+            throw NCMBInvalidRequestError.invalidBodyJsonValue
+        }
     }
 }

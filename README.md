@@ -713,7 +713,7 @@ or検索
     let script = NCMBScript(name: "myCoolScript.js", method: .get)
 
     // スクリプトの実行
-    script.executeInBackground(headers: [:], queries: ["name": "foo"], body: nil, callback: { result in
+    script.executeInBackground(headers: [:], queries: ["name": "foo"], body: [:], callback: { result in
         switch result {
             case let .success(data):
                 print("scriptSample 実行に成功しました: \(data)")

@@ -122,6 +122,410 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(try sut.getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/abcdef01?takanokun=takano_san"))
     }
 
+    func test_getSignatureURL_invalid_domain_get() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.get,
+                subpath : ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertThrowsError(try sut.getSignatureURL()) { error in
+            XCTAssertEqual(error as! NCMBInvalidRequestError, NCMBInvalidRequestError.invalidDomainName)
+        }
+    }
+
+    func test_getSignatureURL_domain_apiversion_get() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "https://piyo.example.com",
+            apiVersion: "1986-02-04")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.get,
+                subpath: ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01"))
+    }
+
+    func test_getSignatureURL_default_get() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.get,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_argument_domainURL_apiVersion_get() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.get,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_noSubpathQuery_get() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.installations,
+                method: NCMBHTTPMethod.get)
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/installations"))
+    }
+
+    func test_getSignatureURL_subpath_get() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.get,
+                subpath : ["c", "d", "a", "b", "e"])
+        // subpath は 配列順に結合される
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/c/d/a/b/e"))
+    }
+
+    func test_getSignatureURL_query_init_get() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.get,
+                queries: ["c":"1", "d":nil, "a":"2", "b":"3", "e":"4"])
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login?a=2&b=3&c=1&d&e=4"))
+    }
+
+    func test_getSignatureURL_query_method_get() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.get)
+        sut.addQueryItem(name: "c", value: "1")
+        sut.addQueryItem(name: "d", value: nil)
+        sut.addQueryItem(name: "a", value: "2")
+        sut.addQueryItem(name: "b", value: "3")
+        sut.addQueryItem(name: "e", value: "4")
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login?a=2&b=3&c=1&d&e=4"))
+    }
+
+    func test_getSignatureURL_queryEncoded_get() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.get,
+                subpath: ["TestClass"])
+        sut.addQueryItem(name: "where", value: "{\"testKey\":\"testValue&\"}")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/TestClass?where=%7B%22testKey%22:%22testValue%26%22%7D"))
+    }
+
+    func test_getSignatureURL_subpathQuery_get() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.get,
+                subpath: ["abcdef01"])
+        sut.addQueryItem(name: "takanokun", value: "takano_san")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/abcdef01?takanokun=takano_san"))
+    }
+
+    func test_getSignatureURL_invalid_domain_post() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.post,
+                subpath : ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertThrowsError(try sut.getSignatureURL()) { error in
+            XCTAssertEqual(error as! NCMBInvalidRequestError, NCMBInvalidRequestError.invalidDomainName)
+        }
+    }
+
+    func test_getSignatureURL_domain_apiversion_post() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "https://piyo.example.com",
+            apiVersion: "1986-02-04")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.post,
+                subpath: ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01"))
+    }
+
+    func test_getSignatureURL_default_post() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.post,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_argument_domainURL_apiVersion_post() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.post,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_noSubpathQuery_post() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.installations,
+                method: NCMBHTTPMethod.post)
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/installations"))
+    }
+
+    func test_getSignatureURL_subpath_post() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.post,
+                subpath : ["c", "d", "a", "b", "e"])
+        // subpath は 配列順に結合される
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/c/d/a/b/e"))
+    }
+
+    func test_getSignatureURL_query_init_post() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.post,
+                queries: ["c":"1", "d":nil, "a":"2", "b":"3", "e":"4"])
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+    }
+
+    func test_getSignatureURL_query_method_post() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.post)
+        sut.addQueryItem(name: "c", value: "1")
+        sut.addQueryItem(name: "d", value: nil)
+        sut.addQueryItem(name: "a", value: "2")
+        sut.addQueryItem(name: "b", value: "3")
+        sut.addQueryItem(name: "e", value: "4")
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+    }
+
+    func test_getSignatureURL_queryEncoded_post() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.post,
+                subpath: ["TestClass"])
+        sut.addQueryItem(name: "where", value: "{\"testKey\":\"testValue&\"}")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/TestClass"))
+    }
+
+    func test_getSignatureURL_subpathQuery_post() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.post,
+                subpath: ["abcdef01"])
+        sut.addQueryItem(name: "takanokun", value: "takano_san")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/abcdef01"))
+    }
+
+    func test_getSignatureURL_invalid_domain_put() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.put,
+                subpath : ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertThrowsError(try sut.getSignatureURL()) { error in
+            XCTAssertEqual(error as! NCMBInvalidRequestError, NCMBInvalidRequestError.invalidDomainName)
+        }
+    }
+
+    func test_getSignatureURL_domain_apiversion_put() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "https://piyo.example.com",
+            apiVersion: "1986-02-04")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.put,
+                subpath: ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01"))
+    }
+
+    func test_getSignatureURL_default_put() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.put,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_argument_domainURL_apiVersion_put() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.put,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_noSubpathQuery_put() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.installations,
+                method: NCMBHTTPMethod.put)
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/installations"))
+    }
+
+    func test_getSignatureURL_subpath_put() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.put,
+                subpath : ["c", "d", "a", "b", "e"])
+        // subpath は 配列順に結合される
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/c/d/a/b/e"))
+    }
+
+    func test_getSignatureURL_query_init_put() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.put,
+                queries: ["c":"1", "d":nil, "a":"2", "b":"3", "e":"4"])
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+    }
+
+    func test_getSignatureURL_query_method_put() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.put)
+        sut.addQueryItem(name: "c", value: "1")
+        sut.addQueryItem(name: "d", value: nil)
+        sut.addQueryItem(name: "a", value: "2")
+        sut.addQueryItem(name: "b", value: "3")
+        sut.addQueryItem(name: "e", value: "4")
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+    }
+
+    func test_getSignatureURL_queryEncoded_put() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.put,
+                subpath: ["TestClass"])
+        sut.addQueryItem(name: "where", value: "{\"testKey\":\"testValue&\"}")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/TestClass"))
+    }
+
+    func test_getSignatureURL_subpathQuery_put() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.put,
+                subpath: ["abcdef01"])
+        sut.addQueryItem(name: "takanokun", value: "takano_san")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/abcdef01"))
+    }
+
+    func test_getSignatureURL_invalid_domain_delete() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.delete,
+                subpath : ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertThrowsError(try sut.getSignatureURL()) { error in
+            XCTAssertEqual(error as! NCMBInvalidRequestError, NCMBInvalidRequestError.invalidDomainName)
+        }
+    }
+
+    func test_getSignatureURL_domain_apiversion_delete() {
+        NCMB.initialize(
+            applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            clientKey: "1111111111111111111111111111111111111111111111111111111111111111",
+            domainURL: "https://piyo.example.com",
+            apiVersion: "1986-02-04")
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.delete,
+                subpath: ["TestClass", "abcdef01"]) // className/objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01"))
+    }
+
+    func test_getSignatureURL_default_delete() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.delete,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_argument_domainURL_apiVersion_delete() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.delete,
+                subpath: ["abcdef01"]) // objectId
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://piyo.example.com/1986-02-04/users/abcdef01"))
+    }
+
+    func test_getSignatureURL_noSubpathQuery_delete() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.installations,
+                method: NCMBHTTPMethod.delete)
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/installations"))
+    }
+
+    func test_getSignatureURL_subpath_delete() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.users,
+                method: NCMBHTTPMethod.delete,
+                subpath : ["c", "d", "a", "b", "e"])
+        // subpath は 配列順に結合される
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/users/c/d/a/b/e"))
+    }
+
+    func test_getSignatureURL_query_init_delete() {
+        let sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.delete,
+                queries: ["c":"1", "d":nil, "a":"2", "b":"3", "e":"4"])
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+    }
+
+    func test_getSignatureURL_query_method_delete() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.login,
+                method: NCMBHTTPMethod.delete)
+        sut.addQueryItem(name: "c", value: "1")
+        sut.addQueryItem(name: "d", value: nil)
+        sut.addQueryItem(name: "a", value: "2")
+        sut.addQueryItem(name: "b", value: "3")
+        sut.addQueryItem(name: "e", value: "4")
+        // query はキー名称によりソートされる
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+    }
+
+    func test_getSignatureURL_queryEncoded_delete() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.delete,
+                subpath: ["TestClass"])
+        sut.addQueryItem(name: "where", value: "{\"testKey\":\"testValue&\"}")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/TestClass"))
+    }
+
+    func test_getSignatureURL_subpathQuery_delete() {
+        var sut : NCMBRequest = NCMBRequest(
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.delete,
+                subpath: ["abcdef01"])
+        sut.addQueryItem(name: "takanokun", value: "takano_san")
+        XCTAssertEqual(try sut.getSignatureURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/abcdef01"))
+    }
+
     func test_build_invalid_domain() {
         NCMB.initialize(
             applicationKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -276,6 +680,46 @@ final class NCMBRequestTests: NCMBTestCase {
         ("test_getURL_query_method", test_getURL_query_method),
         ("test_getURL_queryEncoded", test_getURL_queryEncoded),
         ("test_getURL_subpathQuery", test_getURL_subpathQuery),
+        ("test_getSignatureURL_invalid_domain_get", test_getSignatureURL_invalid_domain_get),
+        ("test_getSignatureURL_domain_apiversion_get", test_getSignatureURL_domain_apiversion_get),
+        ("test_getSignatureURL_default_get", test_getSignatureURL_default_get),
+        ("test_getSignatureURL_argument_domainURL_apiVersion_get", test_getSignatureURL_argument_domainURL_apiVersion_get),
+        ("test_getSignatureURL_noSubpathQuery_get", test_getSignatureURL_noSubpathQuery_get),
+        ("test_getSignatureURL_subpath_get", test_getSignatureURL_subpath_get),
+        ("test_getSignatureURL_query_init_get", test_getSignatureURL_query_init_get),
+        ("test_getSignatureURL_query_method_get", test_getSignatureURL_query_method_get),
+        ("test_getSignatureURL_queryEncoded_get", test_getSignatureURL_queryEncoded_get),
+        ("test_getSignatureURL_subpathQuery_get", test_getSignatureURL_subpathQuery_get),
+        ("test_getSignatureURL_invalid_domain_post", test_getSignatureURL_invalid_domain_post),
+        ("test_getSignatureURL_domain_apiversion_post", test_getSignatureURL_domain_apiversion_post),
+        ("test_getSignatureURL_default_post", test_getSignatureURL_default_post),
+        ("test_getSignatureURL_argument_domainURL_apiVersion_post", test_getSignatureURL_argument_domainURL_apiVersion_post),
+        ("test_getSignatureURL_noSubpathQuery_post", test_getSignatureURL_noSubpathQuery_post),
+        ("test_getSignatureURL_subpath_post", test_getSignatureURL_subpath_post),
+        ("test_getSignatureURL_query_init_post", test_getSignatureURL_query_init_post),
+        ("test_getSignatureURL_query_method_post", test_getSignatureURL_query_method_post),
+        ("test_getSignatureURL_queryEncoded_post", test_getSignatureURL_queryEncoded_post),
+        ("test_getSignatureURL_subpathQuery_post", test_getSignatureURL_subpathQuery_post),
+        ("test_getSignatureURL_invalid_domain_put", test_getSignatureURL_invalid_domain_put),
+        ("test_getSignatureURL_domain_apiversion_put", test_getSignatureURL_domain_apiversion_put),
+        ("test_getSignatureURL_default_put", test_getSignatureURL_default_put),
+        ("test_getSignatureURL_argument_domainURL_apiVersion_put", test_getSignatureURL_argument_domainURL_apiVersion_put),
+        ("test_getSignatureURL_noSubpathQuery_put", test_getSignatureURL_noSubpathQuery_put),
+        ("test_getSignatureURL_subpath_put", test_getSignatureURL_subpath_put),
+        ("test_getSignatureURL_query_init_put", test_getSignatureURL_query_init_put),
+        ("test_getSignatureURL_query_method_put", test_getSignatureURL_query_method_put),
+        ("test_getSignatureURL_queryEncoded_put", test_getSignatureURL_queryEncoded_put),
+        ("test_getSignatureURL_subpathQuery_put", test_getSignatureURL_subpathQuery_put),
+        ("test_getSignatureURL_invalid_domain_delete", test_getSignatureURL_invalid_domain_delete),
+        ("test_getSignatureURL_domain_apiversion_delete", test_getSignatureURL_domain_apiversion_delete),
+        ("test_getSignatureURL_default_delete", test_getSignatureURL_default_delete),
+        ("test_getSignatureURL_argument_domainURL_apiVersion_delete", test_getSignatureURL_argument_domainURL_apiVersion_delete),
+        ("test_getSignatureURL_noSubpathQuery_delete", test_getSignatureURL_noSubpathQuery_delete),
+        ("test_getSignatureURL_subpath_delete", test_getSignatureURL_subpath_delete),
+        ("test_getSignatureURL_query_init_delete", test_getSignatureURL_query_init_delete),
+        ("test_getSignatureURL_query_method_delete", test_getSignatureURL_query_method_delete),
+        ("test_getSignatureURL_queryEncoded_delete", test_getSignatureURL_queryEncoded_delete),
+        ("test_getSignatureURL_subpathQuery_delete", test_getSignatureURL_subpathQuery_delete),
         ("test_build_invalid_domain", test_build_invalid_domain),
         ("test_build_all_arguments", test_build_all_arguments),
         ("test_build_default", test_build_default),

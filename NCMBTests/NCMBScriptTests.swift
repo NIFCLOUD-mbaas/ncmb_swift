@@ -62,6 +62,7 @@ final class NCMBScriptTests: NCMBTestCase {
         XCTAssertEqual(executor.requests.count, 1)
         XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.script)
         XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.put)
+        XCTAssertEqual(executor.requests[0].contentType, "application/json")
         XCTAssertEqual(executor.requests[0].subpathItems, ["trialScript.js"])
         XCTAssertEqual(executor.requests[0].headerItems.count, 0)
         XCTAssertEqual(executor.requests[0].queryItems.count, 0)
@@ -80,7 +81,7 @@ final class NCMBScriptTests: NCMBTestCase {
 
         let headers : [String : String?] = ["X-feiled1":"valueA", "X-feiled2":"valueB"]
         let queries : [String : String?] = ["q3":"42", "q1":"def", "q2":nil]
-        let requestBody : Data = "ghi789qwe".data(using: .utf8)!
+        let requestBody: [String : Any?] = ["b1": 29, "b4": nil, "b3": "takanokun", "b2": true]
 
         _ = sut.execute(
                 headers: headers,
@@ -89,6 +90,7 @@ final class NCMBScriptTests: NCMBTestCase {
         XCTAssertEqual(executor.requests.count, 1)
         XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.script)
         XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
+        XCTAssertEqual(executor.requests[0].contentType, "application/json")
         XCTAssertEqual(executor.requests[0].subpathItems, ["trialScript.js"])
         XCTAssertEqual(executor.requests[0].headerItems.count, 2)
         XCTAssertEqual(executor.requests[0].headerItems["X-feiled1"]!!, "valueA")
@@ -97,7 +99,10 @@ final class NCMBScriptTests: NCMBTestCase {
         XCTAssertNil(executor.requests[0].queryItems["q2"]!)
         XCTAssertEqual(executor.requests[0].queryItems["q1"]!!, "def")
         XCTAssertEqual(executor.requests[0].queryItems["q3"]!!, "42")
-        XCTAssertEqual(executor.requests[0].body, "ghi789qwe".data(using: .utf8))
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b1\":29"))
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b4\":null"))
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b3\":\"takanokun\""))
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b2\":true"))
         XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://script.mbaas.api.nifcloud.com/2015-09-01/script/trialScript.js?q1=def&q2&q3=42"))
         XCTAssertEqual(executor.requests[0].timeoutInterval, 10.0)
     }
@@ -138,6 +143,7 @@ final class NCMBScriptTests: NCMBTestCase {
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.script)
             XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.put)
+            XCTAssertEqual(executor.requests[0].contentType, "application/json")
             XCTAssertEqual(executor.requests[0].subpathItems, ["trialScript.js"])
             XCTAssertEqual(executor.requests[0].headerItems.count, 0)
             XCTAssertEqual(executor.requests[0].queryItems.count, 0)
@@ -159,7 +165,7 @@ final class NCMBScriptTests: NCMBTestCase {
 
         let headers : [String : String?] = ["X-feiled1":"valueA", "X-feiled2":"valueB"]
         let queries : [String : String?] = ["q3":"42", "q1":"def", "q2":nil]
-        let requestBody : Data = "ghi789qwe".data(using: .utf8)!
+        let requestBody: [String : Any?] = ["b1": 29, "b4": nil, "b3": "takanokun", "b2": true]
         let expectation : XCTestExpectation? = self.expectation(description: "test_executeInBackground_customize_request")
         sut.executeInBackground(
                 headers: headers,
@@ -169,6 +175,7 @@ final class NCMBScriptTests: NCMBTestCase {
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.script)
             XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
+            XCTAssertEqual(executor.requests[0].contentType, "application/json")
             XCTAssertEqual(executor.requests[0].subpathItems, ["trialScript.js"])
             XCTAssertEqual(executor.requests[0].headerItems.count, 2)
             XCTAssertEqual(executor.requests[0].headerItems["X-feiled1"]!!, "valueA")
@@ -177,7 +184,10 @@ final class NCMBScriptTests: NCMBTestCase {
             XCTAssertNil(executor.requests[0].queryItems["q2"]!)
             XCTAssertEqual(executor.requests[0].queryItems["q1"]!!, "def")
             XCTAssertEqual(executor.requests[0].queryItems["q3"]!!, "42")
-            XCTAssertEqual(executor.requests[0].body, "ghi789qwe".data(using: .utf8))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b1\":29"))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b4\":null"))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b3\":\"takanokun\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"b2\":true"))
             XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://script.mbaas.api.nifcloud.com/2015-09-01/script/trialScript.js?q1=def&q2&q3=42"))
             XCTAssertEqual(executor.requests[0].timeoutInterval, 10.0)
             expectation?.fulfill()
