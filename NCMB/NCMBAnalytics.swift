@@ -14,6 +14,7 @@
  limitations under the License.
  */
 
+#if os(iOS)
 import UIKit
 
 public class NCMBAnalytics: NSObject {
@@ -49,3 +50,4 @@ public class NCMBAnalytics: NSObject {
         }
     }
 }
+#endif
