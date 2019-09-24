@@ -15,6 +15,9 @@
  */
 
 import Foundation
+#if os(iOS)
+    import UIKit
+#endif
 
 /// プッシュ通知を操作するクラスです。
 public class NCMBPush : NCMBBase {
@@ -411,6 +414,19 @@ public class NCMBPush : NCMBBase {
                 object.append(NCMBPushTarget.TARGET_ANDROID)
             }
             return object
+        }
+    }
+    
+    public static func handleRichPush(userInfo: [String : AnyObject]?, completion: @escaping () -> Void = {}) {
+        if let urlStr = userInfo?["com.nifcloud.mbaas.RichUrl"] as? String {
+            let richPushView = NCMBRichPushView()
+            richPushView.richUrl = urlStr
+            richPushView.closeCallback = completion
+            DispatchQueue.main.async {
+                #if os(iOS)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(richPushView, animated: true, completion: nil)
+                #endif
+            }
         }
     }
 }
