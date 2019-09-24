@@ -540,7 +540,7 @@ final class NCMBRequestTests: NCMBTestCase {
         }
     }
 
-    func test_build_all_arguments() {
+    func test_build_all_arguments_get() {
         let sut : NCMBRequest = NCMBRequest(
                 domainURL: "https://piyo.example.com",
                 apiVersion: "1986-02-04",
@@ -563,6 +563,96 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Application-Key")!, "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "Gr/jVnob8/fucYAUwW8fXEVllonyDH1NMirCUHgoYZU=")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-0.2.0")
+        XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
+    }
+
+    func test_build_all_arguments_post() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.post,
+                date: Date(timeIntervalSince1970: 507904496.789),
+                subpath: ["TestClass", "abcdef01"],
+                headers: ["X-NCMB-TEST1":"VALUE1", "X-NCMB-TEST2":"VALUE2"],
+                queries: ["p":"q", "s":nil, "r":"t"],
+                contentType: "plain/text_Vol2",
+                body: "{\"takanokun\":\"takano_san\"}".data(using: .utf8)!)
+        let urlRequest : URLRequest = try! sut.build()
+        XCTAssertEqual(urlRequest.httpMethod, "POST")
+        XCTAssertEqual(urlRequest.url, URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01?p=q&r=t&s"))
+        XCTAssertEqual(urlRequest.httpBody, "{\"takanokun\":\"takano_san\"}".data(using: .utf8)!)
+        XCTAssertEqual(urlRequest.httpBodyStream, nil)
+        XCTAssertEqual(urlRequest.mainDocumentURL, nil)
+        XCTAssertEqual(urlRequest.allHTTPHeaderFields!.count, 8)
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"Content-Type")!, "plain/text_Vol2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Application-Key")!, "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "ArT9YDP4fyy8gDxTm65k5uPkXxDjP5LquDNS76cSZqk=")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-0.2.0")
+        XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
+    }
+
+    func test_build_all_arguments_put() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.put,
+                date: Date(timeIntervalSince1970: 507904496.789),
+                subpath: ["TestClass", "abcdef01"],
+                headers: ["X-NCMB-TEST1":"VALUE1", "X-NCMB-TEST2":"VALUE2"],
+                queries: ["p":"q", "s":nil, "r":"t"],
+                contentType: "plain/text_Vol2",
+                body: "{\"takanokun\":\"takano_san\"}".data(using: .utf8)!)
+        let urlRequest : URLRequest = try! sut.build()
+        XCTAssertEqual(urlRequest.httpMethod, "PUT")
+        XCTAssertEqual(urlRequest.url, URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01?p=q&r=t&s"))
+        XCTAssertEqual(urlRequest.httpBody, "{\"takanokun\":\"takano_san\"}".data(using: .utf8)!)
+        XCTAssertEqual(urlRequest.httpBodyStream, nil)
+        XCTAssertEqual(urlRequest.mainDocumentURL, nil)
+        XCTAssertEqual(urlRequest.allHTTPHeaderFields!.count, 8)
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"Content-Type")!, "plain/text_Vol2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Application-Key")!, "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "2cXESZFIx0Zed+XiKrf+VJjvo2/uxuRDw/J3sjqXogI=")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-0.2.0")
+        XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
+    }
+
+    func test_build_all_arguments_delete() {
+        let sut : NCMBRequest = NCMBRequest(
+                domainURL: "https://piyo.example.com",
+                apiVersion: "1986-02-04",
+                apiType: NCMBApiType.classes,
+                method: NCMBHTTPMethod.delete,
+                date: Date(timeIntervalSince1970: 507904496.789),
+                subpath: ["TestClass", "abcdef01"],
+                headers: ["X-NCMB-TEST1":"VALUE1", "X-NCMB-TEST2":"VALUE2"],
+                queries: ["p":"q", "s":nil, "r":"t"],
+                contentType: "plain/text_Vol2",
+                body: "{\"takanokun\":\"takano_san\"}".data(using: .utf8)!)
+        let urlRequest : URLRequest = try! sut.build()
+        XCTAssertEqual(urlRequest.httpMethod, "DELETE")
+        XCTAssertEqual(urlRequest.url, URL(string: "https://piyo.example.com/1986-02-04/classes/TestClass/abcdef01?p=q&r=t&s"))
+        XCTAssertEqual(urlRequest.httpBody, "{\"takanokun\":\"takano_san\"}".data(using: .utf8)!)
+        XCTAssertEqual(urlRequest.httpBodyStream, nil)
+        XCTAssertEqual(urlRequest.mainDocumentURL, nil)
+        XCTAssertEqual(urlRequest.allHTTPHeaderFields!.count, 8)
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"Content-Type")!, "plain/text_Vol2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Application-Key")!, "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "873rompizKVX/dxhRLtcrBlOtRO/q1NeEvwYl8qEj/c=")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-0.2.0")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
@@ -721,7 +811,10 @@ final class NCMBRequestTests: NCMBTestCase {
         ("test_getSignatureURL_queryEncoded_delete", test_getSignatureURL_queryEncoded_delete),
         ("test_getSignatureURL_subpathQuery_delete", test_getSignatureURL_subpathQuery_delete),
         ("test_build_invalid_domain", test_build_invalid_domain),
-        ("test_build_all_arguments", test_build_all_arguments),
+        ("test_build_all_arguments_get", test_build_all_arguments_get),
+        ("test_build_all_arguments_post", test_build_all_arguments_post),
+        ("test_build_all_arguments_put", test_build_all_arguments_put),
+        ("test_build_all_arguments_delete", test_build_all_arguments_delete),
         ("test_build_default", test_build_default),
         ("test_contentType_default", test_contentType_default),
         ("test_contentType_isNothing", test_contentType_isNothing),
