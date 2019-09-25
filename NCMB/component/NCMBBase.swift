@@ -93,7 +93,7 @@ public class NCMBBase : CustomStringConvertible {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: データストアのクラス名。
     /// - Parameter fields: フィールド内容
@@ -104,7 +104,7 @@ public class NCMBBase : CustomStringConvertible {
         self._modifiedFieldKeys = modifiedFieldKeys
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: データストアのクラス名
     init(className: String = "") {

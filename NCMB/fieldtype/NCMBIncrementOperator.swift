@@ -29,14 +29,14 @@ public struct NCMBIncrementOperator {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter amount: インクリメント・デクリメント量
     public init(amount: Int) {
         self._amount = amount
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter amount: インクリメント・デクリメント量
     public init(amount: Double) {

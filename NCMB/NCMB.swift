@@ -31,7 +31,7 @@ public class NCMB {
     private var _applicationKey : String = ""
     private var _clientKey : String = ""
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     private init() {}
 
     /// エンドポイントURLです。
@@ -62,7 +62,7 @@ public class NCMB {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// エンドポイントURL、APIバージョンはスクリプト機能では使用されません。独自指定をする場合は `NCMBScript` を利用する際に別途指定してください。
     ///

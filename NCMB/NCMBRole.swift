@@ -24,8 +24,8 @@ public class NCMBRole : NCMBBase {
     static let FIELDNAME_BELONG_ROLE = "belongRole"
     static let FIELDNAME_BELONG_USER = "belongUser"
 
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容
@@ -72,7 +72,7 @@ public class NCMBRole : NCMBBase {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter roleName: ロール名称
     public init(roleName: String) {

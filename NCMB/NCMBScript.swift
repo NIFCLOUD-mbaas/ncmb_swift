@@ -22,7 +22,7 @@ public struct NCMBScript {
     let service : NCMBScriptService
     public var name : String
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// エンドポイントURL、APIバージョンは他の機能とは異なります。
     ///
