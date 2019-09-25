@@ -35,6 +35,45 @@ final class NCMBQueryTests: NCMBTestCase {
         XCTAssertEqual(String(describing: type(of: sut.service)), "NCMBPushService")
     }
 
+    func test_init_all() {
+        let lte: [String: Any] = ["$lte": 42]
+        let whereItems: [String: Any] = ["takano_san": lte]
+        let order = ["fieldY", "-fieldZ"]
+
+        let sut = NCMBQuery<NCMBUser>(
+            className: "takanokun",
+            service: NCMBUserService(),
+            whereItems: whereItems,
+            isCount: true,
+            order: order,
+            skip: 45,
+            limit: 29)
+        XCTAssertEqual(sut.className, "takanokun")
+        XCTAssertEqual(String(describing: type(of: sut)), "NCMBQuery<NCMBUser>")
+        XCTAssertEqual(String(describing: type(of: sut.service)), "NCMBUserService")
+        XCTAssertEqual(sut.whereItems.count, 1)
+        XCTAssertEqual((sut.whereItems["takano_san"]! as! [String:Any]).count, 1)
+        XCTAssertEqual((sut.whereItems["takano_san"]! as! [String:Any])["$lte"]! as! Int, 42)
+        XCTAssertEqual(sut.isCount, true)
+        XCTAssertEqual(sut.order, ["fieldY", "-fieldZ"])
+        XCTAssertEqual(sut.skip, 45)
+        XCTAssertEqual(sut.limit, 29)
+    }
+    
+    func test_init_all_default() {
+        let sut = NCMBQuery<NCMBUser>(
+            className: "takanokun",
+            service: NCMBUserService())
+        XCTAssertEqual(sut.className, "takanokun")
+        XCTAssertEqual(String(describing: type(of: sut)), "NCMBQuery<NCMBUser>")
+        XCTAssertEqual(String(describing: type(of: sut.service)), "NCMBUserService")
+        XCTAssertEqual(sut.whereItems.count, 0)
+        XCTAssertEqual(sut.isCount, false)
+        XCTAssertEqual(sut.order, [])
+        XCTAssertNil(sut.skip)
+        XCTAssertNil(sut.limit)
+    }
+    
     func test_requestItems_default() {
         let sut = NCMBQuery.getQuery(className: "TestClass")
         let requestItems : [String : String?] = sut.requestItems
@@ -475,6 +514,8 @@ final class NCMBQueryTests: NCMBTestCase {
     static var allTests = [
         ("test_init_className", test_init_className),
         ("test_init_service", test_init_service),
+        ("test_init_all", test_init_all),
+        ("test_init_all_default", test_init_all_default),
         ("test_requestItems_default", test_requestItems_default),
         ("test_requestItems_all", test_requestItems_all),
         ("test_convertAnyToString", test_convertAnyToString),

@@ -85,6 +85,50 @@ final class NCMBPushTests: NCMBTestCase {
         XCTAssertEqual(sut.target!.count, 0)
     }
 
+    func test_searchCondition_default() {
+        let sut : NCMBPush = NCMBPush()
+        let searchCondition = sut.searchCondition
+        XCTAssertEqual(String(describing: type(of: searchCondition!)), "NCMBQuery<NCMBInstallation>")
+        XCTAssertEqual(String(describing: type(of: searchCondition!.service)), "NCMBInstallationService")
+        XCTAssertEqual(searchCondition?.whereItems.count, 0)
+        XCTAssertEqual((sut["searchCondition"]! as [String:Any]).count, 0)
+    }
+    
+    func test_searchCondition_set() {
+        let sut : NCMBPush = NCMBPush()
+        var searchCondition = sut.searchCondition
+        searchCondition!.where(field: "takano_san", equalTo: "abcdefg")
+        searchCondition!.where(field: "takanokun", lessThan: 42)
+        sut.searchCondition = searchCondition
+        XCTAssertEqual((sut["searchCondition"]! as [String:Any]).count, 2)
+        XCTAssertEqual((sut["searchCondition"]! as [String:Any])["takano_san"]! as! String, "abcdefg")
+        XCTAssertEqual(((sut["searchCondition"]! as [String:Any])["takanokun"]! as! [String:Any]).count, 1)
+        XCTAssertEqual(((sut["searchCondition"]! as [String:Any])["takanokun"]! as! [String:Any])["$lt"] as! Int, 42)
+        
+        let newSearchCondition = sut.searchCondition
+        XCTAssertEqual(String(describing: type(of: newSearchCondition!)), "NCMBQuery<NCMBInstallation>")
+        XCTAssertEqual(String(describing: type(of: newSearchCondition!.service)), "NCMBInstallationService")
+        XCTAssertEqual(newSearchCondition!.whereItems.count, 2)
+        XCTAssertEqual(newSearchCondition!.whereItems["takano_san"]! as! String, "abcdefg")
+        XCTAssertEqual((newSearchCondition!.whereItems["takanokun"]! as! [String:Any]).count, 1)
+        XCTAssertEqual((newSearchCondition!.whereItems["takanokun"]! as! [String:Any])["$lt"] as! Int, 42)
+    }
+    
+    func test_searchCondition_set_nil() {
+        let sut : NCMBPush = NCMBPush()
+        var searchCondition = sut.searchCondition
+        searchCondition!.where(field: "takano_san", equalTo: "abcdefg")
+        searchCondition!.where(field: "takanokun", lessThan: 42)
+        sut.searchCondition = searchCondition
+        sut.searchCondition = nil
+        XCTAssertEqual((sut["searchCondition"]! as [String:Any]).count, 0)
+
+        let newSearchCondition = sut.searchCondition
+        XCTAssertEqual(String(describing: type(of: newSearchCondition!)), "NCMBQuery<NCMBInstallation>")
+        XCTAssertEqual(String(describing: type(of: newSearchCondition!.service)), "NCMBInstallationService")
+        XCTAssertEqual(newSearchCondition!.whereItems.count, 0)
+    }
+    
     func test_fetch_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
@@ -451,6 +495,9 @@ final class NCMBPushTests: NCMBTestCase {
         ("test_deliveryTime", test_deliveryTime),
         ("test_setImmediateDelivery", test_setImmediateDelivery),
         ("test_target", test_target),
+        ("test_searchCondition_default", test_searchCondition_default),
+        ("test_searchCondition_set", test_searchCondition_set),
+        ("test_searchCondition_set_nil", test_searchCondition_set_nil),
         ("test_fetch_success", test_fetch_success),
         ("test_fetch_failure", test_fetch_failure),
         ("test_fetchInBackground_success", test_fetchInBackground_success),
