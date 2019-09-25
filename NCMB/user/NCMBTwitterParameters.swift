@@ -42,7 +42,7 @@ public struct NCMBTwitterParameters : NCMBSnsInfoProtocol {
     /// トークンシークレットです。
     public var oauthTokenSecret : String
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter id: Twitter ID
     /// - Parameter screenName: 名前

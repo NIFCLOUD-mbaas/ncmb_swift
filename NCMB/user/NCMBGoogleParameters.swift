@@ -26,7 +26,7 @@ public struct NCMBGoogleParameters : NCMBSnsInfoProtocol {
     /// アクセストークンです。
     public var accessToken : String
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter id: ユーザーID
     /// - Parameter accessToken: アクセストークン

@@ -32,7 +32,7 @@ public class MockLocalFileManager : NCMBLocalFileManagerProtocol {
     /// ファイル読込時に返されるデータです。
     public var loadResponse : Data?
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter loadResponse: ファイル読込時に返されるデータ
     public init(loadResponse: Data?){
