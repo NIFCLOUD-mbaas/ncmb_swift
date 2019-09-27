@@ -72,7 +72,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUser_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -103,7 +103,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUser_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -135,7 +135,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUser_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -169,7 +169,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUserInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -203,7 +203,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUserInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -238,7 +238,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUserInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -278,7 +278,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUsers_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -319,7 +319,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUsers_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -361,7 +361,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUsers_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -407,7 +407,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUsersInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -451,7 +451,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUsersInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -496,7 +496,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addUsersInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -548,7 +548,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUser_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -579,7 +579,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUser_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -611,7 +611,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUser_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -645,7 +645,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUserInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -679,7 +679,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUserInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -714,7 +714,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUserInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -754,7 +754,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUsers_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -795,7 +795,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUsers_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -837,7 +837,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUsers_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -883,7 +883,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUsersInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -927,7 +927,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUsersInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -972,7 +972,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeUsersInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1024,7 +1024,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRole_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1054,7 +1054,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRole_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1085,7 +1085,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRole_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1117,7 +1117,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRoleInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1150,7 +1150,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRoleInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1184,7 +1184,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRoleInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1222,7 +1222,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRoles_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1260,7 +1260,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRoles_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1299,7 +1299,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRoles_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1337,7 +1337,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRolesInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1378,7 +1378,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRolesInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1420,7 +1420,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_addRolesInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1464,7 +1464,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRole_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1494,7 +1494,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRole_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1525,7 +1525,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRole_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1557,7 +1557,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRoleInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1590,7 +1590,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRoleInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1624,7 +1624,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRoleInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1662,7 +1662,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRoles_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1700,7 +1700,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRoles_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1739,7 +1739,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRoles_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1777,7 +1777,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRolesInBackground_request_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1818,7 +1818,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRolesInBackground_request_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1860,7 +1860,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_removeRolesInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2001,7 +2001,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_save_success_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2016,13 +2016,13 @@ final class NCMBRoleTests: NCMBTestCase {
         XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
     }
 
     func test_save_success_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2040,7 +2040,7 @@ final class NCMBRoleTests: NCMBTestCase {
         XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"field1\":\"value1\""))
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(sut.needUpdate, false)
     }
 
@@ -2060,7 +2060,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_saveInBackground_success_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2077,7 +2077,7 @@ final class NCMBRoleTests: NCMBTestCase {
 
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             expectation?.fulfill()
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -2086,7 +2086,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_saveInBackground_success_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2106,7 +2106,7 @@ final class NCMBRoleTests: NCMBTestCase {
 
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             XCTAssertEqual(sut.needUpdate, false)
             expectation?.fulfill()
         })
@@ -2132,7 +2132,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_saveInBackground_reset_modifiedFields() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2156,7 +2156,7 @@ final class NCMBRoleTests: NCMBTestCase {
     func test_saveInBackground_modifiedFields_null() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
