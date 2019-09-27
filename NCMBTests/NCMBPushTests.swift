@@ -23,9 +23,13 @@ final class NCMBPushTests: NCMBTestCase {
 
     func test_init_default() {
         let sut : NCMBPush = NCMBPush()
-        XCTAssertNil(sut["deliveryTime"])        
-        XCTAssertEqual(sut["immediateDeliveryFlag"], true)        
-        XCTAssertEqual(sut["target"] as [String]?, [])        
+        XCTAssertNil(sut["deliveryTime"])
+        XCTAssertEqual(sut["immediateDeliveryFlag"], true)
+        XCTAssertNil(sut.deliveryExpirationDate)
+        XCTAssertNil(sut["deliveryExpirationDate"])
+        XCTAssertNil(sut.deliveryExpirationTime)
+        XCTAssertNil(sut["deliveryExpirationTime"])
+        XCTAssertEqual(sut["target"] as [String]?, [])
     }
 
     func test_deliveryTime() {
@@ -47,6 +51,153 @@ final class NCMBPushTests: NCMBTestCase {
         XCTAssertNil(sut.deliveryTime)
         XCTAssertEqual(sut["immediateDeliveryFlag"], true)
         XCTAssertEqual(sut.immediateDeliveryFlag, true)
+    }
+
+    func test_deliveryExpirationDate() {
+        let sut : NCMBPush = NCMBPush()
+        sut.deliveryExpirationDate = Date(timeIntervalSince1970: 507904496.789)
+
+        XCTAssertEqual(sut["deliveryExpirationDate"]! as Date, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertEqual(sut.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+    }
+
+    func test_deliveryExpirationDate_requestString() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["createDate"] = "2020-07-24T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBPush = NCMBPush()
+        sut.deliveryExpirationDate = Date(timeIntervalSince1970: 507904496.789)
+
+        _ = sut.send()
+
+        XCTAssertEqual(executor.requests.count, 1)
+        let requestBodyKeyValue = try! NCMBJsonConverter.convertToKeyValue(executor.requests[0].body!)
+        XCTAssertNotNil(requestBodyKeyValue["deliveryExpirationDate"] as! [String:Any])
+        let deliveryExpirationDate = requestBodyKeyValue["deliveryExpirationDate"] as! [String:Any]
+        XCTAssertEqual(deliveryExpirationDate["__type"] as! String, "Date")
+        XCTAssertEqual(deliveryExpirationDate["iso"] as! String, "1986-02-04T12:34:56.789Z")
+    }
+
+    func test_deliveryExpirationTime_struct() {
+        let sut : NCMBPush = NCMBPush()
+        sut.deliveryExpirationTime = NCMBExpirationTime(volume: 42, unitType: .hour)
+
+        XCTAssertEqual(sut["deliveryExpirationTime"]! as String, "42 hour")
+        XCTAssertEqual(sut.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+    }
+
+    func test_deliveryExpirationTime_raw() {
+        let sut : NCMBPush = NCMBPush()
+        sut["deliveryExpirationTime"] = "32 day"
+
+        XCTAssertEqual(sut["deliveryExpirationTime"]! as String, "32 day")
+        XCTAssertEqual(sut.deliveryExpirationTime, NCMBExpirationTime(volume: 32, unitType: .day))
+    }
+
+    func test_deliveryExpirationTime_requestString() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["createDate"] = "2020-07-24T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+        let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let sut : NCMBPush = NCMBPush()
+        sut.deliveryExpirationTime = NCMBExpirationTime(volume: 42, unitType: .hour)
+
+        _ = sut.send()
+
+        XCTAssertEqual(executor.requests.count, 1)
+        let requestBodyKeyValue = try! NCMBJsonConverter.convertToKeyValue(executor.requests[0].body!)
+        XCTAssertEqual(requestBodyKeyValue["deliveryExpirationTime"] as! String, "42 hour")
+    }
+
+    func test_deliveryExpiration_priority() {
+        let sut1 : NCMBPush = NCMBPush()
+
+        sut1.deliveryExpirationDate = Date(timeIntervalSince1970: 507904496.789)
+
+        XCTAssertEqual(sut1.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertNil(sut1.deliveryExpirationTime)
+
+        sut1.deliveryExpirationTime = NCMBExpirationTime(volume: 42, unitType: .hour)
+
+        XCTAssertNil(sut1.deliveryExpirationDate)
+        XCTAssertEqual(sut1.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+
+        let sut2 : NCMBPush = NCMBPush()
+
+        sut2.deliveryExpirationTime = NCMBExpirationTime(volume: 42, unitType: .hour)
+
+        XCTAssertNil(sut2.deliveryExpirationDate)
+        XCTAssertEqual(sut2.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+
+        sut2.deliveryExpirationDate = Date(timeIntervalSince1970: 507904496.789)
+
+        XCTAssertEqual(sut2.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertNil(sut2.deliveryExpirationTime)
+
+        let sut3 : NCMBPush = NCMBPush()
+
+        sut3.deliveryExpirationDate = Date(timeIntervalSince1970: 507904496.789)
+
+        XCTAssertEqual(sut3.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertNil(sut3.deliveryExpirationTime)
+
+        sut3.deliveryExpirationTime = nil
+
+        XCTAssertEqual(sut3.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertNil(sut3.deliveryExpirationTime)
+
+        let sut4 : NCMBPush = NCMBPush()
+
+        sut4.deliveryExpirationTime = NCMBExpirationTime(volume: 42, unitType: .hour)
+
+        XCTAssertNil(sut4.deliveryExpirationDate)
+        XCTAssertEqual(sut4.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+
+        sut4.deliveryExpirationDate = nil
+
+        XCTAssertNil(sut4.deliveryExpirationDate)
+        XCTAssertEqual(sut4.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+    }
+
+    func test_deliveryExpiration_priority_undesirable() {
+        // 望ましくない挙動であるため、今後検討が必要
+        let sut1 : NCMBPush = NCMBPush()
+
+        XCTAssertNil(sut1.deliveryExpirationDate)
+        XCTAssertNil(sut1.deliveryExpirationTime)
+
+        sut1["deliveryExpirationDate"] = Date(timeIntervalSince1970: 507904496.789)
+
+        XCTAssertEqual(sut1.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertNil(sut1.deliveryExpirationTime)
+
+        sut1["deliveryExpirationTime"] = "42 hour"
+
+        XCTAssertEqual(sut1.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789)) // ここは nil が望ましい
+        XCTAssertEqual(sut1.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+
+        let sut2 : NCMBPush = NCMBPush()
+
+        XCTAssertNil(sut2.deliveryExpirationDate)
+        XCTAssertNil(sut2.deliveryExpirationTime)
+
+        sut2["deliveryExpirationTime"] = "42 hour"
+
+        XCTAssertNil(sut2.deliveryExpirationDate)
+        XCTAssertEqual(sut2.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour))
+
+        sut2["deliveryExpirationDate"] = Date(timeIntervalSince1970: 507904496.789)
+
+        XCTAssertEqual(sut2.deliveryExpirationDate, Date(timeIntervalSince1970: 507904496.789))
+        XCTAssertEqual(sut2.deliveryExpirationTime, NCMBExpirationTime(volume: 42, unitType: .hour)) // ここは nil が望ましい
+
     }
 
     func test_target() {
@@ -185,7 +336,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_send_success_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -200,13 +351,13 @@ final class NCMBPushTests: NCMBTestCase {
         XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
     }
 
     func test_send_success_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -224,7 +375,7 @@ final class NCMBPushTests: NCMBTestCase {
         XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"field1\":\"value1\""))
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(sut.needUpdate, false)
     }
 
@@ -244,7 +395,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_success_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -261,7 +412,7 @@ final class NCMBPushTests: NCMBTestCase {
 
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             expectation?.fulfill()
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -270,7 +421,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_success_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -290,7 +441,7 @@ final class NCMBPushTests: NCMBTestCase {
 
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             XCTAssertEqual(sut.needUpdate, false)
             expectation?.fulfill()
         })
@@ -316,7 +467,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_reset_modifiedFields() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -340,7 +491,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_modifiedFields_null() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -450,6 +601,11 @@ final class NCMBPushTests: NCMBTestCase {
         ("test_init_default", test_init_default),
         ("test_deliveryTime", test_deliveryTime),
         ("test_setImmediateDelivery", test_setImmediateDelivery),
+        ("test_deliveryExpirationDate", test_deliveryExpirationDate),
+        ("test_deliveryExpirationTime_struct", test_deliveryExpirationTime_struct),
+        ("test_deliveryExpirationTime_raw", test_deliveryExpirationTime_raw),
+        ("test_deliveryExpiration_priority", test_deliveryExpiration_priority),
+        ("test_deliveryExpiration_priority_undesirable", test_deliveryExpiration_priority_undesirable),
         ("test_target", test_target),
         ("test_fetch_success", test_fetch_success),
         ("test_fetch_failure", test_fetch_failure),
