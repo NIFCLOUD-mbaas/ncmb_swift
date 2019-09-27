@@ -556,7 +556,7 @@ or検索
     }
 
     // ログアウト
-    NCMBUser.logOut(callback: { result in
+    NCMBUser.logOutInBackground(callback: { result in
         switch result {
             case .success:
                 // ログアウトに成功した場合の処理
