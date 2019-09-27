@@ -38,7 +38,6 @@
   * 配信期限の設定
 * 会員管理
   * SNS認証
-  * ロール制御
   * メールアドレス確認
 
 ## ライセンス
@@ -642,7 +641,36 @@ or検索
 
 #### 会員のグルーピング
 
-* TBD
+##### ロールの作成
+
+```swift
+// ロールの作成
+let freePlanRole : NCMBRole = NCMBRole.init(roleName: "freePlan");
+freePlanRole.save();
+let proPlanRole : NCMBRole = NCMBRole.init(roleName: "proPlan");
+proPlanRole.save();
+```
+
+##### 会員をロールに追加する
+
+```swift
+// ユーザーを作成
+let user: NCMBUser = NCMBUser.init();
+user.userName = "expertUser"
+user.password = "pass"
+user.signUp()
+// 登録済みユーザーを新規ロールに追加
+let role : NCMBRole = NCMBRole.init(roleName: "expertPlan");
+role.addUserInBackground(user: user, callback: { result in
+   switch result {
+   case .success:
+         print("保存に成功しました")
+   case let .failure(error):
+         print("保存に失敗しました: \(error)")
+         return;
+   }
+})
+```
 
 ### ファイルストア
 
