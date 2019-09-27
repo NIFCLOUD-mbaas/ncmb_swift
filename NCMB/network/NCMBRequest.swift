@@ -76,8 +76,9 @@ struct NCMBRequest {
     func build() throws -> URLRequest {
         do {
             let url = try getURL()
+            let signatureUrl = try getSignatureURL()
             let timestamp : String = NCMBDateFormatter.getISO8601Timestamp(date: date)
-            let signature : String = try NCMBSignatureCalculator.calculate(method: method, date: date, url: url)
+            let signature : String = try NCMBSignatureCalculator.calculate(method: method, date: date, url: signatureUrl)
             var request : URLRequest = URLRequest(url: url)
             request.timeoutInterval = self.timeoutInterval
             for item in self.headerItems {
@@ -122,6 +123,29 @@ struct NCMBRequest {
         }
         do {
             url = try getURLwithQuery(url: url)
+        } catch let error {
+            throw error
+        }
+        return url
+    }
+
+    func getSignatureURL() throws -> URL {
+        var url : URL
+
+        if let domainURL : URL = URL(string: self.domainURL) {
+            url = domainURL
+        } else {
+            throw NCMBInvalidRequestError.invalidDomainName
+        }
+        url.appendPathComponent(self.apiVersion, isDirectory: true)
+        url.appendPathComponent(self.apiType.rawValue, isDirectory: false)
+        for item in self.subpathItems {
+            url.appendPathComponent(item, isDirectory: false)
+        }
+        do {
+            if self.method == .get {
+                url = try getURLwithQuery(url: url)
+            }
         } catch let error {
             throw error
         }
