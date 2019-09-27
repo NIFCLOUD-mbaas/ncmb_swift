@@ -22,7 +22,7 @@ public struct NCMBScript {
     let service : NCMBScriptService
     public var name : String
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// エンドポイントURL、APIバージョンは他の機能とは異なります。
     ///
@@ -43,12 +43,12 @@ public struct NCMBScript {
     ///
     /// - Parameter header: スクリプト実行時のヘッダー（key-value形式）
     /// - Parameter queries: スクリプト実行時のクエリー（key-value形式）
-    /// - Parameter body: スクリプト実行時のbody
+    /// - Parameter body: スクリプト実行時のbody（key-value形式）
     /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
     public func execute(
             headers: [String : String?] = [:],
             queries: [String : String?] = [:],
-            body: Data? = nil) -> NCMBResult<Data?> {
+            body: [String : Any?] = [:]) -> NCMBResult<Data?> {
         var result : NCMBResult<Data?> = NCMBResult.failure(NCMBApiErrorCode.genericError)
         let semaphore = DispatchSemaphore(value: 0)
         executeInBackground(
@@ -72,7 +72,7 @@ public struct NCMBScript {
     public func executeInBackground(
             headers: [String : String?] = [:],
             queries: [String : String?] = [:],
-            body: Data? = nil,
+            body: [String : Any?] = [:],
             callback: @escaping NCMBHandler<Data?>) -> Void {
         service.executeScript(
                 name: name,

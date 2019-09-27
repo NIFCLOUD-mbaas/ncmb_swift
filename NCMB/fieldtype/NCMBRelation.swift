@@ -22,7 +22,7 @@ public struct NCMBRelation {
     /// リレーション型のクラス名
     public var className : String
     
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: リレーション型のクラス名
     public init(className: String) {

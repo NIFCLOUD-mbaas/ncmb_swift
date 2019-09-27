@@ -23,7 +23,7 @@ public struct NCMBAddRelationOperator {
     /// フィールドへの追加対象の要素配列を定義
     public var elements : [NCMBPointer]
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter elements: フィールドへの追加対象の要素配列。ポインタの配列
     public init(elements: [NCMBPointer] = []) {

@@ -28,8 +28,8 @@ public class NCMBInstallation : NCMBBase {
     static let FIELDNAME_BADGE = "badge"
     static let FIELDNAME_CHANNELS = "channels"
 
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容
@@ -38,7 +38,7 @@ public class NCMBInstallation : NCMBBase {
         super.init(className: className, fields: fields, modifiedFieldKeys: modifiedFieldKeys)
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     public init() {
         super.init(className: NCMBInstallation.CLASSNAME)
         let channels : [String] = []
