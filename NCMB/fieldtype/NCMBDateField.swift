@@ -24,7 +24,7 @@ public struct NCMBDateField {
     /// 日時です。
     public var date : Date
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter date: 日時
     public init(date: Date) {

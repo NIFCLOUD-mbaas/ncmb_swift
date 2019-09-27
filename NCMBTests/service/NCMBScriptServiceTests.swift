@@ -28,7 +28,7 @@ final class NCMBScriptServiceTests: NCMBTestCase {
         let sut = NCMBScriptService(method: NCMBHTTPMethod.put, endpoint: "https://piyo.example.com", apiVersion: "1986-02-04")
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_init")
-        sut.executeScript(name: "takanokun.js", headers: [:], queries: [:], body: nil, callback: {result in
+        sut.executeScript(name: "takanokun.js", headers: [:], queries: [:], body: [:], callback: {result in
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.put)
             XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://piyo.example.com/1986-02-04/script/takanokun.js"))
@@ -48,11 +48,12 @@ final class NCMBScriptServiceTests: NCMBTestCase {
                 name: "takanokun.js",
                 headers: ["abc4":"def15", "ghi6":nil, "jkl22":"42"],
                 queries: ["rst99":nil, "uvw-2":"-16"],
-                body: "abcdefghijklmn".data(using: .utf8),
+                body: ["bodyfld1":256],
                 callback : {result in
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.script)
             XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.get)
+            XCTAssertEqual(executor.requests[0].contentType, "application/json")
             XCTAssertEqual(executor.requests[0].subpathItems, ["takanokun.js"])
             XCTAssertEqual(executor.requests[0].headerItems.count, 3)
             XCTAssertEqual(executor.requests[0].headerItems["abc4"]!!, "def15")
@@ -61,7 +62,7 @@ final class NCMBScriptServiceTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems.count, 2)
             XCTAssertNil(executor.requests[0].queryItems["rst99"]!)
             XCTAssertEqual(executor.requests[0].queryItems["uvw-2"]!!, "-16")
-            XCTAssertEqual(executor.requests[0].body, "abcdefghijklmn".data(using: .utf8))
+            XCTAssertEqual(executor.requests[0].body, "{\"bodyfld1\":256}".data(using: .utf8))
             XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://piyo.example.com/1986-02-04/script/takanokun.js?rst99&uvw-2=-16"))
             XCTAssertEqual(executor.requests[0].timeoutInterval, 10.0)
             expectation?.fulfill()
@@ -83,7 +84,7 @@ final class NCMBScriptServiceTests: NCMBTestCase {
                 name: "takanokun.js",
                 headers: ["abc4":"def15", "ghi6":nil, "jkl22":"42"],
                 queries: ["rst99":nil, "uvw-2":"-16"],
-                body: "abcdefghijklmn".data(using: .utf8),
+                body: ["bodyfld1":"xxy", "bodyfld5":false, "bodyfld2":256],
                 callback : {result in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             let response = NCMBTestUtil.getResponse(result: result)!
@@ -105,7 +106,7 @@ final class NCMBScriptServiceTests: NCMBTestCase {
                 name: "takanokun.js",
                 headers: ["abc4":"def15", "ghi6":nil, "jkl22":"42"],
                 queries: ["rst99":nil, "uvw-2":"-16"],
-                body: "abcdefghijklmn".data(using: .utf8),
+                body: ["bodyfld1":"xxy", "bodyfld5":false, "bodyfld2":256],
                 callback : {result in
             XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
@@ -116,13 +117,14 @@ final class NCMBScriptServiceTests: NCMBTestCase {
 
     func test_createRequest() {
         let sut = NCMBScriptService(method: NCMBHTTPMethod.get, endpoint: "https://piyo.example.com", apiVersion: "1986-02-04")
-        let request : NCMBRequest = sut.createRequest(
+        let request : NCMBRequest = try! sut.createRequest(
             name: "takanokun.js",
             headers: ["abc4":"def15", "ghi6":nil, "jkl22":"42"],
             queries: ["rst99":nil, "uvw-2":"-16"],
-            body: "abcdefghijklmn".data(using: .utf8))
+            body: ["bodyfld1":"xxy", "bodyfld5":false, "bodyfld2":256])
         XCTAssertEqual(request.apiType, NCMBApiType.script)
         XCTAssertEqual(request.method, NCMBHTTPMethod.get)
+        XCTAssertEqual(request.contentType, "application/json")
         XCTAssertEqual(request.subpathItems, ["takanokun.js"])
         XCTAssertEqual(request.headerItems.count, 3)
         XCTAssertEqual(request.headerItems["abc4"]!!, "def15")
@@ -131,7 +133,9 @@ final class NCMBScriptServiceTests: NCMBTestCase {
         XCTAssertEqual(request.queryItems.count, 2)
         XCTAssertNil(request.queryItems["rst99"]!)
         XCTAssertEqual(request.queryItems["uvw-2"]!!, "-16")
-        XCTAssertEqual(request.body, "abcdefghijklmn".data(using: .utf8))
+        XCTAssertTrue(String(data: request.body!, encoding: .utf8)!.contains("\"bodyfld1\":\"xxy\""))
+        XCTAssertTrue(String(data: request.body!, encoding: .utf8)!.contains("\"bodyfld5\":false"))
+        XCTAssertTrue(String(data: request.body!, encoding: .utf8)!.contains("\"bodyfld2\":256"))
         XCTAssertEqual(try! request.getURL(), URL(string: "https://piyo.example.com/1986-02-04/script/takanokun.js?rst99&uvw-2=-16"))
         XCTAssertEqual(request.timeoutInterval, 10.0)
     }

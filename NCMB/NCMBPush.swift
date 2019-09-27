@@ -39,9 +39,9 @@ public class NCMBPush : NCMBBase {
     static let FIELDNAME_CONTENTAVAILABLE : String = "contentAvailable"
     static let FIELDNAME_RICHURL : String = "richUrl"
     static let FIELDNAME_CATEGORY : String = "category"
-    
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容
@@ -278,8 +278,8 @@ public class NCMBPush : NCMBBase {
         self[NCMBPush.FIELDNAME_IMMEDIATE_DELIVERY_FLAG] = true
         self[NCMBPush.FIELDNAME_DELIVERY_TIME] = nil as NCMBDateField?
     }
-    
-    /// コンストラクタです。
+
+    /// イニシャライズです。
     public init() {
         super.init(className: NCMBPush.CLASSNAME)
         self[NCMBPush.FIELDNAME_IMMEDIATE_DELIVERY_FLAG] = true

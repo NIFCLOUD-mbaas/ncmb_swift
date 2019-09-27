@@ -24,8 +24,8 @@ public class NCMBRole : NCMBBase {
     static let FIELDNAME_BELONG_ROLE = "belongRole"
     static let FIELDNAME_BELONG_USER = "belongUser"
 
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容
@@ -49,22 +49,6 @@ public class NCMBRole : NCMBBase {
         }
     }
 
-    /// **TBD** ロールに紐づくユーザーです。
-    public var users : [NCMBUser] {
-        //TBD
-        get {
-            return []
-        }
-    }
-
-    /// **TBD** ロールに紐づくロールです。
-    public var roles : [NCMBRole] {
-        //TBD
-        get {
-            return []
-        }
-    }
-
     /// ロールを検索するためのクエリです。
     public class var query : NCMBQuery<NCMBRole> {
         get {
@@ -72,7 +56,7 @@ public class NCMBRole : NCMBBase {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter roleName: ロール名称
     public init(roleName: String) {
@@ -80,36 +64,140 @@ public class NCMBRole : NCMBBase {
         self[NCMBRole.FIELDNAME_ROLE_NAME] = roleName
     }
 
-    /// **TBD** 指定したユーザーを非同期処理にて追加します。
+    /// 指定したユーザーを同期処理にて追加します。
+    ///
+    /// - Parameter user: ユーザー
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addUser(user: NCMBUser) -> NCMBResult<Void> {
+        let users: [NCMBUser] = [user]
+        return saveCore(addUsers: users)
+    }
+
+    /// 指定したユーザーを非同期処理にて追加します。
     ///
     /// - Parameter user: ユーザー
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func addUserInBackground(user: NCMBUser, callback: @escaping NCMBHandler<Void> ) -> Void {
-        //TBD
+        let users: [NCMBUser] = [user]
+        saveInBackgroundCore(addUsers: users, callback: callback)
     }
 
-    /// **TBD** 指定したユーザーを非同期処理にて削除します。
+    /// 指定したユーザーを同期処理にて追加します。
+    ///
+    /// - Parameter users: ユーザーの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addUsers(users: [NCMBUser]) -> NCMBResult<Void> {
+        return saveCore(addUsers: users)
+    }
+
+    /// 指定したユーザーを非同期処理にて追加します。
+    ///
+    /// - Parameter users: ユーザーの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addUsersInBackground(users: [NCMBUser], callback: @escaping NCMBHandler<Void> ) -> Void {
+        saveInBackgroundCore(addUsers: users, callback: callback)
+    }
+
+    /// 指定したユーザーを同期処理にて削除します。
+    ///
+    /// - Parameter user: ユーザー
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func removeUser(user: NCMBUser) -> NCMBResult<Void> {
+        let users: [NCMBUser] = [user]
+        return saveCore(removeUsers: users)
+    }
+
+    /// 指定したユーザーを非同期処理にて削除します。
     ///
     /// - Parameter user: ユーザー
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func removeUserInBackground(user: NCMBUser, callback: @escaping NCMBHandler<Void> ) -> Void {
-        //TBD
+        let users: [NCMBUser] = [user]
+        saveInBackgroundCore(removeUsers: users, callback: callback)
     }
 
-    /// **TBD** 指定したロールを非同期処理にて追加します。
+    /// 指定したユーザーを同期処理にて削除します。
     ///
-    /// - Parameter user: ロール
+    /// - Parameter users: ユーザーの配列
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
-    public func addRoleInBackground(user: NCMBRole, callback: @escaping NCMBHandler<Void> ) -> Void {
-        //TBD
+    public func removeUsers(users: [NCMBUser]) -> NCMBResult<Void> {
+        return saveCore(removeUsers: users)
     }
 
-    /// **TBD** 指定したロールを非同期処理にて削除します。
+    /// 指定したユーザーを非同期処理にて削除します。
     ///
-    /// - Parameter user: ロール
+    /// - Parameter users: ユーザーの配列
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
-    public func removeRoleInBackground(user: NCMBRole, callback: @escaping NCMBHandler<Void> ) -> Void {
-        //TBD
+    public func removeUsersInBackground(users: [NCMBUser], callback: @escaping NCMBHandler<Void> ) -> Void {
+        saveInBackgroundCore(removeUsers: users, callback: callback)
+    }
+
+    /// 指定したロールを子ロールとして同期処理にて追加します。
+    ///
+    /// - Parameter role: 子ロール
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addRole(role: NCMBRole) -> NCMBResult<Void> {
+        let roles: [NCMBRole] = [role]
+        return saveCore(addRoles: roles)
+    }
+
+    /// 指定したロールを子ロールとして非同期処理にて追加します。
+    ///
+    /// - Parameter role: 子ロール
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addRoleInBackground(role: NCMBRole, callback: @escaping NCMBHandler<Void> ) -> Void {
+        let roles: [NCMBRole] = [role]
+        saveInBackgroundCore(addRoles: roles, callback: callback)
+    }
+
+    /// 指定したロールを子ロールとして同期処理にて追加します。
+    ///
+    /// - Parameter roles: 子ロールの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addRoles(roles: [NCMBRole]) -> NCMBResult<Void> {
+        return saveCore(addRoles: roles)
+    }
+
+    /// 指定したロールを子ロールとして非同期処理にて追加します。
+    ///
+    /// - Parameter roles: 子ロールの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func addRolesInBackground(roles: [NCMBRole], callback: @escaping NCMBHandler<Void> ) -> Void {
+        saveInBackgroundCore(addRoles: roles, callback: callback)
+    }
+
+    /// 指定した子ロールをロールから同期処理にて削除します。
+    ///
+    /// - Parameter roles: 子ロールの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func removeRole(role: NCMBRole) -> NCMBResult<Void> {
+        let roles: [NCMBRole] = [role]
+        return saveCore(removeRoles: roles)
+    }
+
+    /// 指定した子ロールをロールから非同期処理にて削除します。
+    ///
+    /// - Parameter role: 子ロール
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func removeRoleInBackground(role: NCMBRole, callback: @escaping NCMBHandler<Void> ) -> Void {
+        let roles: [NCMBRole] = [role]
+        saveInBackgroundCore(removeRoles: roles, callback: callback)
+    }
+
+    /// 指定した子ロールをロールから同期処理にて削除します。
+    ///
+    /// - Parameter roles: 子ロールの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func removeRoles(roles: [NCMBRole]) -> NCMBResult<Void> {
+        return saveCore(removeRoles: roles)
+    }
+
+    /// 指定した子ロールをロールから非同期処理にて削除します。
+    ///
+    /// - Parameter roles: 子ロールの配列
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func removeRolesInBackground(roles: [NCMBRole], callback: @escaping NCMBHandler<Void> ) -> Void {
+        saveInBackgroundCore(removeRoles: roles, callback: callback)
     }
 
     /// 設定されたオブジェクトIDに対応するロールを同期処理にて取得します。
@@ -148,9 +236,36 @@ public class NCMBRole : NCMBBase {
     ///
     /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
     public func save() -> NCMBResult<Void> {
+        return saveCore()
+    }
+
+    /// ロールを非同期処理にて保存します。
+    ///
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func saveInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
+        saveInBackgroundCore(callback: callback)
+    }
+
+    /// ロールを同期処理にて保存します。
+    ///
+    /// - Parameter addUsers: 追加するユーザーの配列
+    /// - Parameter removeUsers: 削除するユーザーの配列
+    /// - Parameter addRoles: 追加する子ロールの配列
+    /// - Parameter removeRoles: 削除する子ロールの配列
+    /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
+    func saveCore(
+            addUsers: [NCMBUser] = [],
+            removeUsers: [NCMBUser] = [],
+            addRoles: [NCMBRole] = [],
+            removeRoles: [NCMBRole] = []) -> NCMBResult<Void> {
         var result : NCMBResult<Void> = NCMBResult<Void>.failure(NCMBApiErrorCode.genericError)
         let semaphore = DispatchSemaphore(value: 0)
-        saveInBackground(callback: {(res: NCMBResult<Void>) -> Void in
+        saveInBackgroundCore(
+                addUsers: addUsers,
+                removeUsers: removeUsers,
+                addRoles: addRoles,
+                removeRoles: removeRoles,
+                callback: {(res: NCMBResult<Void>) -> Void in
             result = res
             semaphore.signal()
         })
@@ -160,8 +275,25 @@ public class NCMBRole : NCMBBase {
 
     /// ロールを非同期処理にて保存します。
     ///
+    /// - Parameter addUsers: 追加するユーザーの配列
+    /// - Parameter removeUsers: 削除するユーザーの配列
+    /// - Parameter addRoles: 追加する子ロールの配列
+    /// - Parameter removeRoles: 削除する子ロールの配列
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
-    public func saveInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
+    func saveInBackgroundCore(
+            addUsers: [NCMBUser] = [],
+            removeUsers: [NCMBUser] = [],
+            addRoles: [NCMBRole] = [],
+            removeRoles: [NCMBRole] = [],
+            callback: @escaping NCMBHandler<Void> ) -> Void {
+        let roleRelationOperator = createBelongItems(className: NCMBRole.CLASSNAME, add: addRoles, remove: removeRoles)
+        if let roleRelationOperator = roleRelationOperator {
+            self[NCMBRole.FIELDNAME_BELONG_ROLE] = roleRelationOperator
+        }
+        let userRelationOperator = createBelongItems(className: NCMBUser.CLASSNAME, add: addUsers, remove: removeUsers)
+        if let userRelationOperator = userRelationOperator {
+            self[NCMBRole.FIELDNAME_BELONG_USER] = userRelationOperator
+        }
         NCMBRoleService().save(object: self, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
                 case let .success(response):
@@ -205,5 +337,25 @@ public class NCMBRole : NCMBBase {
                     break
             }
         })
+    }
+
+    func createBelongItems(className: String, add: [NCMBBase], remove: [NCMBBase]) -> Any? {
+        if add.count != 0 {
+            return NCMBAddRelationOperator(elements: getPointers(className: className, objects: add))
+        }
+        if remove.count != 0 {
+            return NCMBRemoveRelationOperator(elements: getPointers(className: className, objects: remove))
+        }
+        return nil
+    }
+
+    func getPointers(className: String, objects: [NCMBBase]) -> [NCMBPointer] {
+        var elements: [NCMBPointer] = []
+        for object in objects {
+            if let objectId = object.objectId {
+                elements.append(NCMBPointer(className: className, objectId: objectId))
+            }
+        }
+        return elements
     }
 }

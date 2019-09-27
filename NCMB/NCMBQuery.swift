@@ -106,7 +106,7 @@ public struct NCMBQuery<T : NCMBBase> {
         self.service = NCMBObjectService()
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     /// 指定されたサービスに対応する検索条件クラスを生成します。
     ///
     /// - Parameter service: 検索リクエスト時に使用するサービス

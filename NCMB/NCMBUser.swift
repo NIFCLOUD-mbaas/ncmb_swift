@@ -31,13 +31,13 @@ public class NCMBUser : NCMBBase {
     static var _currentUser : NCMBUser? = nil
     private static var isEnableAutomaticUser : Bool = false
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     public init() {
         super.init(className: NCMBUser.CLASSNAME)
     }
 
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容

@@ -32,7 +32,7 @@ public struct NCMBFacebookParameters : NCMBSnsInfoProtocol {
     /// トークン有効期限です。
     public var expirationDate : Date
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter id: Facebook ID
     /// - Parameter accessToken: アクセストークン

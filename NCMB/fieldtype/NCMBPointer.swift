@@ -26,7 +26,7 @@ public struct NCMBPointer : Equatable {
     /// ポインタ指示先のオブジェクトID
     public var objectId : String
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: ポインタ指示先のクラス名
     /// - Parameter objectId: ポインタ指示先のオブジェクトID
@@ -35,7 +35,7 @@ public struct NCMBPointer : Equatable {
         self.objectId = objectId
     }
     
-    /// コンストラクタです。
+    /// イニシャライズです。
     /// objectIdが無いものを引数として渡すとnilが返る
     ///
     /// - Parameter dataobject: ポインタ指示先のオブジェクト

@@ -22,7 +22,7 @@ public struct NCMBAddUniqueOperator {
     /// フィールドへの追加対象の要素配列です。
     public var elements : [Any?]
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter elements: フィールドへの追加対象の要素配列
     public init(elements: [Any?] = []) {
