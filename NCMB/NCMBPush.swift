@@ -122,13 +122,22 @@ public class NCMBPush : NCMBBase {
     /// 検索条件です。
     public var searchCondition : NCMBQuery<NCMBInstallation>? {
         get {
-            // TBD
-            // return self[NCMBPush.FIELDNAME_SEARCHCONDITION]
-            return nil
+            if let queryWhereItems: [String : Any] = self[NCMBPush.FIELDNAME_SEARCHCONDITION] {
+                return NCMBQuery<NCMBInstallation>(
+                    className: NCMBInstallation.CLASSNAME,
+                    service: NCMBInstallationService(),
+                    whereItems: queryWhereItems)
+            }
+            return NCMBQuery<NCMBInstallation>(
+                className: NCMBInstallation.CLASSNAME,
+                service: NCMBInstallationService())
         }
         set {
-            // TBD
-            // self[NCMBPush.FIELDNAME_SEARCHCONDITION] = newValue
+            if let query: NCMBQuery<NCMBInstallation> = newValue {
+                self[NCMBPush.FIELDNAME_SEARCHCONDITION] = query.whereItems
+            } else {
+                self[NCMBPush.FIELDNAME_SEARCHCONDITION] = [:] as [String:Any]
+            }
         }
     }
     
@@ -285,6 +294,7 @@ public class NCMBPush : NCMBBase {
         self[NCMBPush.FIELDNAME_IMMEDIATE_DELIVERY_FLAG] = true
         self[NCMBPush.FIELDNAME_DELIVERY_TIME] = nil as NCMBDateField?
         self[NCMBPush.FIELDNAME_TARGET] = [] as [String]?
+        self[NCMBPush.FIELDNAME_SEARCHCONDITION] = [:] as [String:Any]
     }
     
     /// プッシュ通知登録情報を検索するためのクエリです。
