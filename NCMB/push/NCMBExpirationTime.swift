@@ -19,9 +19,16 @@
 /// プッシュ通知 配信期限時間を表すための構造体です。
 public struct NCMBExpirationTime: Equatable {
     
+    /// 時間／日数の数値です
     public var volume: Int
+
+    /// 時間／日数の単位です
     public var unitType: NCMBExpirationTimeUnitType
-    
+
+    /// イニシャライズです。
+    /// 
+    /// - Parameter volume: 時間／日数の数値
+    /// - Parameter unitType: 時間／日数の単位です
     public init(volume: Int, unitType: NCMBExpirationTimeUnitType) {
         self.volume = volume
         self.unitType = unitType
@@ -42,7 +49,12 @@ public struct NCMBExpirationTime: Equatable {
         }
         return nil
     }
-    
+
+    /// 同値であるかの判定をします。
+    /// 同値である場合は `true` 、 同値でない場合は `false` を返します。
+    /// 
+    /// - Parameter lhs: 左辺の値
+    /// - Parameter rhs: 右辺の値
     static public func ==(lhs: NCMBExpirationTime, rhs: NCMBExpirationTime) -> Bool{
         return ((lhs.volume == rhs.volume) && (lhs.unitType == rhs.unitType))
     }
