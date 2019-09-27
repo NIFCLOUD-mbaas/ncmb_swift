@@ -64,7 +64,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_deliveryExpirationDate_requestString() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "2020-07-24T12:34:56.789Z"
+        contents["createDate"] = "2020-07-24T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -101,7 +101,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_deliveryExpirationTime_requestString() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "2020-07-24T12:34:56.789Z"
+        contents["createDate"] = "2020-07-24T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -336,7 +336,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_send_success_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -351,13 +351,13 @@ final class NCMBPushTests: NCMBTestCase {
         XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
     }
 
     func test_send_success_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -375,7 +375,7 @@ final class NCMBPushTests: NCMBTestCase {
         XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"field1\":\"value1\""))
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(sut.needUpdate, false)
     }
 
@@ -395,7 +395,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_success_insert() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -412,7 +412,7 @@ final class NCMBPushTests: NCMBTestCase {
 
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             expectation?.fulfill()
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -421,7 +421,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_success_update() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -441,7 +441,7 @@ final class NCMBPushTests: NCMBTestCase {
 
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             XCTAssertEqual(sut.needUpdate, false)
             expectation?.fulfill()
         })
@@ -467,7 +467,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_reset_modifiedFields() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -491,7 +491,7 @@ final class NCMBPushTests: NCMBTestCase {
     func test_sendInBackground_modifiedFields_null() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
