@@ -28,12 +28,16 @@ public struct NCMBExpirationTime: Equatable {
     /// イニシャライズです。
     /// 
     /// - Parameter volume: 時間／日数の数値
-    /// - Parameter unitType: 時間／日数の単位です
+    /// - Parameter unitType: 時間／日数の単位です。 `.hour` または `.day` を指定します。
     public init(volume: Int, unitType: NCMBExpirationTimeUnitType) {
         self.volume = volume
         self.unitType = unitType
     }
     
+    /// イニシャライズです。
+    /// 引数が不正な場合は、オブジェクトが生成されず `nil` が返されます。
+    /// 
+    /// - Parameter string: 配信期限時間を表す文字列。 `NN hour` または `NN day` を指定します（ `NN` は整数値）。
     init?(string: String) {
         let array: [String] = string.components(separatedBy: " ");
         if (array.count != 2) {
