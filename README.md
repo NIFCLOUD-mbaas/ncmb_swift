@@ -437,7 +437,34 @@ or検索
 
 #### 配信端末の絞り込み
 
-* TBD
+```Swift
+   // プッシュ通知オブジェクトの作成
+   let push : NCMBPush = NCMBPush()
+   // メッセージの設定
+   push.message = "プッシュ通知です"
+   push.action = "ReceiveActivity"
+   push.title = "testPush"
+   // android端末を送信対象に設定する
+   push.isSendToAndroid = true
+   // 即時配信を設定する
+   push.setImmediateDelivery()
+
+   var query : NCMBQuery<NCMBInstallation> = NCMBInstallation.query
+   //installationクラス（端末情報）に独自フィールドtakanokunに持っている値が ["d", "e", "f"] 配列に入っているデータを検索する条件を設定
+   var searchStringsArray: [String] = ["d", "e", "f"]
+   query.where(field: "takanokun", containedIn:  searchStringsArray)
+   push.searchCondition = query
+
+   push.sendInBackground(callback: { result in
+       switch result {
+       case .success:
+           print("登録に成功しました。プッシュID: \(push.objectId!)")
+       case let .failure(error):
+           print("登録に失敗しました: \(error)")
+           return;
+       }
+   })
+```
 
 ### 会員管理
 
