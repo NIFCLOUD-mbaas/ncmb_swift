@@ -23,7 +23,7 @@ public struct NCMBRemoveRelationOperator {
     /// フィールドからの削除対象の要素配列を定義
     public var elements : [NCMBPointer]
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter elements: フィールドからの削除対象の要素配列。ポインタの配列
     public init(elements: [NCMBPointer] = []) {

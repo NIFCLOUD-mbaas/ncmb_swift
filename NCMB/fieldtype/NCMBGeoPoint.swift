@@ -26,7 +26,7 @@ public struct NCMBGeoPoint {
     /// 経度です。
     public var longitude : Double
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter latitude: 緯度
     /// - Parameter longitude: 経度

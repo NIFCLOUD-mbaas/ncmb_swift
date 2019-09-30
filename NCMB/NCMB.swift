@@ -18,7 +18,7 @@ import Foundation
 
 /// 共通情報を管理するクラスです。
 public class NCMB {
-    public static let SDK_VERSION : String = "0.2.0"
+    public static let SDK_VERSION : String = "1.0.0"
     static let METADATA_PREFIX : String = "com.nifcloud.mbaas."
     public static let DEFAULT_DOMAIN_URL : String = "https://mbaas.api.nifcloud.com/"
     public static let DEFAULT_API_VERSION : String = "2013-09-01"
@@ -31,7 +31,7 @@ public class NCMB {
     private var _applicationKey : String = ""
     private var _clientKey : String = ""
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     private init() {}
 
     /// エンドポイントURLです。
@@ -62,7 +62,7 @@ public class NCMB {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// エンドポイントURL、APIバージョンはスクリプト機能では使用されません。独自指定をする場合は `NCMBScript` を利用する際に別途指定してください。
     ///

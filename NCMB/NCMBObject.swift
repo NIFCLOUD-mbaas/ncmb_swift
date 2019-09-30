@@ -19,15 +19,15 @@ import Foundation
 /// データストアオブジェクトを操作するためのクラスです。
 public class NCMBObject : NCMBBase {
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: データストアのクラス名
     public override init(className: String) {
         super.init(className: className)
     }
 
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容

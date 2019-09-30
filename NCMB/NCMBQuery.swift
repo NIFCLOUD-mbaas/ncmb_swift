@@ -25,6 +25,7 @@ public struct NCMBQuery<T : NCMBBase> {
     var isCount : Bool = false
 
     /// オブジェクト取得時の並び順です。
+    /// フィールド名（文字列）の配列として設定し、降順の場合はフィールド名の先頭に"-"（マイナス）をつけてください。
     public var order : [String] = []
 
     /// オブジェクト取得時の開始位置です。
@@ -106,13 +107,40 @@ public struct NCMBQuery<T : NCMBBase> {
         self.service = NCMBObjectService()
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     /// 指定されたサービスに対応する検索条件クラスを生成します。
     ///
     /// - Parameter service: 検索リクエスト時に使用するサービス
     init(service: NCMBRequestServiceProtocol) {
         self.className = ""
         self.service = service
+    }
+
+    /// イニシャライズです。
+    /// 指定されたサービスに対応する検索条件クラスを生成します。
+    ///
+    /// - Parameters:
+    ///   - className: クラス名
+    ///   - service: 検索リクエスト時に使用するサービス
+    ///   - whereItems: 検索条件
+    ///   - isCount: true のときカウントを行う
+    ///   - order: 結果のソート順
+    ///   - skip: 検索開始位置
+    ///   - limit: 取得件数の上限
+    init(className: String,
+        service: NCMBRequestServiceProtocol,
+        whereItems: [String : Any] = [:],
+        isCount: Bool = false,
+        order: [String] = [],
+        skip: Int? = nil,
+        limit: Int? = nil) {
+        self.className = className
+        self.service = service
+        self.whereItems = whereItems
+        self.isCount = isCount
+        self.order = order
+        self.skip = skip
+        self.limit = limit
     }
 
     /// 検索を同期処理にて行います。

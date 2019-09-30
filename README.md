@@ -21,9 +21,16 @@
 - iOS 12.0
 - Xcode10.x
 
-## 開発者検証バージョン
+※ 動作確認バージョン、開発環境につきましては今後、順次拡大する予定です。
 
-この SDK につきましては現在、デベロッパープレビュー版です。テクニカルサポート対応バージョンではありませんので御注意ください。
+## テクニカルサポート窓口対応バージョン
+
+テクニカルサポート窓口では、1年半以内にリリースされたSDKに対してのみサポート対応させていただきます。<br>
+定期的なバージョンのアップデートにご協力ください。<br>
+※なお、mobile backend にて大規模な改修が行われた際は、1年半以内のSDKであっても対応出来ない場合がございます。<br>
+その際は[informationブログ](http://info.biz.nifty.com/mb/)にてお知らせいたします。予めご了承ください。
+
+- v1.0.0
 
 ### 現在未実装部分について
 
@@ -33,17 +40,19 @@
   * 副問い合わせ
   * 位置情報検索
 * プッシュ通知
-  * リッチプッシュ
-  * 絞り込み配信プッシュ通知の登録
-  * 配信期限の設定
+  * 位置情報連動配信
 * 会員管理
   * SNS認証
-  * ロール制御
   * メールアドレス確認
 
 ## ライセンス
 
 このSDKのライセンスについては、LICENSEファイルをご覧ください。
+
+## SDK開発者向け資料
+
+このSDKの開発者向け資料として、FORDEVELOPER.md を用意しております。
+SDKの改修をされる際には、ご一読ください。
 
 ## 参考URL集
 
@@ -439,7 +448,34 @@ or検索
 
 #### 配信端末の絞り込み
 
-* TBD
+```Swift
+   // プッシュ通知オブジェクトの作成
+   let push : NCMBPush = NCMBPush()
+   // メッセージの設定
+   push.message = "プッシュ通知です"
+   push.action = "ReceiveActivity"
+   push.title = "testPush"
+   // android端末を送信対象に設定する
+   push.isSendToAndroid = true
+   // 即時配信を設定する
+   push.setImmediateDelivery()
+
+   var query : NCMBQuery<NCMBInstallation> = NCMBInstallation.query
+   //installationクラス（端末情報）に独自フィールドtakanokunに持っている値が ["d", "e", "f"] 配列に入っているデータを検索する条件を設定
+   var searchStringsArray: [String] = ["d", "e", "f"]
+   query.where(field: "takanokun", containedIn:  searchStringsArray)
+   push.searchCondition = query
+
+   push.sendInBackground(callback: { result in
+       switch result {
+       case .success:
+           print("登録に成功しました。プッシュID: \(push.objectId!)")
+       case let .failure(error):
+           print("登録に失敗しました: \(error)")
+           return;
+       }
+   })
+```
 
 ### 会員管理
 
@@ -557,7 +593,7 @@ or検索
     }
 
     // ログアウト
-    NCMBUser.logOut(callback: { result in
+    NCMBUser.logOutInBackground(callback: { result in
         switch result {
             case .success:
                 // ログアウトに成功した場合の処理
@@ -642,7 +678,36 @@ or検索
 
 #### 会員のグルーピング
 
-* TBD
+##### ロールの作成
+
+```swift
+// ロールの作成
+let freePlanRole : NCMBRole = NCMBRole.init(roleName: "freePlan");
+freePlanRole.save();
+let proPlanRole : NCMBRole = NCMBRole.init(roleName: "proPlan");
+proPlanRole.save();
+```
+
+##### 会員をロールに追加する
+
+```swift
+// ユーザーを作成
+let user: NCMBUser = NCMBUser.init();
+user.userName = "expertUser"
+user.password = "pass"
+user.signUp()
+// 登録済みユーザーを新規ロールに追加
+let role : NCMBRole = NCMBRole.init(roleName: "expertPlan");
+role.addUserInBackground(user: user, callback: { result in
+   switch result {
+   case .success:
+         print("保存に成功しました")
+   case let .failure(error):
+         print("保存に失敗しました: \(error)")
+         return;
+   }
+})
+```
 
 ### ファイルストア
 
@@ -713,7 +778,7 @@ or検索
     let script = NCMBScript(name: "myCoolScript.js", method: .get)
 
     // スクリプトの実行
-    script.executeInBackground(headers: [:], queries: ["name": "foo"], body: nil, callback: { result in
+    script.executeInBackground(headers: [:], queries: ["name": "foo"], body: [:], callback: { result in
         switch result {
             case let .success(data):
                 print("scriptSample 実行に成功しました: \(data)")

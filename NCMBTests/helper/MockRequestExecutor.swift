@@ -31,7 +31,7 @@ public class MockRequestExecutor : NCMBRequestExecutorProtocol {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter result: リクエスト処理後に返されるレスポンス
     public init(result: NCMBResult<NCMBResponse>) {
@@ -39,7 +39,7 @@ public class MockRequestExecutor : NCMBRequestExecutorProtocol {
         self._requests = []
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     public required init() {
         self.result = NCMBResult<NCMBResponse>.failure(DummyErrors.dummyError)
         self._requests = []

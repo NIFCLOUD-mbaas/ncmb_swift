@@ -15,6 +15,9 @@
  */
 
 import Foundation
+#if os(iOS)
+    import UIKit
+#endif
 
 /// プッシュ通知を操作するクラスです。
 public class NCMBPush : NCMBBase {
@@ -37,8 +40,8 @@ public class NCMBPush : NCMBBase {
     static let FIELDNAME_RICHURL : String = "richUrl"
     static let FIELDNAME_CATEGORY : String = "category"
 
-    /// コンストラクタです。
-    /// このコンストラクタは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
+    /// イニシャライズです。
+    /// このイニシャライズは変更フィールドを正しく把握するためにモジュール外での利用は許可しません。
     ///
     /// - Parameter className: データストアのクラス名
     /// - Parameter fields: フィールド内容
@@ -46,7 +49,7 @@ public class NCMBPush : NCMBBase {
     required init(className: String, fields: [String : Any], modifiedFieldKeys: Set<String> = []) {
         super.init(className: className, fields: fields, modifiedFieldKeys: modifiedFieldKeys)
     }
-
+    
     /// 配信時刻です。
     public var deliveryTime : Date? {
         get {
@@ -67,19 +70,19 @@ public class NCMBPush : NCMBBase {
             }
         }
     }
-
+    
     /// 即時配信設定値です。即時配信の場合は `true` 、それ以外では `false` 。
     public var immediateDeliveryFlag : Bool {
         get {
             if let value = self[NCMBPush.FIELDNAME_IMMEDIATE_DELIVERY_FLAG] as Any? {
                 if let flag = value as? Bool {
                     return flag
-                }                
+                }
             }
             return false
         }
     }
-
+    
     /// ターゲットです。
     public var target : [String]? {
         get {
@@ -89,7 +92,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_TARGET] = newValue
         }
     }
-
+    
     /// iOSのプッシュ通知送信対象です。
     public var isSendToIOS : Bool {
         get {
@@ -102,7 +105,7 @@ public class NCMBPush : NCMBBase {
             self.target = target.toObject()
         }
     }
-
+    
     /// androidのプッシュ通知送信対象です。
     public var isSendToAndroid : Bool {
         get {
@@ -115,20 +118,29 @@ public class NCMBPush : NCMBBase {
             self.target = target.toObject()
         }
     }
-
+    
     /// 検索条件です。
     public var searchCondition : NCMBQuery<NCMBInstallation>? {
         get {
-            // TBD
-            // return self[NCMBPush.FIELDNAME_SEARCHCONDITION]
-            return nil
+            if let queryWhereItems: [String : Any] = self[NCMBPush.FIELDNAME_SEARCHCONDITION] {
+                return NCMBQuery<NCMBInstallation>(
+                    className: NCMBInstallation.CLASSNAME,
+                    service: NCMBInstallationService(),
+                    whereItems: queryWhereItems)
+            }
+            return NCMBQuery<NCMBInstallation>(
+                className: NCMBInstallation.CLASSNAME,
+                service: NCMBInstallationService())
         }
         set {
-            // TBD
-            // self[NCMBPush.FIELDNAME_SEARCHCONDITION] = newValue
+            if let query: NCMBQuery<NCMBInstallation> = newValue {
+                self[NCMBPush.FIELDNAME_SEARCHCONDITION] = query.whereItems
+            } else {
+                self[NCMBPush.FIELDNAME_SEARCHCONDITION] = [:] as [String:Any]
+            }
         }
     }
-
+    
     /// メッセージです。
     public var message : String? {
         get {
@@ -138,7 +150,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_MESSAGE] = newValue
         }
     }
-
+    
     /// ユーザー設定値です。
     public var userSettingValue : Any? {
         get {
@@ -148,33 +160,38 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_USERSETTINGVALUE] = newValue
         }
     }
-
+    
     /// 配信期限日です。
     public var deliveryExpirationDate : Date? {
         get {
-            // TBD
-            // return self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONDATE]
-            return nil
+            return self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONDATE]
         }
         set {
-            // TBD
-            // self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONDATE] = newValue
+            self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONDATE] = newValue
+            if newValue != nil {
+                self.removeField(field: NCMBPush.FIELDNAME_DELIVERYEXPIRATIONTIME)
+            }
         }
     }
-
+    
     /// 配信期限時間です。
-    public var deliveryExpirationTime : String? {
+    public var deliveryExpirationTime : NCMBExpirationTime? {
         get {
-            // TBD
-            // return self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONTIME]
+            if let string: String = self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONTIME] {
+                return NCMBExpirationTime(string: string)
+            }
             return nil
         }
         set {
-            // TBD
-            // self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONTIME] = newValue
+            if let newValue = newValue {
+                self[NCMBPush.FIELDNAME_DELIVERYEXPIRATIONTIME] = newValue.getString()
+                self.removeField(field: NCMBPush.FIELDNAME_DELIVERYEXPIRATIONDATE)
+            } else {
+                self.removeField(field: NCMBPush.FIELDNAME_DELIVERYEXPIRATIONTIME)
+            }
         }
     }
-
+    
     /// アクションです。
     public var action : String? {
         get {
@@ -184,7 +201,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_ACTION] = newValue
         }
     }
-
+    
     /// タイトルです。
     public var title : String? {
         get {
@@ -194,7 +211,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_TITLE] = newValue
         }
     }
-
+    
     /// ダイアログ通知有効化フラグです。
     public var dialog : Bool? {
         get {
@@ -204,7 +221,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_DIALOG] = newValue
         }
     }
-
+    
     /// バッジ数増加フラグです。
     public var badgeIncrementFlag : Bool? {
         get {
@@ -214,7 +231,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_BADGEINCREMENTFLAG] = newValue
         }
     }
-
+    
     /// バッジ数です。
     public var badgeSetting : Int? {
         get {
@@ -224,7 +241,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_BADGESETTING] = newValue
         }
     }
-
+    
     /// 音楽ファイルです。
     public var sound : String? {
         get {
@@ -234,7 +251,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_SOUND] = newValue
         }
     }
-
+    
     /// content-availableです。
     public var contentAvailable : Bool? {
         get {
@@ -244,7 +261,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_CONTENTAVAILABLE] = newValue
         }
     }
-
+    
     /// リッチプッシュURLです。
     public var richUrl : String? {
         get {
@@ -254,7 +271,7 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_RICHURL] = newValue
         }
     }
-
+    
     /// カテゴリです。
     public var category : String? {
         get {
@@ -264,28 +281,29 @@ public class NCMBPush : NCMBBase {
             self[NCMBPush.FIELDNAME_CATEGORY] = newValue
         }
     }
-
+    
     /// 即時にて配信するよう設定します。
     public func setImmediateDelivery() -> Void {
         self[NCMBPush.FIELDNAME_IMMEDIATE_DELIVERY_FLAG] = true
         self[NCMBPush.FIELDNAME_DELIVERY_TIME] = nil as NCMBDateField?
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     public init() {
         super.init(className: NCMBPush.CLASSNAME)
         self[NCMBPush.FIELDNAME_IMMEDIATE_DELIVERY_FLAG] = true
         self[NCMBPush.FIELDNAME_DELIVERY_TIME] = nil as NCMBDateField?
         self[NCMBPush.FIELDNAME_TARGET] = [] as [String]?
+        self[NCMBPush.FIELDNAME_SEARCHCONDITION] = [:] as [String:Any]
     }
-
+    
     /// プッシュ通知登録情報を検索するためのクエリです。
     public class var query : NCMBQuery<NCMBPush> {
         get {
             return NCMBQuery<NCMBPush>(service: NCMBPushService())
         }
     }
-
+    
     /// 設定されたオブジェクトIDに対応するプッシュ通知登録情報を同期処理にて取得します。
     ///
     /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
@@ -299,25 +317,25 @@ public class NCMBPush : NCMBBase {
         _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         return result
     }
-
+    
     /// 設定されたオブジェクトIDに対応するプッシュ通知登録情報を非同期処理にて取得します。
     ///
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func fetchInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
         NCMBPushService().fetch(object: self, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
-                case let .success(response):
-                    self.removeAllFields()
-                    self.reflectResponse(response: response)
-                    callback(NCMBResult<Void>.success(()))
-                    break
-                case let .failure(error):
-                    callback(NCMBResult<Void>.failure(error))
-                    break
+            case let .success(response):
+                self.removeAllFields()
+                self.reflectResponse(response: response)
+                callback(NCMBResult<Void>.success(()))
+                break
+            case let .failure(error):
+                callback(NCMBResult<Void>.failure(error))
+                break
             }
         })
     }
-
+    
     /// プッシュ通知を同期処理にて登録します。
     ///
     /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
@@ -331,24 +349,24 @@ public class NCMBPush : NCMBBase {
         _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         return result
     }
-
+    
     /// プッシュ通知を非同期処理にて登録します。
     ///
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func sendInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
         NCMBPushService().save(object: self, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
-                case let .success(response):
-                    self.reflectResponse(response: response)
-                    callback(NCMBResult<Void>.success(()))
-                    break
-                case let .failure(error):
-                    callback(NCMBResult<Void>.failure(error))
-                    break
+            case let .success(response):
+                self.reflectResponse(response: response)
+                callback(NCMBResult<Void>.success(()))
+                break
+            case let .failure(error):
+                callback(NCMBResult<Void>.failure(error))
+                break
             }
         })
     }
-
+    
     /// 設定されたオブジェクトIDに対応するプッシュ通知登録情報を同期処理にて削除します。
     ///
     /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
@@ -362,31 +380,31 @@ public class NCMBPush : NCMBBase {
         _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         return result
     }
-
+    
     /// 設定されたオブジェクトIDに対応するプッシュ通知登録情報を非同期処理にて削除します。
     ///
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func deleteInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
         NCMBPushService().delete(object: self, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
-                case .success(_):
-                    self.removeAllFields()
-                    self.removeAllModifiedFieldKeys()
-                    callback(NCMBResult<Void>.success(()))
-                    break
-                case let .failure(error):
-                    callback(NCMBResult<Void>.failure(error))
-                    break
+            case .success(_):
+                self.removeAllFields()
+                self.removeAllModifiedFieldKeys()
+                callback(NCMBResult<Void>.success(()))
+                break
+            case let .failure(error):
+                callback(NCMBResult<Void>.failure(error))
+                break
             }
         })
     }
-
+    
     private struct NCMBPushTarget {
         private static let TARGET_IOS = "ios"
         private static let TARGET_ANDROID = "android"
         var isSendToIOS : Bool
         var isSendToAndroid : Bool
-
+        
         init(object: [String]?) {
             self.isSendToIOS = false
             self.isSendToAndroid = false
@@ -401,7 +419,7 @@ public class NCMBPush : NCMBBase {
                 }
             }
         }
-
+        
         func toObject() -> [String] {
             var object : [String] = []
             if self.isSendToIOS {
@@ -411,6 +429,19 @@ public class NCMBPush : NCMBBase {
                 object.append(NCMBPushTarget.TARGET_ANDROID)
             }
             return object
+        }
+    }
+
+    public static func handleRichPush(userInfo: [String : AnyObject]?, completion: @escaping () -> Void = {}) {
+        if let urlStr = userInfo?["com.nifcloud.mbaas.RichUrl"] as? String {
+            let richPushView = NCMBRichPushView()
+            richPushView.richUrl = urlStr
+            richPushView.closeCallback = completion
+            DispatchQueue.main.async {
+                #if os(iOS)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(richPushView, animated: true, completion: nil)
+                #endif
+            }
         }
     }
 }

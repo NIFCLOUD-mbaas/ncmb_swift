@@ -17,7 +17,7 @@
 import Foundation
 
 /// nifcloud mobile backend データストアを操作するためのクラスです。 
-public class NCMBBase {
+public class NCMBBase : CustomStringConvertible {
 
     static let FIELDNAME_OBJECTID : String = "objectId"
     static let FIELDNAME_ACL : String = "acl"
@@ -93,7 +93,7 @@ public class NCMBBase {
         }
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: データストアのクラス名。
     /// - Parameter fields: フィールド内容
@@ -104,7 +104,7 @@ public class NCMBBase {
         self._modifiedFieldKeys = modifiedFieldKeys
     }
 
-    /// コンストラクタです。
+    /// イニシャライズです。
     ///
     /// - Parameter className: データストアのクラス名
     init(className: String = "") {
@@ -219,4 +219,36 @@ public class NCMBBase {
     func isIgnoredKey(field: String) -> Bool {
         return NCMBBase.IGNORED_KEYS.contains(field)
     }
+    public var description: String {
+        get {
+            var outputString = "{"
+            let optionalClassName : String? = self.className
+            if let className = optionalClassName{
+                outputString += "className=\(className)"
+            }else{
+                outputString += "className=nil"
+            }
+
+            if let objectId = self._fields[NCMBBase.FIELDNAME_OBJECTID] as? String{
+                outputString += ",objectId=\(objectId)"
+            }else{
+                outputString += ",objectId=nil"
+            }
+
+            let sortedKeys = Array(self._fields.keys).sorted(by:<)
+            for key in sortedKeys{
+                if NCMBBase.IGNORED_KEYS.contains(key){
+                    continue
+                }
+
+                if let value = self._fields[key]{
+                    outputString += ",\(key)=\(value)"
+                }
+            }
+            outputString += "}"
+
+            return outputString
+        }
+    }
+    
 }
