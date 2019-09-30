@@ -49,6 +49,11 @@
 
 このSDKのライセンスについては、LICENSEファイルをご覧ください。
 
+## SDK開発者向け資料
+
+このSDKの開発者向け資料として、FORDEVELOPER.md を用意しております。
+SDKの改修をされる際には、ご一読ください。
+
 ## 参考URL集
 
 - [ニフクラ mobile backend](https://mbaas.nifcloud.com/)
