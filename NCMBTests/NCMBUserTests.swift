@@ -758,11 +758,11 @@ final class NCMBUserTests: NCMBTestCase {
         NCMBRequestExecutorFactory.setInstance(executor: executor)
         
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_userName_special_char_request")
-        NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "abc+aa", callback: { (result: NCMBResult<Void>) in
+        NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].queryItems.count, 2)
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "abc+aa")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abc+aa")
+            XCTAssertEqual(executor.requests[0].queryItems["password"], "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
         })
