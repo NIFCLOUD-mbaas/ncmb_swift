@@ -159,6 +159,8 @@ struct NCMBRequest {
         if let urlComponents : URLComponents = URLComponents(url: url, resolvingAgainstBaseURL: true) {
             var urlComponents = urlComponents
             urlComponents.queryItems = getSortedQueryItems()
+            // percent-encoded for '+' char.
+            urlComponents.percentEncodedQuery = urlComponents.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
             if let urlWithQuery = urlComponents.url {
                 return urlWithQuery
             } else {
