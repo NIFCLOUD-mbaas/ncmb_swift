@@ -520,6 +520,7 @@ public class NCMBUser : NCMBBase {
                 case .success(_):
                     if self.isCurrentUser() {
                         NCMBUser.deleteFile()
+                        NCMBUser._currentUser = nil
                     }
                     self.removeAllFields()
                     self.removeAllModifiedFieldKeys()

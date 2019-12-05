@@ -1685,6 +1685,68 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(manager.deleteLog.count, 1)
         XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
     }
+    
+    func test_logInInBackground_then_delete_loggedin_user() {
+        let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_delete_loggedin_user")
+        NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
+            XCTAssertEqual(executor.requests.count, 1)
+            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
+            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
+            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
+            XCTAssertNil(executor.requests[0].body)
+
+            let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
+            NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
+
+            let sut : NCMBUser = NCMBUser()
+            sut.objectId = NCMBUser.currentUser!.objectId
+            sut.deleteInBackground(callback: { (result: NCMBResult<Void>) in
+                XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+                XCTAssertNil(NCMBUser.currentUser)
+                expectation?.fulfill()
+            })
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logInInBackground_then_delete_another_user() {
+        let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_delete_another_user")
+        NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
+            XCTAssertEqual(executor.requests.count, 1)
+            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
+            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
+            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
+            XCTAssertNil(executor.requests[0].body)
+
+            let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
+            NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
+            let sut : NCMBUser = NCMBUser()
+            sut.objectId = "abcdefg12345"
+
+            sut.deleteInBackground(callback: { (result: NCMBResult<Void>) in
+                XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+
+                XCTAssertNotNil(NCMBUser.currentUser)
+                XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+                XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+                XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+                expectation?.fulfill()
+            })
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
 
     static var allTests = [
         ("test_isIgnoredKey", test_isIgnoredKey),
