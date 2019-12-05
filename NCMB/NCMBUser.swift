@@ -473,13 +473,9 @@ public class NCMBUser : NCMBBase {
     ///
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func saveInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
-        if self.objectId == nil {
-            callback(NCMBResult<Void>.failure(NCMBInvalidRequestError.emptyObjectId))
-            return;
-        }
         // セッショントークンを削除したユーザーを用意
         let tmpuser = self.removeSessionToken()
-        NCMBInstallationService().save(object: tmpuser, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
+        NCMBUserService().save(object: tmpuser, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
                 case let .success(response):
                     self.reflectResponse(response: response)
