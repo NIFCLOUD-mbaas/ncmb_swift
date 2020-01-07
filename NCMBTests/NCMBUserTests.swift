@@ -1685,6 +1685,446 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(manager.deleteLog.count, 1)
         XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
     }
+    
+    func test_signWithAppleId_success() {
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let appleInfo:NSMutableDictionary = NSMutableDictionary()
+        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(appleInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        let sut : NCMBUser = NCMBUser()
+        let expectation : XCTestExpectation? = self.expectation(description: "test_signWithAppleId_success")
+        sut.signUpWithAppleToken(appleParameters: appleParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            let apple:[String:Any] = (appleInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            expectation?.fulfill()
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_signWithAppleId_failure() {
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+        XCTAssertNil(NCMBUser.currentUser)
+        let sut : NCMBUser = NCMBUser()
+        let expectation : XCTestExpectation? = self.expectation(description: "test_signWithAppleId_failure")
+        sut.signUpWithAppleToken(appleParameters: appleParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertNil(NCMBUser.currentUser)
+            expectation?.fulfill()
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logIn_userName_and_link_with_apple_id_success() {
+        // Response data for login
+        let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        //Linkwith apple id
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let appleInfo:NSMutableDictionary = NSMutableDictionary()
+        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(appleInfo, forKey: "authData")
+        let contentsApple : [String:Any] = (data as? [String:Any])!
+        let responseApple : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsApple, statusCode : 201)
+        let executorApple = MockRequestExecutor(result: .success(responseApple))
+        NCMBRequestExecutorFactory.setInstance(executor: executorApple)
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_apple_id_success")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        currentUser.linkWithAppleToken(appleParameters: appleParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            let apple:[String:Any] = (appleInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logIn_userName_and_link_with_apple_id_failure() {
+        // Response data for login
+        let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
+        let googleInfo:NSMutableDictionary = NSMutableDictionary()
+        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(googleInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        //Linkwith apple id
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let error = NSError(domain: "NCMBErrorDomain", code: -1, userInfo: nil)
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(error)))
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_apple_id_failure")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        currentUser.linkWithAppleToken(appleParameters: appleParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            let google:[String:Any] = (googleInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logIn_userName_and_unlink_with_apple_id_success() {
+        // Response data for login
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let appleInfo:NSMutableDictionary = NSMutableDictionary()
+        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(appleInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let apple:[String:Any] = (appleInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        // Unlinkwith apple id
+        let appleInfoUnlink:NSMutableDictionary = NSMutableDictionary()
+        appleInfoUnlink.setValue(NSNull(), forKey: appleParameters.type.rawValue)
+        let dataUnlink : NSMutableDictionary = NSMutableDictionary()
+        dataUnlink.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        dataUnlink.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        dataUnlink.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        dataUnlink.setValue("Yamada Tarou", forKey: "userName")
+        dataUnlink.setValue(appleInfoUnlink, forKey: "authData")
+        let contentsUnlink : [String:Any] = (dataUnlink as? [String:Any])!
+        let responseUnlink : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsUnlink, statusCode : 201)
+        let executorUnlink = MockRequestExecutor(result: .success(responseUnlink))
+        NCMBRequestExecutorFactory.setInstance(executor: executorUnlink)
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_apple_id_success")
+        currentUser.unlink(type: "apple", callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            let appleUnlink:[String:Any] = (appleInfoUnlink as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleUnlink))
+            expectation?.fulfill()
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logIn_userName_and_unlink_with_apple_id_failure() {
+        // Response data for login
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let appleInfo:NSMutableDictionary = NSMutableDictionary()
+        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(appleInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let apple:[String:Any] = (appleInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        // Unlinkwith apple id
+        let error = NSError(domain: "NCMBErrorDomain", code: -1, userInfo: nil)
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(error)))
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_apple_id_failure")
+        currentUser.unlink(type: "apple", callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            expectation?.fulfill()
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_is_link_with_apple_id() {
+        // Response data for login
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let appleInfo:NSMutableDictionary = NSMutableDictionary()
+        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(appleInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let apple:[String:Any] = (appleInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        // Check islinkwith apple id
+        XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
+    }
+    
+    func test_is_unlink_with_apple_id() {
+        // Response data for login
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        // Check islinkwith apple id
+        XCTAssertFalse(currentUser.isLinkedWith(type: "apple"))
+    }
+    
+    func test_logIn_userName_and_link_with_apple_id_when_already_other_token_success() {
+        // Response data for login
+        let googleParameters : NCMBGoogleParameters = NCMBGoogleParameters(id: "google_user_id", accessToken: "google_user_access_token")
+        let googleInfo:NSMutableDictionary = NSMutableDictionary()
+        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
+        let loginData : NSMutableDictionary = NSMutableDictionary()
+        loginData.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        loginData.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        loginData.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        loginData.setValue("Yamada Tarou", forKey: "userName")
+        loginData.setValue(googleInfo, forKey: "authData")
+        let contents : [String : Any] = (loginData as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let google:[String:Any] = (googleInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+        //Linkwith apple id
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let snsInputInfo:NSMutableDictionary = NSMutableDictionary()
+        snsInputInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        snsInputInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(snsInputInfo, forKey: "authData")
+        let contentsApple : [String:Any] = (data as? [String:Any])!
+        let responseApple : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsApple, statusCode : 201)
+        let executorApple = MockRequestExecutor(result: .success(responseApple))
+        NCMBRequestExecutorFactory.setInstance(executor: executorApple)
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_apple_id_when_already_other_token_success")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        currentUser.linkWithAppleToken(appleParameters: appleParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            let expected: [String:Any] = (snsInputInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: expected))
+            expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure() {
+        // Response data for login
+        let googleParameters : NCMBGoogleParameters = NCMBGoogleParameters(id: "google_user_id", accessToken: "google_user_access_token")
+        let googleInfo:NSMutableDictionary = NSMutableDictionary()
+        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
+        let loginData : NSMutableDictionary = NSMutableDictionary()
+        loginData.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        loginData.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        loginData.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        loginData.setValue("Yamada Tarou", forKey: "userName")
+        loginData.setValue(googleInfo, forKey: "authData")
+        let contents : [String : Any] = (loginData as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let google:[String:Any] = (googleInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+        //Linkwith apple id
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        currentUser.linkWithAppleToken(appleParameters: appleParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            let google:[String:Any] = (googleInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_unlink_with_apple_id_token_not_found() {
+        // Response data for login
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        // Check islinkwith apple id
+        
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+        let expectation : XCTestExpectation? = self.expectation(description: "test_unlink_with_apple_id_token_not_found")
+        currentUser.unlink(type: "apple", callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "token not found"])
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logIn_userName_and_unlink_with_other_token_failure() {
+        // Response data for login
+        let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
+        let appleInfo:NSMutableDictionary = NSMutableDictionary()
+        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(appleInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let apple:[String:Any] = (appleInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        // Unlinkwith apple id
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_other_token_failure")
+        currentUser.unlink(type: "google", callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "token not found"])
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            expectation?.fulfill()
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
 
     static var allTests = [
         ("test_isIgnoredKey", test_isIgnoredKey),
@@ -1783,5 +2223,17 @@ final class NCMBUserTests: NCMBTestCase {
         ("test_saveToFile_localFile_have_sessionToken", test_saveToFile_localFile_have_sessionToken),
         ("test_saveToFile_user_have_sessionToken", test_saveToFile_user_have_sessionToken),
         ("test_deleteFile", test_deleteFile),
+        ("test_signWithAppleId_success", test_signWithAppleId_success),
+        ("test_signWithAppleId_failure", test_signWithAppleId_failure),
+        ("test_logIn_userName_and_link_with_apple_id_success", test_logIn_userName_and_link_with_apple_id_success),
+        ("test_logIn_userName_and_link_with_apple_id_failure", test_logIn_userName_and_link_with_apple_id_failure),
+        ("test_logIn_userName_and_unlink_with_apple_id_success", test_logIn_userName_and_unlink_with_apple_id_success),
+        ("test_logIn_userName_and_unlink_with_apple_id_failure", test_logIn_userName_and_unlink_with_apple_id_failure),
+        ("test_is_link_with_apple_id", test_is_link_with_apple_id),
+        ("test_is_unlink_with_apple_id", test_is_unlink_with_apple_id),
+        ("test_logIn_userName_and_link_with_apple_id_when_already_other_token_success", test_logIn_userName_and_link_with_apple_id_when_already_other_token_success),
+        ("test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure", test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure),
+        ("test_unlink_with_apple_id_token_not_found", test_unlink_with_apple_id_token_not_found),
+        ("test_logIn_userName_and_unlink_with_other_token_failure", test_logIn_userName_and_unlink_with_other_token_failure),
     ]
 }

@@ -19,4 +19,5 @@ enum NCMBSNSType : String {
     case facebook = "facebook"
     case twitter = "twitter"
     case google = "google"
+    case apple = "apple"
 }
