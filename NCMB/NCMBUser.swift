@@ -610,6 +610,7 @@ public class NCMBUser : NCMBBase {
     /// - Parameter snsInfo: snsの認証に必要なauthData
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func signUpWithToken(snsInfo:NSMutableDictionary, callback: @escaping NCMBHandler<Void> ) -> Void {
+        let localAuthData = self.authData
         self.authData = snsInfo as? [String:Any]
         self.signUpInBackground(callback: {result in
             switch result {
@@ -618,6 +619,7 @@ public class NCMBUser : NCMBBase {
                 callback(NCMBResult<Void>.success(()))
             case  let .failure (error) :
                 // Process when save fails
+                self.authData = localAuthData
                 callback(NCMBResult<Void>.failure(error))
             }
         })
@@ -640,6 +642,7 @@ public class NCMBUser : NCMBBase {
     public func linkWithToken(snsInfo:NSMutableDictionary, callback: @escaping NCMBHandler<Void>) -> Void {
         var localAuthData: [String : Any]? = nil
         localAuthData = self.authData
+        self.authData = snsInfo as? [String : Any]
         if localAuthData != nil {
             let localAuthDataDictionary = NSMutableDictionary(dictionary: localAuthData!)
             localAuthDataDictionary.addEntries(from: self.authData!)
