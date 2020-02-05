@@ -1716,24 +1716,6 @@ final class NCMBUserTests: NCMBTestCase {
         
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
-    func test_logInInBackground_userName_special_char_request() {
-        let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"abc+aa"]
-        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
-        let executor = MockRequestExecutor(result: .success(response))
-        NCMBRequestExecutorFactory.setInstance(executor: executor)
-        
-        let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_userName_special_char_request")
-        NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test", callback: { (result: NCMBResult<Void>) in
-            XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "abc+aa")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test")
-            XCTAssertNil(executor.requests[0].body)
-            expectation?.fulfill()
-        })
-        self.waitForExpectations(timeout: 1.00, handler: nil)
-    }
 
     func test_logInInBackground_mailAddress_request() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
