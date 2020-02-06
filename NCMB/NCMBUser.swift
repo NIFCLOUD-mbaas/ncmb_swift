@@ -612,6 +612,11 @@ public class NCMBUser : NCMBBase {
     public func signUpWithToken(snsInfo:NSMutableDictionary, callback: @escaping NCMBHandler<Void> ) -> Void {
         let localAuthData = self.authData
         self.authData = snsInfo as? [String:Any]
+        if localAuthData != nil {
+            let localAuthDataDictionary = NSMutableDictionary(dictionary: localAuthData!)
+            localAuthDataDictionary.addEntries(from: self.authData!)
+            self.authData = localAuthDataDictionary as? [String:Any]
+        }
         self.signUpInBackground(callback: {result in
             switch result {
             case .success :
@@ -642,16 +647,18 @@ public class NCMBUser : NCMBBase {
     public func linkWithToken(snsInfo:NSMutableDictionary, callback: @escaping NCMBHandler<Void>) -> Void {
         var localAuthData: [String : Any]? = nil
         localAuthData = self.authData
+        
         self.authData = snsInfo as? [String : Any]
-        if localAuthData != nil {
-            let localAuthDataDictionary = NSMutableDictionary(dictionary: localAuthData!)
-            localAuthDataDictionary.addEntries(from: self.authData!)
-            self.authData = localAuthDataDictionary as? [String:Any]
-        }
         self.saveInBackground { result in
             switch result {
             case .success :
                 // processing when saving is successful
+                // Merge user object
+                if localAuthData != nil {
+                    let localAuthDataDictionary = NSMutableDictionary(dictionary: localAuthData!)
+                    localAuthDataDictionary.addEntries(from: self.authData!)
+                    self.authData = localAuthDataDictionary as? [String:Any]
+                }
                 callback(NCMBResult<Void>.success(()))
             case  let .failure (error) :
                 // Process when save fails
