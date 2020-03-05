@@ -473,10 +473,6 @@ public class NCMBUser : NCMBBase {
     ///
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
     public func saveInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
-        if self.objectId == nil {
-            callback(NCMBResult<Void>.failure(NCMBInvalidRequestError.emptyObjectId))
-            return;
-        }
         // セッショントークンを削除したユーザーを用意
         let tmpuser = self.removeSessionToken()
         NCMBUserService().save(object: tmpuser, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
@@ -520,6 +516,7 @@ public class NCMBUser : NCMBBase {
                 case .success(_):
                     if self.isCurrentUser() {
                         NCMBUser.deleteFile()
+                        NCMBUser._currentUser = nil
                     }
                     self.removeAllFields()
                     self.removeAllModifiedFieldKeys()
