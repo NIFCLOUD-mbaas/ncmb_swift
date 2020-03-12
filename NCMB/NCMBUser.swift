@@ -709,7 +709,7 @@ public class NCMBUser : NCMBBase {
                     }
                 }
             } else {
-                let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "token not found"])
+                let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "other token type"])
                 callback(NCMBResult<Void>.failure(error))
             }
         } else {

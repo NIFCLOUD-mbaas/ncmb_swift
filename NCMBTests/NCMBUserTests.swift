@@ -2988,6 +2988,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             let google:[String:Any] = (googleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            //Confirm apple key will be not exist in currentUser.authData
+            XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             expectation?.fulfill()
         })
@@ -3227,6 +3229,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             let google:[String:Any] = (googleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             expectation?.fulfill()
         })
         
@@ -3301,7 +3304,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
-            let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "token not found"])
+            let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "other token type"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             expectation?.fulfill()
         })
