@@ -3229,6 +3229,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             let google:[String:Any] = (googleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            //Confirm apple key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             expectation?.fulfill()
         })
