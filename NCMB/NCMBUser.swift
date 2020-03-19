@@ -617,6 +617,13 @@ public class NCMBUser : NCMBBase {
         self.signUpInBackground(callback: {result in
             switch result {
             case .success :
+                // Remove bundle_identifier
+                if (self.authData != nil && self.authData!["apple"] != nil) {
+                    let appleData = self.authData!["apple"] as? [String : Any]
+                    let apple = NSMutableDictionary(dictionary: appleData!)
+                    apple.removeObject(forKey: "bundle_identifier")
+                    self.authData!["apple"] = apple
+                }
                 // processing when saving is successful
                 callback(NCMBResult<Void>.success(()))
             case  let .failure (error) :
@@ -655,6 +662,13 @@ public class NCMBUser : NCMBBase {
                     let localAuthDataDictionary = NSMutableDictionary(dictionary: localAuthData!)
                     localAuthDataDictionary.addEntries(from: self.authData!)
                     self.authData = localAuthDataDictionary as? [String:Any]
+                }
+                // Remove bundle_identifier
+                if (self.authData != nil && self.authData!["apple"] != nil) {
+                    let appleData = self.authData!["apple"] as? [String : Any]
+                    let apple = NSMutableDictionary(dictionary: appleData!)
+                    apple.removeObject(forKey: "bundle_identifier")
+                    self.authData!["apple"] = apple
                 }
                 callback(NCMBResult<Void>.success(()))
             case  let .failure (error) :

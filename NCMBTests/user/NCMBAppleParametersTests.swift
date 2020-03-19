@@ -29,7 +29,7 @@ final class NCMBAppleParametersTests: NCMBTestCase {
     func test_toObject() {
         let sut = NCMBAppleParameters(id: "abcdef123456", accessToken: "ghijklm789012")
         let object : [String : Any] = sut.toObject()
-        XCTAssertEqual(object.count, 2)
+        XCTAssertEqual(object.count, 3)
         XCTAssertEqual(object["id"]! as! String, "abcdef123456")
         XCTAssertEqual(object["access_token"]! as! String, "ghijklm789012")
     }
