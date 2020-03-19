@@ -64,7 +64,7 @@ SDKの改修をされる際には、ご一読ください。
 
 ### 初期化
 
-```Swift
+```swift
     NCMB.initialize(
         applicationKey: /* アプリケーションキー */,
         clientKey: /* クライアントキー */)
@@ -74,7 +74,7 @@ SDKの改修をされる際には、ご一読ください。
 
 #### オブジェクトをデータストアに保存する
 
-```Swift
+```swift
     // testクラスのNCMBObjectを作成
     let object : NCMBObject = NCMBObject(className: "test")
 
@@ -99,7 +99,7 @@ SDKの改修をされる際には、ご一読ください。
 
 #### オブジェクトの取得
 
-```Swift
+```swift
     // testクラスへのNCMBObjectを設定
     let object : NCMBObject = NCMBObject(className: "test")
 
@@ -127,7 +127,7 @@ SDKの改修をされる際には、ご一読ください。
 
 #### データストアに対しての操作を設定する
 
-```Swift
+```swift
     // testクラスのNCMBObjectを作成
     let object : NCMBObject = NCMBObject(className: "test")
 
@@ -154,7 +154,7 @@ SDKの改修をされる際には、ご一読ください。
 
 #### オブジェクトの削除
 
-```Swift
+```swift
     // testクラスのNCMBObjectを作成
     let object : NCMBObject = NCMBObject(className: "test")
 
@@ -185,7 +185,7 @@ SDKの改修をされる際には、ご一読ください。
 
 ##### リレーションの新規作成
 
-```Swift
+```swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
 let pointerA = NCMBPointer(className: "test", objectId: "84lywBlhwuA8SeUo")
@@ -208,7 +208,7 @@ object.saveInBackground(callback: { result in
 
 ##### リレーションの追加
 
-```Swift
+```swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
 let pointerC = NCMBPointer(className: "test", objectId: "2tEvocmtRTllMgQT")
@@ -232,7 +232,7 @@ object.saveInBackground(callback: { result in
 ```
 ##### リレーションの削除
 
-```Swift
+```swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
 let pointerC = NCMBPointer(className: "test", objectId: "2tEvocmtRTllMgQT")
@@ -257,7 +257,7 @@ object.saveInBackground(callback: { result in
 
 ##### リレーションの取得
 
-```Swift
+```swift
 // testクラスへのNCMBObjectを設定
 let object : NCMBObject = NCMBObject(className: "test")
 
@@ -280,7 +280,7 @@ object.fetchInBackground(callback: { result in
 ```
 #### オブジェクトの検索を行う
 
-```Swift
+```swift
     // クエリの作成
     var query : NCMBQuery<NCMBObject> = NCMBQuery.getQuery(className: "test")
     // フィールドの値が 42 と一致
@@ -299,7 +299,7 @@ object.fetchInBackground(callback: { result in
 
 #### 標準クラスを検索する場合
 
-```Swift
+```swift
     // 会員管理
     let userQuery : NCMBQuery<NCMBUser> = NCMBUser.query
 
@@ -320,7 +320,7 @@ object.fetchInBackground(callback: { result in
 
 and検索
 
-```Swift
+```swift
     // クエリの作成
     var query = NCMBQuery.getQuery(className: "test")
     query.where(field: "fieldA", equalTo: "Hello, NCMB!")
@@ -339,7 +339,7 @@ and検索
 
 or検索
 
-```Swift
+```swift
     // 一つ目のクエリの作成
     var query1 = NCMBQuery.getQuery(className: "test")
     query1.where(field: "fieldB", equalTo: "日本語の内容")
@@ -368,7 +368,7 @@ or検索
 
 `AppDelegate.swift` 内に記述
 
-```Swift
+```swift
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 
         // 配信端末インスタンスの作成
@@ -392,7 +392,7 @@ or検索
 
 #### プッシュ通知をアプリから送信する
 
-```Swift
+```swift
     // プッシュ通知オブジェクトの作成
     let push : NCMBPush = NCMBPush()
     // メッセージの設定
@@ -418,7 +418,7 @@ or検索
 
 #### プッシュ通知のスケジューリング
 
-```Swift
+```swift
     // プッシュ通知オブジェクトの作成
     let push : NCMBPush = NCMBPush()
     // メッセージの設定
@@ -481,7 +481,7 @@ or検索
 
 #### ユーザーの新規登録
 
-```Swift
+```swift
     //　Userインスタンスの生成
     let user = NCMBUser()
 
@@ -504,7 +504,7 @@ or検索
 
 #### 会員登録用のメールを要求する
 
-```Swift
+```swift
     // 会員登録用メールを要求する
     let result = NCMBUser.requestAuthenticationMailInBackground(mailAddress: "takanokun@example.com", callback: { result in
         switch result {
@@ -522,7 +522,7 @@ or検索
 
 ユーザー名、パスワードでのログイン
 
-```Swift
+```swift
     // ログイン状況の確認
     if let user = NCMBUser.currentUser {
         print("ログインしています。ユーザー: \(user.userName!)")
@@ -553,7 +553,7 @@ or検索
 
 メールアドレス、パスワードでのログイン
 
-```Swift
+```swift
     // ログイン状況の確認
     if let user = NCMBUser.currentUser {
         print("ログインしています。ユーザー: \(user.userName!)")
@@ -584,7 +584,7 @@ or検索
 
 #### ログアウト
 
-```Swift
+```swift
     // ログイン状況の確認
     if let user = NCMBUser.currentUser {
         print("ログインしています。ユーザー: \(user.userName!)")
@@ -615,7 +615,7 @@ or検索
 
 #### パスワードのリセット
 
-```Swift
+```swift
     // パスワードのリセット
     NCMBUser.requestPasswordResetInBackground(mailAddress: "takanokun@example.com", callback: { result in
         switch result {
@@ -636,7 +636,7 @@ or検索
 
 #### 匿名認証
 
-```Swift
+```swift
     // ログイン状況の確認
     if let user = NCMBUser.currentUser {
         print("ログインしています。ユーザー: \(user.userName!)")
@@ -713,7 +713,7 @@ role.addUserInBackground(user: user, callback: { result in
 
 #### ファイルストアへのアップロード
 
-```Swift
+```swift
     // アップロード対象のデータ
     let data : Data
 
@@ -734,7 +734,7 @@ role.addUserInBackground(user: user, callback: { result in
 
 #### ファイルを取得する
 
-```Swift
+```swift
     // ファイルオブジェクトの作成
     let file : NCMBFile = NCMBFile(fileName: "Takanokun.txt")
 
@@ -753,7 +753,7 @@ role.addUserInBackground(user: user, callback: { result in
 
 #### ファイルの削除
 
-```Swift
+```swift
     // ファイルオブジェクトの作成
     let file : NCMBFile = NCMBFile(fileName: "Takanokun.txt")
 
@@ -773,7 +773,7 @@ role.addUserInBackground(user: user, callback: { result in
 
 #### スクリプト実行
 
-```Swift
+```swift
     // スクリプトインスタンスの作成
     let script = NCMBScript(name: "myCoolScript.js", method: .get)
 
