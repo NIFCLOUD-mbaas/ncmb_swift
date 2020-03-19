@@ -19,7 +19,7 @@ public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
     
     static let PARAMETER_ID : String = "id"
     static let PARAMETER_ACCESS_TOKEN : String = "access_token"
-    static let PARAMETER_BUNDLE_IDENTIFIER : String = "bundle_identifier"
+    static let PARAMETER_CLIENT_ID : String = "client_id"
     
     /// Apple IDです。
     public var id : String
@@ -27,7 +27,7 @@ public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
     /// アクセストークンです。
     public var accessToken : String
     
-    private var bundleIdentifier : String
+    private var clientId : String
     
     /// イニシャライズです。
     ///
@@ -36,7 +36,7 @@ public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
     public init(id: String, accessToken: String) {
         self.id = id
         self.accessToken = accessToken
-        self.bundleIdentifier = Bundle.main.bundleIdentifier ?? ""
+        self.clientId = Bundle.main.bundleIdentifier ?? ""
     }
     
     var type: NCMBSNSType {
@@ -49,7 +49,7 @@ public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
         var object : [String : Any] = [:]
         object[NCMBAppleParameters.PARAMETER_ID] = self.id
         object[NCMBAppleParameters.PARAMETER_ACCESS_TOKEN] = self.accessToken
-        object[NCMBAppleParameters.PARAMETER_BUNDLE_IDENTIFIER] = self.bundleIdentifier
+        object[NCMBAppleParameters.PARAMETER_CLIENT_ID] = self.clientId
         return object
     }
     

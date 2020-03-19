@@ -2891,13 +2891,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let appleData = appleInfo["apple"] as? [String : Any]
-            let apple = NSMutableDictionary(dictionary: appleData!)
-            // Remove bundle_identifier
-            apple.removeObject(forKey: "bundle_identifier")
-            appleInfo["apple"] = apple
-            let appleCheck:[String:Any] = (appleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleCheck))
+            let apple:[String:Any] = (appleInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
             expectation?.fulfill()
         })
 
@@ -2952,13 +2947,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let appleData = appleInfo["apple"] as? [String : Any]
-            let apple = NSMutableDictionary(dictionary: appleData!)
-            // Remove bundle_identifier
-            apple.removeObject(forKey: "bundle_identifier")
-            appleInfo["apple"] = apple
-            let appleCheck:[String:Any] = (appleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleCheck))
+            let apple:[String:Any] = (appleInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
             expectation?.fulfill()
         })
         
@@ -3195,11 +3185,6 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let appleData = snsInputInfo["apple"] as? [String : Any]
-            let apple = NSMutableDictionary(dictionary: appleData!)
-            // Remove bundle_identifier
-            apple.removeObject(forKey: "bundle_identifier")
-            snsInputInfo["apple"] = apple
             let expected: [String:Any] = (snsInputInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: expected))
             expectation?.fulfill()
