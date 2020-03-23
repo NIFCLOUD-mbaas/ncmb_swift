@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import Foundation
+
 /// SNS認証 Apple認証で用いるパラメタを保持する構造体です。
 public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
     
