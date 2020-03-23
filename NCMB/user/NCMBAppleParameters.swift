@@ -14,17 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import Foundation
+
 /// SNS認証 Apple認証で用いるパラメタを保持する構造体です。
 public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
     
     static let PARAMETER_ID : String = "id"
     static let PARAMETER_ACCESS_TOKEN : String = "access_token"
+    static let PARAMETER_CLIENT_ID : String = "client_id"
     
     /// Apple IDです。
     public var id : String
 
     /// アクセストークンです。
     public var accessToken : String
+    
+    private var clientId : String
     
     /// イニシャライズです。
     ///
@@ -33,6 +38,7 @@ public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
     public init(id: String, accessToken: String) {
         self.id = id
         self.accessToken = accessToken
+        self.clientId = Bundle.main.bundleIdentifier ?? ""
     }
     
     var type: NCMBSNSType {
@@ -45,6 +51,7 @@ public struct NCMBAppleParameters : NCMBSnsInfoProtocol {
         var object : [String : Any] = [:]
         object[NCMBAppleParameters.PARAMETER_ID] = self.id
         object[NCMBAppleParameters.PARAMETER_ACCESS_TOKEN] = self.accessToken
+        object[NCMBAppleParameters.PARAMETER_CLIENT_ID] = self.clientId
         return object
     }
     
