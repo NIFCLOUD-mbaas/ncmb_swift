@@ -592,7 +592,7 @@ public class NCMBUser : NCMBBase {
         return tmpuser
     }
     
-    /// signUpWithAppleToken
+    /// appleのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
     ///
     /// - Parameter appleParameters: NCMBAppleParameters
     /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
