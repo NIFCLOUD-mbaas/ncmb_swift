@@ -18,7 +18,7 @@ import Foundation
 
 /// 共通情報を管理するクラスです。
 public class NCMB {
-    public static let SDK_VERSION : String = "1.0.0"
+    public static let SDK_VERSION : String = "1.1.0"
     static let METADATA_PREFIX : String = "com.nifcloud.mbaas."
     public static let DEFAULT_DOMAIN_URL : String = "https://mbaas.api.nifcloud.com/"
     public static let DEFAULT_API_VERSION : String = "2013-09-01"
