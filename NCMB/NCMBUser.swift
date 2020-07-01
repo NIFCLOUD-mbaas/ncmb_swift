@@ -591,6 +591,18 @@ public class NCMBUser : NCMBBase {
         let tmpuser = NCMBUser(className: NCMBUser.CLASSNAME, fields: fields, modifiedFieldKeys: modifiedFieldKeys)
         return tmpuser
     }
+
+    /// facebookのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
+    ///
+    /// - Parameter facebookParameters: NCMBFacebookParameters
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func signUpWithFacebookToken(facebookParameters:
+        NCMBFacebookParameters, callback: @escaping NCMBHandler<Void> )
+        -> Void {
+            let facebookInfo:NSMutableDictionary = NSMutableDictionary()
+            facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
+            signUpWithToken(snsInfo: facebookInfo, callback: callback)
+    }
     
     /// appleのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
     ///

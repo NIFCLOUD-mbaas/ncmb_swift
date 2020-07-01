@@ -2868,6 +2868,47 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
+
+    func dateFromString(string: String, format: String) -> Date {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.date(from: string)!
+    }
+    
+    func test_signWithFacebook_success() {
+        let dateString = "2020/07/30 00:00:00 +09:00"
+        let date = dateFromString(string: dateString, format: "yyyy/MM/dd HH:mm:ss Z")
+        let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw",
+            expirationDate:
+            date)
+        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
+        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(facebookInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        let sut : NCMBUser = NCMBUser()
+        let expectation : XCTestExpectation? = self.expectation(description: "test_signWithFacebook_success")
+        sut.signUpWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+            XCTAssertNotNil(NCMBUser.currentUser!.authData)
+            let facebook:[String:Any] = (facebookInfo as? [String:Any])!
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+            expectation?.fulfill()
+        })
+
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
     
     func test_signWithAppleId_success() {
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
