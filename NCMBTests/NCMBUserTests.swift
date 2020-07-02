@@ -2868,20 +2868,11 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-
-    func dateFromString(string: String, format: String) -> Date {
-        let formatter: DateFormatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.dateFormat = format
-        return formatter.date(from: string)!
-    }
     
     func test_signWithFacebook_success() {
-        let dateString = "2020/07/30 00:00:00 +09:00"
-        let date = dateFromString(string: dateString, format: "yyyy/MM/dd HH:mm:ss Z")
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw",
             expirationDate:
-            date)
+            Date(timeIntervalSince1970: 507904496.789))
         let facebookInfo:NSMutableDictionary = NSMutableDictionary()
         facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
         let data : NSMutableDictionary = NSMutableDictionary()
