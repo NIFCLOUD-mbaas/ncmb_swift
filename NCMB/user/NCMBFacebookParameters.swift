@@ -51,13 +51,13 @@ public struct NCMBFacebookParameters : NCMBSnsInfoProtocol {
 
     func toObject() -> [String : Any] {
         var object : [String : Any] = [:]
-	var dateObject : [String : Any] = [:]       
+        var dateObject : [String : Any] = [:]       
         object[NCMBFacebookParameters.PARAMETER_ID] = self.id
         object[NCMBFacebookParameters.PARAMETER_ACCESS_TOKEN] = self.accessToken
         dateObject["__type"] = "Date"
         dateObject["iso"] =
             NCMBDateFormatter.getISO8601Timestamp(date: self.expirationDate)
-	object[NCMBFacebookParameters.PARAMETER_EXPIRATION_DATE] = dateObject
+        object[NCMBFacebookParameters.PARAMETER_EXPIRATION_DATE] = dateObject
         return object
     }
 
