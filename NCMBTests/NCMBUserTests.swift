@@ -2901,6 +2901,21 @@ final class NCMBUserTests: NCMBTestCase {
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
     
+    func test_signWithFacebook_failure() {
+        let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+        XCTAssertNil(NCMBUser.currentUser)
+        let sut : NCMBUser = NCMBUser()
+        let expectation : XCTestExpectation? = self.expectation(description: "test_signWithFacebook_failure")
+        sut.signUpWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
+        XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+        XCTAssertNil(NCMBUser.currentUser)
+        expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
     func test_signWithAppleId_success() {
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
         let appleInfo:NSMutableDictionary = NSMutableDictionary()
