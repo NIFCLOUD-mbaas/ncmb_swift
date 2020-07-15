@@ -638,6 +638,16 @@ public class NCMBUser : NCMBBase {
             }
         })
     }
+
+    /// ログイン中のユーザー情報に、Facebookの認証情報を紐付ける
+    ///
+    /// - Parameter FacebookParameters: NCMBFacebookParameters
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func linkWithFacebookToken(FacebookParameters: NCMBFacebookParameters, callback: @escaping NCMBHandler<Void> ) -> Void {
+        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
+        facebookInfo.setValue(FacebookParameters.toObject(), forKey: FacebookParameters.type.rawValue)
+        linkWithToken(snsInfo: facebookInfo, callback: callback)
+    }
     
     /// ログイン中のユーザー情報に、Appleの認証情報を紐付ける
     ///
