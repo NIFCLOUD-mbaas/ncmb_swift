@@ -2908,9 +2908,9 @@ final class NCMBUserTests: NCMBTestCase {
         let sut : NCMBUser = NCMBUser()
         let expectation : XCTestExpectation? = self.expectation(description: "test_signWithFacebook_failure")
         sut.signUpWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
-        XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
-        XCTAssertNil(NCMBUser.currentUser)
-        expectation?.fulfill()
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertNil(NCMBUser.currentUser)
+            expectation?.fulfill()
         })
         
         self.waitForExpectations(timeout: 1.00, handler: nil)
