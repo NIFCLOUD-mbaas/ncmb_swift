@@ -2934,6 +2934,24 @@ final class NCMBUserTests: NCMBTestCase {
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
+    func test_signWithFacebook_failure_E401003() {
+        let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401003", "error" : "oAuth facebook authentication error."]))))
+        XCTAssertNil(NCMBUser.currentUser)
+        let sut : NCMBUser = NCMBUser()
+        let expectation : XCTestExpectation? = self.expectation(description: "test_signWithFacebook_failure")
+        sut.signUpWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
+            XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E401003"))
+            XCTAssertEqual(error.message, "oAuth facebook authentication error.")
+            XCTAssertNil(NCMBUser.currentUser)
+            expectation?.fulfill()
+        })
+        
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+
     func test_logIn_userName_and_link_with_facebook_success() {
         // Response data for login
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
@@ -3592,6 +3610,7 @@ final class NCMBUserTests: NCMBTestCase {
         ("test_signWithFacebook_success", test_signWithFacebook_success),
         ("test_signWithFacebook_failure", test_signWithFacebook_failure),
         ("test_signWithFacebook_failure_E403005", test_signWithFacebook_failure_E403005),
+        ("test_signWithFacebook_failure_E401003", test_signWithFacebook_failure_E401003),
         ("test_signWithAppleId_failure", test_signWithAppleId_failure),
         ("test_logIn_userName_and_link_with_apple_id_success", test_logIn_userName_and_link_with_apple_id_success),
         ("test_logIn_userName_and_link_with_apple_id_failure", test_logIn_userName_and_link_with_apple_id_failure),
