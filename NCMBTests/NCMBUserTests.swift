@@ -3001,6 +3001,34 @@ final class NCMBUserTests: NCMBTestCase {
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
+    func test_is_link_with_facebook_id() {
+        // Response data for login
+        let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
+        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
+        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
+        let data : NSMutableDictionary = NSMutableDictionary()
+        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
+        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
+        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
+        data.setValue("Yamada Tarou", forKey: "userName")
+        data.setValue(facebookInfo, forKey: "authData")
+        let contents : [String:Any] = (data as? [String:Any])!
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
+        let executor = MockRequestExecutor(result: .success(response))
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+        _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
+        //Check current user after login
+        XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+        XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+        let currentUser : NCMBUser = NCMBUser.currentUser!
+        XCTAssertNotNil(NCMBUser.currentUser!.authData)
+        let facebook:[String:Any] = (facebookInfo as? [String:Any])!
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+        // Check islinkwith apple id
+        XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
+    }
+
     func test_signWithAppleId_success() {
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
         let appleInfo:NSMutableDictionary = NSMutableDictionary()
@@ -3549,6 +3577,7 @@ final class NCMBUserTests: NCMBTestCase {
         ("test_logIn_userName_and_unlink_with_apple_id_success", test_logIn_userName_and_unlink_with_apple_id_success),
         ("test_logIn_userName_and_unlink_with_apple_id_failure", test_logIn_userName_and_unlink_with_apple_id_failure),
         ("test_is_link_with_apple_id", test_is_link_with_apple_id),
+        ("test_is_link_with_facebook_id", test_is_link_with_facebook_id),
         ("test_is_unlink_with_apple_id", test_is_unlink_with_apple_id),
         ("test_logIn_userName_and_link_with_apple_id_when_already_other_token_success", test_logIn_userName_and_link_with_apple_id_when_already_other_token_success),
         ("test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure", test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure),
