@@ -3028,7 +3028,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             let google:[String:Any] = (googleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
-            //Confirm apple key will be not exist in currentUser.authData
+            //Confirm facebook key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             expectation?.fulfill()
@@ -3070,7 +3070,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             let google:[String:Any] = (googleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
-            //Confirm apple key will be not exist in currentUser.authData
+            //Confirm facebook key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["facebook"])
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E409001"))
             XCTAssertEqual(error.message, "authData is duplication.")
@@ -3104,7 +3104,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
         let facebook:[String:Any] = (facebookInfo as? [String:Any])!
         XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
-        // Check islinkwith apple id
+        // Check islinkwith facebook id
         XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
     }
 
