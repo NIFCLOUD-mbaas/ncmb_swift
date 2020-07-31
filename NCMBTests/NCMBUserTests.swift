@@ -3307,7 +3307,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             let apple:[String:Any] = (appleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
-            XCTassertTrue(currentUser.isLinkedWith(type: "apple"))
+            XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
         
@@ -3446,7 +3446,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
-            XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
+            XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
 
