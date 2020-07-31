@@ -2988,6 +2988,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             let facebook:[String:Any] = (facebookInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+            XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
         
@@ -3029,8 +3030,9 @@ final class NCMBUserTests: NCMBTestCase {
             let google:[String:Any] = (googleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
             //Confirm facebook key will be not exist in currentUser.authData
-            XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
+            XCTAssertNil(NCMBUser.currentUser!.authData!["facebook"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            XCTAssertFalse(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
         
@@ -3154,6 +3156,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             let facebookUnlink:[String:Any] = (facebookInfoUnlink as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookUnlink))
+            XCTAssertFalse(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
 
@@ -3196,6 +3199,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
 
@@ -3303,6 +3307,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             let apple:[String:Any] = (appleInfo as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            XCTassertTrue(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
         
@@ -3345,6 +3350,7 @@ final class NCMBUserTests: NCMBTestCase {
             //Confirm apple key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            XCTAssertFalse(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
         
@@ -3397,6 +3403,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             let appleUnlink:[String:Any] = (appleInfoUnlink as? [String:Any])!
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleUnlink))
+            XCTAssertFalse(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
 
@@ -3439,6 +3446,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
+            XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
 
