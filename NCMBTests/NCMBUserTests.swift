@@ -3146,6 +3146,7 @@ final class NCMBUserTests: NCMBTestCase {
         let executorUnlink = MockRequestExecutor(result: .success(responseUnlink))
         NCMBRequestExecutorFactory.setInstance(executor: executorUnlink)
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_facebook_success")
+        facebookInfoUnlink.removeObject(forKey: facebookParameters.type.rawValue)
         currentUser.unlink(type: "facebook", callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
@@ -3388,6 +3389,7 @@ final class NCMBUserTests: NCMBTestCase {
         let executorUnlink = MockRequestExecutor(result: .success(responseUnlink))
         NCMBRequestExecutorFactory.setInstance(executor: executorUnlink)
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_apple_id_success")
+        appleInfoUnlink.removeObject(forKey: appleParameters.type.rawValue)
         currentUser.unlink(type: "apple", callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
