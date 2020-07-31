@@ -723,6 +723,7 @@ public class NCMBUser : NCMBBase {
                     switch result {
                     case .success :
                         // processing when saving is successful
+                        self.authData?.removeValue(forKey: type)
                         callback(NCMBResult<Void>.success(()))
                     case  let .failure (error) :
                         // Process when save fails
