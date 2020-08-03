@@ -1,12 +1,12 @@
 /*
  Copyright 2019 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
- 
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -750,13 +750,13 @@ final class NCMBUserTests: NCMBTestCase {
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_userName_special_char_request() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"abc+aa"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
-        
+
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_userName_special_char_request")
         NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
@@ -768,7 +768,7 @@ final class NCMBUserTests: NCMBTestCase {
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_currentUser_error_404() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -783,8 +783,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E404001", "error" : "No data available."]))))
 
             let sut : NCMBUser = NCMBUser.currentUser!
@@ -795,10 +795,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E404001"))
             XCTAssertEqual(error.message, "No data available.")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_currentUser_error_401() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -813,8 +813,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401001", "error" : "Authentication error by header incorrect."]))))
 
             let sut : NCMBUser = NCMBUser.currentUser!
@@ -825,10 +825,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E401001"))
             XCTAssertEqual(error.message, "Authentication error by header incorrect.")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_object_error_404() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -843,8 +843,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E404001", "error" : "No data available."]))))
 
             let sut : NCMBObject = NCMBObject.init(className: "TestClass")
@@ -856,16 +856,16 @@ final class NCMBUserTests: NCMBTestCase {
             let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E404001"))
             XCTAssertEqual(error.message, "No data available.")
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_object_error_401() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -880,8 +880,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401001", "error" : "Authentication error by header incorrect."]))))
 
             let sut : NCMBObject = NCMBObject.init(className: "TestClass")
@@ -893,16 +893,16 @@ final class NCMBUserTests: NCMBTestCase {
             let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E401001"))
             XCTAssertEqual(error.message, "Authentication error by header incorrect.")
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_user_error_404() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -917,8 +917,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E404001", "error" : "No data available."]))))
 
             let sut : NCMBUser = NCMBUser()
@@ -930,16 +930,16 @@ final class NCMBUserTests: NCMBTestCase {
             let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E404001"))
             XCTAssertEqual(error.message, "No data available.")
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_user_error_401() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -954,29 +954,29 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401001", "error" : "Authentication error by header incorrect."]))))
 
             let sut : NCMBUser = NCMBUser()
             sut.objectId = "abcdefg12345"
-            
+
             let result : NCMBResult<Void> = sut.fetch()
 
             XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
             let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E401001"))
             XCTAssertEqual(error.message, "Authentication error by header incorrect.")
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_currentUser() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -994,10 +994,10 @@ final class NCMBUserTests: NCMBTestCase {
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
             let sut : NCMBUser = NCMBUser.currentUser!
-            
+
             sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-            
+
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                 XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1005,10 +1005,10 @@ final class NCMBUserTests: NCMBTestCase {
                 expectation?.fulfill()
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_update_currentUser() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1022,7 +1022,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
             let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
             NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1039,10 +1039,10 @@ final class NCMBUserTests: NCMBTestCase {
                 expectation?.fulfill()
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_object() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1057,8 +1057,8 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
-            
+
+
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
             contents["field1"] = "value1"
@@ -1071,16 +1071,16 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertNotNil(sut["field1"])
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_update_object() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1094,10 +1094,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
-            contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+            contents["createDate"] = "1986-02-04T12:34:56.789Z"
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
             let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
             NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1108,17 +1108,17 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(sut.needUpdate, true)
             let result : NCMBResult<Void> = sut.save()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_delete_object() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1142,17 +1142,17 @@ final class NCMBUserTests: NCMBTestCase {
 
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertNil(sut.objectId)
-            
+
             XCTAssertNotNil(NCMBUser.currentUser)
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_add_object() {
         let _contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let _response : NCMBResponse = MockResponseBuilder.createResponse(contents: _contents, statusCode : 201)
@@ -1165,10 +1165,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(_executor.requests[0].body)
-            
+
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
-            contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+            contents["createDate"] = "1986-02-04T12:34:56.789Z"
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
             let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
             NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1185,20 +1185,20 @@ final class NCMBUserTests: NCMBTestCase {
 
                 XCTAssertEqual(sut.objectId, "abcdefg12345")
                 XCTAssertEqual(sut["field1"], "value1")
-                XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
-                
+                XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
+
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                 XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
                 XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
-                
+
                 expectation?.fulfill()
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_fetch_another_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1224,7 +1224,7 @@ final class NCMBUserTests: NCMBTestCase {
             sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
                 XCTAssertEqual(sut.objectId, "abcdefg12345")
-            
+
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                 XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1232,10 +1232,10 @@ final class NCMBUserTests: NCMBTestCase {
                 expectation?.fulfill()
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_fetch_currentUser() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1249,10 +1249,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
-            
+
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
@@ -1260,10 +1260,10 @@ final class NCMBUserTests: NCMBTestCase {
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
                 NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
                 let sut : NCMBUser = NCMBUser.currentUser!
-                
+
                 sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
                     XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-                
+
                     XCTAssertNotNil(NCMBUser.currentUser)
                     XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                     XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1272,10 +1272,10 @@ final class NCMBUserTests: NCMBTestCase {
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_update_currentUser() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1289,14 +1289,14 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
-            
+
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-            
+
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
                 let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
                 NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1314,10 +1314,10 @@ final class NCMBUserTests: NCMBTestCase {
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_delete_currentUser() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1331,14 +1331,14 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
-            
+
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-            
+
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
                 NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
 
@@ -1351,10 +1351,10 @@ final class NCMBUserTests: NCMBTestCase {
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_fetch_object() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1369,13 +1369,13 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
             expectation?.fulfill()
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                
+
                 var contents : [String : Any] = [:]
                 contents["objectId"] = "abcdefg12345"
                 contents["field1"] = "value1"
@@ -1388,17 +1388,17 @@ final class NCMBUserTests: NCMBTestCase {
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
                 XCTAssertEqual(sut.objectId, "abcdefg12345")
                 XCTAssertNotNil(sut["field1"])
-                
+
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                 XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
                 XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_update_object() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1412,16 +1412,16 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                
+
                 var contents : [String : Any] = [:]
                 contents["objectId"] = "abcdefg12345"
-                contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+                contents["createDate"] = "1986-02-04T12:34:56.789Z"
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
                 let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
                 NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1432,7 +1432,7 @@ final class NCMBUserTests: NCMBTestCase {
                 XCTAssertEqual(sut.needUpdate, true)
                 let result : NCMBResult<Void> = sut.save()
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-                
+
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                 XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1440,10 +1440,10 @@ final class NCMBUserTests: NCMBTestCase {
                 expectation?.fulfill()
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_delete_object() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1463,7 +1463,7 @@ final class NCMBUserTests: NCMBTestCase {
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                
+
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
                 NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
                 let sut : NCMBObject = NCMBObject(className: "TestClass")
@@ -1473,7 +1473,7 @@ final class NCMBUserTests: NCMBTestCase {
 
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
                 XCTAssertNil(sut.objectId)
-                
+
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                 XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1481,10 +1481,10 @@ final class NCMBUserTests: NCMBTestCase {
                 expectation?.fulfill()
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_add_object() {
         let _contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let _response : NCMBResponse = MockResponseBuilder.createResponse(contents: _contents, statusCode : 201)
@@ -1497,16 +1497,16 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(_executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                
+
                 var contents : [String : Any] = [:]
                 contents["objectId"] = "abcdefg12345"
-                contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+                contents["createDate"] = "1986-02-04T12:34:56.789Z"
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
                 let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
                 NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1523,21 +1523,21 @@ final class NCMBUserTests: NCMBTestCase {
 
                     XCTAssertEqual(sut.objectId, "abcdefg12345")
                     XCTAssertEqual(sut["field1"], "value1")
-                    XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
-                    
+                    XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
+
                     XCTAssertNotNil(NCMBUser.currentUser)
                     XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                     XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
                     XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
-                    
+
                     expectation?.fulfill()
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_fetch_another_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1551,13 +1551,13 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                
+
                 var contents : [String : Any] = [:]
                 contents["objectId"] = "abcdefg12345"
                 contents["field2"] = "value2"
@@ -1569,7 +1569,7 @@ final class NCMBUserTests: NCMBTestCase {
                 sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
                     XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
                     XCTAssertEqual(sut.objectId, "abcdefg12345")
-                
+
                     XCTAssertNotNil(NCMBUser.currentUser)
                     XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                     XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1578,10 +1578,10 @@ final class NCMBUserTests: NCMBTestCase {
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_update_another_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1595,16 +1595,16 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-            
+
                 var contents : [String : Any] = [:]
                 contents["objectId"] = "abcdefg12345"
-                contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+                contents["createDate"] = "1986-02-04T12:34:56.789Z"
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
                 let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
                 NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -1618,7 +1618,7 @@ final class NCMBUserTests: NCMBTestCase {
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
                 sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
                     XCTAssertEqual(executor.requests.count, 2)
-                    
+
                     XCTAssertNotNil(NCMBUser.currentUser)
                     XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                     XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1627,10 +1627,10 @@ final class NCMBUserTests: NCMBTestCase {
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_register_new_user() {
         let _contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let _response : NCMBResponse = MockResponseBuilder.createResponse(contents: _contents, statusCode : 201)
@@ -1643,13 +1643,13 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(_executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-            
+
                 let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"anotherObjectId", "sessionToken":"dummySessionToken", "userName":"NCMB"]
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
                 let executor = MockRequestExecutor(result: .success(response))
@@ -1668,15 +1668,15 @@ final class NCMBUserTests: NCMBTestCase {
                     XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                     XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
                     XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
-                    
+
                     expectation?.fulfill()
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_again_then_delete_another_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1690,13 +1690,13 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
             XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
             XCTAssertNil(executor.requests[0].body)
-            
+
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
                 XCTAssertNotNil(NCMBUser.currentUser)
                 XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                
+
                 let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
                 NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
                 let sut : NCMBUser = NCMBUser()
@@ -1704,7 +1704,7 @@ final class NCMBUserTests: NCMBTestCase {
 
                 sut.deleteInBackground(callback: { (result: NCMBResult<Void>) in
                     XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-                    
+
                     XCTAssertNotNil(NCMBUser.currentUser)
                     XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
                     XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
@@ -1713,7 +1713,7 @@ final class NCMBUserTests: NCMBTestCase {
                 })
             })
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -1806,7 +1806,7 @@ final class NCMBUserTests: NCMBTestCase {
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_register_new_user() {
         let _contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let _response : NCMBResponse = MockResponseBuilder.createResponse(contents: _contents, statusCode : 201)
@@ -1846,7 +1846,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_register_newuser_using_signUp() {
         let _contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let _response : NCMBResponse = MockResponseBuilder.createResponse(contents: _contents, statusCode : 201)
@@ -1886,7 +1886,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_save_register_newuser_not_setting_currentUser() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"anotherObjectId", "sessionToken":"dummySessionToken", "userName":"NCMB"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1911,7 +1911,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_signUp_register_newuser_currentUser_will_be_set() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"anotherObjectId", "sessionToken":"dummySessionToken", "userName":"NCMB"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1938,7 +1938,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_add_user_using_currentUser() {
         let _contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let _response : NCMBResponse = MockResponseBuilder.createResponse(contents: _contents, statusCode : 201)
@@ -1977,7 +1977,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_update_another_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1994,7 +1994,7 @@ final class NCMBUserTests: NCMBTestCase {
 
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
-            contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+            contents["createDate"] = "1986-02-04T12:34:56.789Z"
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
             let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
             NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2360,7 +2360,7 @@ final class NCMBUserTests: NCMBTestCase {
     func test_save_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2378,7 +2378,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(String(data: executor.requests[0].body!, encoding: .utf8)!, "{\"field1\":\"value1\"}")
         XCTAssertEqual(sut.objectId, "abcdefg12345")
         XCTAssertEqual(sut["field1"], "value1")
-        XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+        XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(sut.needUpdate, false)
     }
 
@@ -2400,7 +2400,7 @@ final class NCMBUserTests: NCMBTestCase {
     func test_saveInBackground_success() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2418,7 +2418,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(String(data: executor.requests[0].body!, encoding: .utf8)!, "{\"field1\":\"value1\"}")
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
-            XCTAssertEqual(sut["craeteDate"], "1986-02-04T12:34:56.789Z")
+            XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             XCTAssertEqual(sut.needUpdate, false)
             expectation?.fulfill()
         })
@@ -2474,7 +2474,7 @@ final class NCMBUserTests: NCMBTestCase {
     func test_saveInBackground_reset_modifiedFields() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2498,7 +2498,7 @@ final class NCMBUserTests: NCMBTestCase {
     func test_saveInBackground_modifiedFields_null() {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2531,7 +2531,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2564,7 +2564,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
-        contents["craeteDate"] = "1986-02-04T12:34:56.789Z"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
         let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2806,7 +2806,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(manager.deleteLog.count, 1)
         XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
     }
-    
+
     func test_logInInBackground_then_delete_loggedin_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -2835,7 +2835,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logInInBackground_then_delete_another_user() {
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -2868,7 +2868,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_signWithFacebook_success() {
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw",
             expirationDate:
@@ -2900,7 +2900,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_signWithFacebook_failure() {
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
@@ -2912,7 +2912,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNil(NCMBUser.currentUser)
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -2930,7 +2930,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNil(NCMBUser.currentUser)
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -2948,7 +2948,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNil(NCMBUser.currentUser)
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -2991,10 +2991,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_link_with_facebook_failure() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
@@ -3035,7 +3035,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertFalse(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -3078,7 +3078,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(error.message, "authData is duplication.")
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -3162,7 +3162,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_unlink_with_facebook_failure() {
         // Response data for login
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
@@ -3205,7 +3205,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_is_unlink_with_facebook_id() {
         // Response data for login
         let data : NSMutableDictionary = NSMutableDictionary()
@@ -3256,7 +3256,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_signWithAppleId_failure() {
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
@@ -3271,7 +3271,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_link_with_apple_id_success() {
         // Response data for login
         let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"epaKcaYZqsREdSMY", "sessionToken":"iXDIelJRY3ULBdms281VTmc5O", "userName":"Yamada Tarou"]
@@ -3310,10 +3310,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_link_with_apple_id_failure() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
@@ -3353,10 +3353,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertFalse(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_unlink_with_apple_id_success() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
@@ -3409,7 +3409,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_unlink_with_apple_id_failure() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
@@ -3452,7 +3452,7 @@ final class NCMBUserTests: NCMBTestCase {
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_is_link_with_apple_id() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
@@ -3480,7 +3480,7 @@ final class NCMBUserTests: NCMBTestCase {
         // Check islinkwith apple id
         XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
     }
-    
+
     func test_is_unlink_with_apple_id() {
         // Response data for login
         let data : NSMutableDictionary = NSMutableDictionary()
@@ -3501,7 +3501,7 @@ final class NCMBUserTests: NCMBTestCase {
         // Check islinkwith apple id
         XCTAssertFalse(currentUser.isLinkedWith(type: "apple"))
     }
-    
+
     func test_logIn_userName_and_link_with_apple_id_when_already_other_token_success() {
         // Response data for login
         let googleParameters : NCMBGoogleParameters = NCMBGoogleParameters(id: "google_user_id", accessToken: "google_user_access_token")
@@ -3552,10 +3552,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: expected))
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure() {
         // Response data for login
         let googleParameters : NCMBGoogleParameters = NCMBGoogleParameters(id: "google_user_id", accessToken: "google_user_access_token")
@@ -3596,10 +3596,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_unlink_with_apple_id_token_not_found() {
         // Response data for login
         let data : NSMutableDictionary = NSMutableDictionary()
@@ -3618,7 +3618,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         // Check islinkwith apple id
-        
+
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
         let expectation : XCTestExpectation? = self.expectation(description: "test_unlink_with_apple_id_token_not_found")
         currentUser.unlink(type: "apple", callback: { (result: NCMBResult<Void>) in
@@ -3630,10 +3630,10 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             expectation?.fulfill()
         })
-        
+
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
-    
+
     func test_logIn_userName_and_unlink_with_other_token_failure() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
