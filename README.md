@@ -10,7 +10,7 @@
 - データストア
 - 会員管理
 - ファイルストア
-- SNS連携(Sign In With Appleのみ)
+- SNS連携(Sign In With Apple, Facebookのみ)
 
 といった機能をアプリから利用することが可能です。
 
@@ -33,7 +33,7 @@
 ※なお、mobile backend にて大規模な改修が行われた際は、1年半以内のSDKであっても対応出来ない場合がございます。<br>
 その際は[informationブログ](https://mbaas.nifcloud.com/info/)にてお知らせいたします。予めご了承ください。
 
-- v1.0.0 ~ (※2020年3月時点)
+- v1.0.0 ~ (※2020年8月時点)
 
 ### 現在未実装部分について
 
@@ -45,7 +45,7 @@
 * プッシュ通知
   * 位置情報連動配信
 * 会員管理
-  * SNS認証(Sign In With Apple以外)
+  * SNS認証(Sign In With Apple, Facebook以外)
   * メールアドレス確認
 
 ## ライセンス
