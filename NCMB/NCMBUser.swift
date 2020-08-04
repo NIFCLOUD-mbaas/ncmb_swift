@@ -591,6 +591,18 @@ public class NCMBUser : NCMBBase {
         let tmpuser = NCMBUser(className: NCMBUser.CLASSNAME, fields: fields, modifiedFieldKeys: modifiedFieldKeys)
         return tmpuser
     }
+
+    /// facebookのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
+    ///
+    /// - Parameter facebookParameters: NCMBFacebookParameters
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func signUpWithFacebookToken(facebookParameters:
+        NCMBFacebookParameters, callback: @escaping NCMBHandler<Void> )
+        -> Void {
+            let facebookInfo:NSMutableDictionary = NSMutableDictionary()
+            facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
+            signUpWithToken(snsInfo: facebookInfo, callback: callback)
+    }
     
     /// appleのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
     ///
@@ -625,6 +637,16 @@ public class NCMBUser : NCMBBase {
                 callback(NCMBResult<Void>.failure(error))
             }
         })
+    }
+
+    /// ログイン中のユーザー情報に、Facebookの認証情報を紐付ける
+    ///
+    /// - Parameter FacebookParameters: NCMBFacebookParameters
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func linkWithFacebookToken(FacebookParameters: NCMBFacebookParameters, callback: @escaping NCMBHandler<Void> ) -> Void {
+        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
+        facebookInfo.setValue(FacebookParameters.toObject(), forKey: FacebookParameters.type.rawValue)
+        linkWithToken(snsInfo: facebookInfo, callback: callback)
     }
     
     /// ログイン中のユーザー情報に、Appleの認証情報を紐付ける
@@ -701,6 +723,7 @@ public class NCMBUser : NCMBBase {
                     switch result {
                     case .success :
                         // processing when saving is successful
+                        self.authData?.removeValue(forKey: type)
                         callback(NCMBResult<Void>.success(()))
                     case  let .failure (error) :
                         // Process when save fails

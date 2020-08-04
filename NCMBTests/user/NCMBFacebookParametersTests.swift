@@ -34,7 +34,9 @@ final class NCMBFacebookParametersTests: NCMBTestCase {
         XCTAssertEqual(object.count, 3)
         XCTAssertEqual(object["id"]! as! String, "abcdef123456")
         XCTAssertEqual(object["access_token"]! as! String, "ghijklm789012")
-        XCTAssertEqual(object["expiration_date"]! as! String, "1986-02-04T12:34:56.789Z")
+        let expiration_date = object["expiration_date"] as! [String : Any]
+        XCTAssertEqual(expiration_date["__type"]! as! String, "Date")
+        XCTAssertEqual(expiration_date["iso"]! as! String, "1986-02-04T12:34:56.789Z")
     }
 
     static var allTests = [
