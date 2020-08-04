@@ -239,7 +239,8 @@ public class NCMBInstallation : NCMBBase {
         let data : Data? = manager.loadFromFile(target: .currentInstallation)
         if let data : Data = data {
             do {
-                let fields : [String : Any] = try NCMBJsonConverter.convertToKeyValue(data)
+                var fields : [String : Any] = try NCMBJsonConverter.convertToKeyValue(data)
+                fields["createDate"] = nil
                 return NCMBInstallation(className: NCMBInstallation.CLASSNAME, fields: fields)
             } catch let error {
                 NSLog("NCMB: Failed to acquire local file with current installation : \(error)")
