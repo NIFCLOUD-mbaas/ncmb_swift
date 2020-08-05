@@ -187,6 +187,21 @@ public class NCMBBase : CustomStringConvertible {
         }
     }
 
+    /// 登録対象フィールドの内容をJson形式にして返します。
+    ///
+    /// - Returns: 登録フィールド対象内容のJson。
+    func getPostFieldsToJson() throws -> Data? {
+        var fields: [String : Any] = self._fields
+        fields[NCMBBase.FIELDNAME_OBJECTID] = nil
+        fields[NCMBBase.FIELDNAME_CREATEDATE] = nil
+        fields[NCMBBase.FIELDNAME_UPDATEDATE] = nil
+        do {
+            return try NCMBJsonConverter.convertToJson(fields)
+        } catch {
+            throw NCMBInvalidRequestError.invalidBodyJsonValue
+        }
+    }
+
     /// 更新フィールド内容をJson形式にて返します。
     ///
     /// - Returns: 更新フィールド内容のJson。

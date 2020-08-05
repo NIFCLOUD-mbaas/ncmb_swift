@@ -338,8 +338,15 @@ final class NCMBObjectServiceTests: NCMBTestCase {
     }
 
     func test_createPostRequest_success() {
-        let object = NCMBObject(className: "TestClass")
-        object["takanokun"] = "takano_san"
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        fields["takanokun"] = "takano_san"
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        fields["updateDate"] = "1986-02-04T12:34:56.901Z"
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let object = NCMBObject(className: "TestClass", fields: fields)
+        object.objectId = nil // object have not objectId
+
         let sut = NCMBObjectService()
         let request : NCMBRequest = try! sut.createPostRequest(object: object)
         XCTAssertEqual(request.apiType, NCMBApiType.classes)
@@ -350,6 +357,65 @@ final class NCMBObjectServiceTests: NCMBTestCase {
         XCTAssertNotNil(request.body)
         XCTAssertEqual(try! request.getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/classes/TestClass"))
         XCTAssertEqual(request.timeoutInterval, 10.0)
+    }
+
+    func test_createPostRequest_body_dose_not_contain_objectId() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        fields["takanokun"] = "takano_san"
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        fields["updateDate"] = "1986-02-04T12:34:56.901Z"
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let object = NCMBObject(className: "TestClass", fields: fields)
+        object.objectId = nil // object have not objectId
+
+        let sut = NCMBObjectService()
+        let request : NCMBRequest = try! sut.createPostRequest(object: object)
+        XCTAssertFalse(String(data: request.body!, encoding: .utf8)!.contains("\"objectId\":"))
+    }
+
+    func test_createPostRequest_body_dose_not_contain_createDate() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        fields["takanokun"] = "takano_san"
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        fields["updateDate"] = "1986-02-04T12:34:56.901Z"
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let object = NCMBObject(className: "TestClass", fields: fields)
+        object.objectId = nil // object have not objectId
+
+        let sut = NCMBObjectService()
+        let request : NCMBRequest = try! sut.createPostRequest(object: object)
+        XCTAssertFalse(String(data: request.body!, encoding: .utf8)!.contains("\"createDate\":"))
+    }
+
+    func test_createPostRequest_body_dose_not_contain_updateDate() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        fields["takanokun"] = "takano_san"
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        fields["updateDate"] = "1986-02-04T12:34:56.901Z"
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let object = NCMBObject(className: "TestClass", fields: fields)
+
+        let sut = NCMBObjectService()
+        let request : NCMBRequest = try! sut.createPostRequest(object: object)
+        XCTAssertFalse(String(data: request.body!, encoding: .utf8)!.contains("\"updateDate\":"))
+    }
+
+    func test_createPostRequest_body_dose_contain_acl() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        fields["takanokun"] = "takano_san"
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        fields["updateDate"] = "1986-02-04T12:34:56.901Z"
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let object = NCMBObject(className: "TestClass", fields: fields)
+
+        let sut = NCMBObjectService()
+        let request : NCMBRequest = try! sut.createPostRequest(object: object)
+        XCTAssertTrue(String(data: request.body!, encoding: .utf8)!.contains("\"acl\":"))
+        XCTAssertTrue(String(data: request.body!, encoding: .utf8)!.contains("\"abcd\":"))
     }
 
     func test_createPutRequest_success() {
@@ -409,6 +475,10 @@ final class NCMBObjectServiceTests: NCMBTestCase {
         ("test_createGetRequest_success", test_createGetRequest_success),
         ("test_createGetRequest_query", test_createGetRequest_query),
         ("test_createPostRequest_success", test_createPostRequest_success),
+        ("test_createPostRequest_body_dose_not_contain_objectId", test_createPostRequest_body_dose_not_contain_objectId),
+        ("test_createPostRequest_body_dose_not_contain_createDate", test_createPostRequest_body_dose_not_contain_createDate),
+        ("test_createPostRequest_body_dose_not_contain_updateDate", test_createPostRequest_body_dose_not_contain_updateDate),
+        ("test_createPostRequest_body_dose_contain_acl", test_createPostRequest_body_dose_contain_acl),
         ("test_createPutRequest_success", test_createPutRequest_success),
         ("test_createDeleteRequest_emptyObjectId", test_createDeleteRequest_emptyObjectId),
         ("test_createDeleteRequest_success", test_createDeleteRequest_success),
