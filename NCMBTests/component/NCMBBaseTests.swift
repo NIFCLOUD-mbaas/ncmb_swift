@@ -407,6 +407,167 @@ final class NCMBBaseTests: NCMBTestCase {
         XCTAssertNotNil(jsonString.range(of: "\"takanokun\":\"takano_san\""))
     }
 
+    func test_toJson_dose_contain_ordinal_field() {
+        var fields : [String : Any] = [:]
+        fields["takanokun"] = "takano_san"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.toJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"takanokun\":\"takano_san\""))
+    }
+
+    func test_toJson_dose_contain_objectId() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.toJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"objectId\":\"abcdefg12345\""))
+    }
+
+    func test_toJson_dose_contain_createDate() {
+        var fields : [String : Any] = [:]
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.toJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"createDate\":\"1986-02-04T12:34:56.789Z\""))
+    }
+
+    func test_toJson_dose_contain_updateDate() {
+        var fields : [String : Any] = [:]
+        fields["updateDate"] = "1986-02-04T12:34:56.910Z"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.toJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"updateDate\":\"1986-02-04T12:34:56.910Z\""))
+    }
+
+    func test_toJson_dose_contain_acl() {
+        var fields : [String : Any] = [:]
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.toJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"acl\":{\"abcd\""))
+        XCTAssertNotNil(jsonString.range(of: "\"read\":true"))
+        XCTAssertNotNil(jsonString.range(of: "\"write\":false"))
+    }
+
+    func test_toJson_special_fields() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        fields["takanokun"] = "takano_san"
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        fields["updateDate"] = "1986-02-04T12:34:56.910Z"
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.toJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"objectId\":\"abcdefg12345\""))
+        XCTAssertNotNil(jsonString.range(of: "\"takanokun\":\"takano_san\""))
+        XCTAssertNotNil(jsonString.range(of: "\"createDate\":\"1986-02-04T12:34:56.789Z\""))
+        XCTAssertNotNil(jsonString.range(of: "\"updateDate\":\"1986-02-04T12:34:56.910Z\""))
+        XCTAssertNotNil(jsonString.range(of: "\"acl\":{\"abcd\""))
+        XCTAssertNotNil(jsonString.range(of: "\"read\":true"))
+        XCTAssertNotNil(jsonString.range(of: "\"write\":false"))
+    }
+
+    func test_getPostFieldsToJson_init() {
+        var fields : [String : Any] = [:]
+        fields["takanokun"] = "takano_san"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+        XCTAssertEqual(try! sut.getPostFieldsToJson(), "{\"takanokun\":\"takano_san\"}".data(using: .utf8))
+    }
+
+    func test_getPostFieldsToJson_setfieldValue() {
+        let sut : NCMBBase = NCMBBase(className: "TestClass")
+        sut["takanokun"] = "takano_san"
+        XCTAssertEqual(try! sut.getPostFieldsToJson(), "{\"takanokun\":\"takano_san\"}".data(using: .utf8))
+    }
+
+    func test_getPostFieldsToJson_removeField() {
+        var fields : [String : Any] = [:]
+        fields["takanokun"] = "takano_san"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+        sut.removeField(field: "takanokun")
+        XCTAssertEqual(try! sut.getPostFieldsToJson(), "{}".data(using: .utf8))
+    }
+
+    func test_getPostFieldsToJson_afterRefrect() {
+        var contents : [String : Any] = [:]
+        contents["objectId"] = "abcdefg12345"
+        contents["createDate"] = "1986-02-04T12:34:56.789Z"
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+
+        let sut : NCMBBase = NCMBBase(className: "TestClass")
+        sut["takanokun"] = "takano_san"
+        sut.reflectResponse(response: response)
+        let json : Data = try! sut.getPostFieldsToJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNil(jsonString.range(of: "\"objectId\""))
+        XCTAssertNil(jsonString.range(of: "\"createDate\""))
+        XCTAssertNotNil(jsonString.range(of: "\"takanokun\":\"takano_san\""))
+    }
+
+    func test_getPostFieldsToJson_dose_contain_ordinal_field() {
+        var fields : [String : Any] = [:]
+        fields["takanokun"] = "takano_san"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.getPostFieldsToJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"takanokun\":\"takano_san\""))
+    }
+
+    func test_getPostFieldsToJson_dose_not_contain_objectId() {
+        var fields : [String : Any] = [:]
+        fields["objectId"] = "abcdefg12345"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.getPostFieldsToJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNil(jsonString.range(of: "\"objectId\""))
+    }
+
+    func test_getPostFieldsToJson_dose_not_contain_createDate() {
+        var fields : [String : Any] = [:]
+        fields["createDate"] = "1986-02-04T12:34:56.789Z"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.getPostFieldsToJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNil(jsonString.range(of: "\"createDate\""))
+    }
+
+    func test_getPostFieldsToJson_dose_not_contain_updateDate() {
+        var fields : [String : Any] = [:]
+        fields["updateDate"] = "1986-02-04T12:34:56.910Z"
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.getPostFieldsToJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNil(jsonString.range(of: "\"updateDate\""))
+    }
+
+    func test_getPostFieldsToJson_dose_contain_acl() {
+        var fields : [String : Any] = [:]
+        fields["acl"] = ["abcd": ["read": true, "write": false]]
+        let sut : NCMBBase = NCMBBase(className: "TestClass", fields: fields)
+
+        let json : Data = try! sut.getPostFieldsToJson()!
+        let jsonString : String = String(data: json, encoding: .utf8)!
+        XCTAssertNotNil(jsonString.range(of: "\"acl\":{\"abcd\""))
+        XCTAssertNotNil(jsonString.range(of: "\"read\":true"))
+        XCTAssertNotNil(jsonString.range(of: "\"write\":false"))
+    }
+
     func test_isIgnoredKey() {
         let sut : NCMBBase = NCMBBase(className: "TestClass")
         sut["takanokun"] = 42
@@ -550,9 +711,31 @@ final class NCMBBaseTests: NCMBTestCase {
         ("test_toJson_setfieldValue", test_toJson_setfieldValue),
         ("test_toJson_removeField", test_toJson_removeField),
         ("test_toJson_afterRefrect", test_toJson_afterRefrect),
+        ("test_toJson_dose_contain_ordinal_field", test_toJson_dose_contain_ordinal_field),
+        ("test_toJson_dose_contain_objectId", test_toJson_dose_contain_objectId),
+        ("test_toJson_dose_contain_createDate", test_toJson_dose_contain_createDate),
+        ("test_toJson_dose_contain_updateDate", test_toJson_dose_contain_updateDate),
+        ("test_toJson_dose_contain_acl", test_toJson_dose_contain_acl),
+        ("test_toJson_special_fields", test_toJson_special_fields),
+        ("test_getPostFieldsToJson_init", test_getPostFieldsToJson_init),
+        ("test_getPostFieldsToJson_setfieldValue", test_getPostFieldsToJson_setfieldValue),
+        ("test_getPostFieldsToJson_removeField", test_getPostFieldsToJson_removeField),
+        ("test_getPostFieldsToJson_afterRefrect", test_getPostFieldsToJson_afterRefrect),
+        ("test_getPostFieldsToJson_dose_contain_ordinal_field", test_getPostFieldsToJson_dose_contain_ordinal_field),
+        ("test_getPostFieldsToJson_dose_not_contain_objectId", test_getPostFieldsToJson_dose_not_contain_objectId),
+        ("test_getPostFieldsToJson_dose_not_contain_createDate", test_getPostFieldsToJson_dose_not_contain_createDate),
+        ("test_getPostFieldsToJson_dose_not_contain_updateDate", test_getPostFieldsToJson_dose_not_contain_updateDate),
+        ("test_getPostFieldsToJson_dose_contain_acl", test_getPostFieldsToJson_dose_contain_acl),
         ("test_isIgnoredKey", test_isIgnoredKey),
         ("test_isIgnoredKey_setFieldValue", test_isIgnoredKey_setFieldValue),
         ("test_copy", test_copy),
+        ("test_description_basic", test_description_basic),
+        ("test_description_fields_have_int", test_description_fields_have_int),
+        ("test_description_fields_all_nil", test_description_fields_all_nil),
+        ("test_description_objectId_is_nill", test_description_objectId_is_nill),
+        ("test_description_fields_have_double", test_description_fields_have_double),
+        ("test_description_fields_have_boolean", test_description_fields_have_boolean),
+        ("test_description_fields_is_sorted", test_description_fields_is_sorted),
     ]
 
 }
