@@ -624,7 +624,7 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "2cXESZFIx0Zed+XiKrf+VJjvo2/uxuRDw/J3sjqXogI=")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
-        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.1.1")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.1.2")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
