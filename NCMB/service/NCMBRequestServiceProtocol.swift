@@ -111,7 +111,7 @@ extension NCMBRequestServiceProtocol {
                     apiType: apiType,
                     method: NCMBHTTPMethod.post,
                     subpath: getSubpath(object: object, objectId: nil),
-                    body: try object.toJson())
+                    body: try object.getPostFieldsToJson())
             return request
         } catch let error {
             throw error
