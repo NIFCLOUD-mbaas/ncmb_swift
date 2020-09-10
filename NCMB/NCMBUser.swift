@@ -592,6 +592,18 @@ public class NCMBUser : NCMBBase {
         return tmpuser
     }
 
+    /// twitterのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
+    ///
+    /// - Parameter twitterParameters: NCMBTwitterParameters
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func signUpWithTwitterToken(twitterParameters: NCMBTwitterParameters,
+                                       callback: @escaping NCMBHandler<Void> )
+        -> Void {
+            let twitterInfo:NSMutableDictionary = NSMutableDictionary()
+            twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
+            signUpWithToken(snsInfo: twitterInfo, callback: callback)
+    }
+    
     /// facebookのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う
     ///
     /// - Parameter facebookParameters: NCMBFacebookParameters
@@ -639,6 +651,18 @@ public class NCMBUser : NCMBBase {
         })
     }
 
+    /// ログイン中のユーザー情報に、Twitterの認証情報を紐付ける
+    ///
+    /// - Parameter twitterParameters: NCMBTwitterParameters
+    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
+    public func linkWithTwitterToken(twitterParameters: NCMBTwitterParameters,
+                                     callback: @escaping NCMBHandler<Void> )
+        -> Void {
+            let twitterInfo:NSMutableDictionary = NSMutableDictionary()
+            twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
+            linkWithToken(snsInfo: twitterInfo, callback: callback)
+    }
+    
     /// ログイン中のユーザー情報に、Facebookの認証情報を紐付ける
     ///
     /// - Parameter FacebookParameters: NCMBFacebookParameters
