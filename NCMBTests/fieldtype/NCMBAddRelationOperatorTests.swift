@@ -124,7 +124,7 @@ final class NCMBAddRelationOperatorTests: NCMBTestCase {
     
     func test_toObject() {
         let addRelationOperator = NCMBAddRelationOperator(elements: [NCMBPointer(className: "TestClass", objectId: "hogeHOGE12345678"), NCMBPointer(className: "TestClass", objectId: "hogeHOGE90123456")])
-        var object : [String : Any] = addRelationOperator.toObject()
+        let object : [String : Any] = addRelationOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "AddRelation")
         XCTAssertEqual((object["objects"]! as! Array<Dictionary<String,Any>>).count, 2)
 
