@@ -17,10 +17,9 @@
 このSDKを利用する前に、ニフクラ mobile backendのアカウントを作成する必要があります。
 
 ## 動作環境
-
 - Swift version 4.2
-- iOS 12.x ～ iOS 13.x
-- Xcode 10.x ～ Xcode 11.x
+- iOS 10.x ～ iOS 14.x
+- Xcode 9.x ～ Xcode 12.x
 - armv7s, arm64, arm64e アーキテクチャ
 - iOS/Xcodeのバージョンに依って対応が必要となる可能性があります。詳細はニフクラ mobile backendのドキュメントをご覧ください。
 
