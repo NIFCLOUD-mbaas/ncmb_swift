@@ -18,10 +18,10 @@
 
 ## 動作環境
 
-- Swift version 4.2
-- iOS 12.x ～ iOS 13.x
-- Xcode 10.x ～ Xcode 11.x
-- armv7s, arm64, arm64e アーキテクチャ
+* Mac OS 10.15(Catalina)
+* Xcode ver. 12.0
+* Simulator ver.12.0
+* iPhone11 (iOS14.0)
 - iOS/Xcodeのバージョンに依って対応が必要となる可能性があります。詳細はニフクラ mobile backendのドキュメントをご覧ください。
 
 ※ 動作確認バージョン、開発環境につきましては今後、順次拡大する予定です。
