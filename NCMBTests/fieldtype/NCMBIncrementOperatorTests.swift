@@ -76,14 +76,14 @@ final class NCMBIncrementOperatorTests: NCMBTestCase {
 
     func test_toObject_int() {
         let incrementOperator = NCMBIncrementOperator(amount: 42)
-        var object : [String : Any] = incrementOperator.toObject()
+        let object : [String : Any] = incrementOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "Increment")
         XCTAssertEqual(object["amount"]! as! Int, 42)
     }
 
     func test_toObject_double() {
         let incrementOperator = NCMBIncrementOperator(amount: 1.23)
-        var object : [String : Any] = incrementOperator.toObject()
+        let object : [String : Any] = incrementOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "Increment")
         XCTAssertEqual(object["amount"]! as! Double, 1.23)
     }

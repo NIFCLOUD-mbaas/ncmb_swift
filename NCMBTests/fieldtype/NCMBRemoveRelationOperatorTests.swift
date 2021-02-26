@@ -124,7 +124,7 @@ final class NCMBRemoveRelationOperatorTests: NCMBTestCase {
     
     func test_toObject() {
         let removeRelationOperator = NCMBRemoveRelationOperator(elements: [NCMBPointer(className: "TestClass", objectId: "hogeHOGE12345678"), NCMBPointer(className: "TestClass", objectId: "hogeHOGE90123456")])
-        var object : [String : Any] = removeRelationOperator.toObject()
+        let object : [String : Any] = removeRelationOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "RemoveRelation")
         XCTAssertEqual((object["objects"]! as! Array<Dictionary<String,Any>>).count, 2)
         

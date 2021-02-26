@@ -16,6 +16,9 @@
 
 import Foundation
 @testable import NCMB
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// テストコードで使用するモック用のレスポンスを生成するクラスです。
 public class MockResponseBuilder {
