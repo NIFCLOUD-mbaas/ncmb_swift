@@ -67,7 +67,7 @@ final class NCMBRelationTests: NCMBTestCase {
     
     func test_toObject() {
         let relation = NCMBRelation(className: "TestClass")
-        var object : [String : Any] = relation.toObject()
+        let object : [String : Any] = relation.toObject()
         XCTAssertEqual(object["__type"]! as! String, "Relation")
         XCTAssertEqual(object["className"]! as! String, "TestClass")
     }

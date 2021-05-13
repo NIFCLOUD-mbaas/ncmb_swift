@@ -87,7 +87,7 @@ final class NCMBRemoveOperatorTests: NCMBTestCase {
 
     func test_toObject() {
         let removeOperator = NCMBRemoveOperator(elements: ["takanokun", "takano_san"])
-        var object : [String : Any] = removeOperator.toObject()
+        let object : [String : Any] = removeOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "Remove")
         XCTAssertEqual((object["objects"]! as! Array<String>).count, 2)
         XCTAssertEqual((object["objects"]! as! Array<String>)[0], "takanokun")
@@ -96,7 +96,7 @@ final class NCMBRemoveOperatorTests: NCMBTestCase {
 
     func test_toObject_nilArray() {
         let removeOperator = NCMBRemoveOperator(elements: [nil,"takanokun",nil])
-        var object : [String : Any] = removeOperator.toObject()
+        let object : [String : Any] = removeOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "Remove")
         XCTAssertEqual((object["objects"]! as! Array<Any?>).count, 3)
         XCTAssertNil((object["objects"]! as! Array<Any?>)[0])

@@ -121,7 +121,7 @@ final class NCMBPointerTests: NCMBTestCase {
     
     func test_toObject() {
         let pointer = NCMBPointer(className: "TestClass", objectId: "abcde12345")
-        var object : [String : Any] = pointer.toObject()
+        let object : [String : Any] = pointer.toObject()
         XCTAssertEqual(object["__type"]! as! String, "Pointer")
         XCTAssertEqual(object["className"]! as! String, "TestClass")
         XCTAssertEqual(object["objectId"]! as! String, "abcde12345")

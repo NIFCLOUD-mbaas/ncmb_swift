@@ -71,7 +71,7 @@ final class NCMBDateFieldTests: NCMBTestCase {
     }
 
     func test_convertObject() {
-        var object : [String : Any] = NCMBDateField.convertObject(date: Date(timeIntervalSince1970: 507904496.789))
+        let object : [String : Any] = NCMBDateField.convertObject(date: Date(timeIntervalSince1970: 507904496.789))
         XCTAssertEqual(object["__type"]! as! String, "Date")
         XCTAssertEqual(object["iso"]! as! String, "1986-02-04T12:34:56.789Z")
     }

@@ -90,7 +90,7 @@ final class NCMBGeoPointTests: NCMBTestCase {
 
     func test_toObject() {
         let geoPoint = NCMBGeoPoint(latitude: 35.6666269, longitude: 139.765607)
-        var object : [String : Any] = geoPoint.toObject()
+        let object : [String : Any] = geoPoint.toObject()
         XCTAssertEqual(object["__type"]! as! String, "GeoPoint")
         XCTAssertEqual(object["latitude"]! as! Double, Double(35.6666269))
         XCTAssertEqual(object["longitude"]! as! Double, Double(139.765607))

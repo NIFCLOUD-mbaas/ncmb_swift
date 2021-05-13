@@ -17,6 +17,9 @@
 
 import XCTest
 @testable import NCMB
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// NCMBFile のテストクラスです。
 final class NCMBFileTests: NCMBTestCase {

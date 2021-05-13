@@ -17,6 +17,9 @@
 import Foundation
 import XCTest
 @testable import NCMB
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// NCMBRequest のテストクラスです。
 final class NCMBRequestTests: NCMBTestCase {
@@ -564,7 +567,7 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "Gr/jVnob8/fucYAUwW8fXEVllonyDH1NMirCUHgoYZU=")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
-        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.1.2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.2.0")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
@@ -594,7 +597,7 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "ArT9YDP4fyy8gDxTm65k5uPkXxDjP5LquDNS76cSZqk=")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
-        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.1.2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.2.0")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
@@ -624,7 +627,7 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "2cXESZFIx0Zed+XiKrf+VJjvo2/uxuRDw/J3sjqXogI=")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
-        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.1.2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.2.0")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
@@ -654,7 +657,7 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Timestamp")!, "1986-02-04T12:34:56.789Z")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Signature")!, "873rompizKVX/dxhRLtcrBlOtRO/q1NeEvwYl8qEj/c=")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-Apps-Session-Token"), nil)
-        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.1.2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-SDK-Version"), "swift-1.2.0")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField:"X-NCMB-OS-Version"))
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST1"), "VALUE1")
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField:"X-NCMB-TEST2"), "VALUE2")
@@ -677,7 +680,7 @@ final class NCMBRequestTests: NCMBTestCase {
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField: "X-NCMB-Timestamp"))
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField: "X-NCMB-Signature"))
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "X-NCMB-Apps-Session-Token"), nil)
-        XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "X-NCMB-SDK-Version"), "swift-1.1.2")
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "X-NCMB-SDK-Version"), "swift-1.2.0")
         XCTAssertNotNil(urlRequest.value(forHTTPHeaderField: "X-NCMB-OS-Version"))
     }
 

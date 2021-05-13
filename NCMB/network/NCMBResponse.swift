@@ -15,6 +15,9 @@
  */
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// リクエストからの返却内容を保持する構造体です。
 public struct NCMBResponse {

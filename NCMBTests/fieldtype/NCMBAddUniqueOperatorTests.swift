@@ -87,7 +87,7 @@ final class NCMBAddUniqueOperatorTests: NCMBTestCase {
 
     func test_toObject() {
         let addUniqueOperator = NCMBAddUniqueOperator(elements: ["takanokun", "takano_san"])
-        var object : [String : Any] = addUniqueOperator.toObject()
+        let object : [String : Any] = addUniqueOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "AddUnique")
         XCTAssertEqual((object["objects"]! as! Array<String>).count, 2)
         XCTAssertEqual((object["objects"]! as! Array<String>)[0], "takanokun")
@@ -96,7 +96,7 @@ final class NCMBAddUniqueOperatorTests: NCMBTestCase {
 
     func test_toObject_nilArray() {
         let addUniqueOperator = NCMBAddUniqueOperator(elements: [nil,"takanokun",nil])
-        var object : [String : Any] = addUniqueOperator.toObject()
+        let object : [String : Any] = addUniqueOperator.toObject()
         XCTAssertEqual(object["__op"]! as! String, "AddUnique")
         XCTAssertEqual((object["objects"]! as! Array<Any?>).count, 3)
         XCTAssertNil((object["objects"]! as! Array<Any?>)[0])
