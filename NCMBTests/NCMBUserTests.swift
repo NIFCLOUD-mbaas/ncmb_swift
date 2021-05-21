@@ -2189,6 +2189,56 @@ final class NCMBUserTests: NCMBTestCase {
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
+    
+    func test_logOutInBackground_failure_error_401_deleteFile() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401001", "error" : "Authentication error by header incorrect."]))))
+        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse: "{\"userName\":\"takanokun\",\"password\":\"abcdefgh\"}".data(using: .utf8)!)
+        NCMBLocalFileManagerFactory.setInstance(manager: manager)
+
+        let user : NCMBUser = NCMBUser()
+        user.userName = "takano_san"
+        user.password = "pswdpswd"
+        NCMBUser._currentUser = user
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "takano_san")
+        XCTAssertEqual(NCMBUser.currentUser!.password, "pswdpswd")
+        
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logOutInBackground_failure_error_401_deleteFile")
+        NCMBUser.logOutInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
+            XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E401001"))
+            XCTAssertEqual(error.message, "Authentication error by header incorrect.")
+            XCTAssertEqual(manager.deleteLog.count, 1)
+            XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logOutInBackground_failure_error_404_deleteFile() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E404001", "error" : "No data available."]))))
+        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse: "{\"userName\":\"takanokun\",\"password\":\"abcdefgh\"}".data(using: .utf8)!)
+        NCMBLocalFileManagerFactory.setInstance(manager: manager)
+
+        let user : NCMBUser = NCMBUser()
+        user.userName = "takano_san"
+        user.password = "pswdpswd"
+        NCMBUser._currentUser = user
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "takano_san")
+        XCTAssertEqual(NCMBUser.currentUser!.password, "pswdpswd")
+        
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logOutInBackground_failure_error_404_deleteFile")
+        NCMBUser.logOutInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
+            XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E404001"))
+            XCTAssertEqual(error.message, "No data available.")
+            XCTAssertEqual(manager.deleteLog.count, 1)
+            XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
 
     func test_requestPasswordReset_request() {
         let contents : [String : Any] = ["createDate":"2013-09-04T04:31:43.371Z"]
