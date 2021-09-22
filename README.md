@@ -32,7 +32,7 @@
 ※なお、mobile backend にて大規模な改修が行われた際は、1年半以内のSDKであっても対応出来ない場合がございます。<br>
 その際は[informationブログ](https://mbaas.nifcloud.com/info/)にてお知らせいたします。予めご了承ください。
 
-- v1.1.0 ~ (※2021年5月時点)
+- v1.1.0 ~ (※2021年9月時点)
 
 ### 現在未実装部分について
 
@@ -59,7 +59,8 @@ SDKの改修をされる際には、ご一読ください。
 ## 参考URL集
 
 - [ニフクラ mobile backend](https://mbaas.nifcloud.com/)
-- [ドキュメント](https://mbaas.nifcloud.com/doc/current/)
+- [SDKの詳細な使い方](https://mbaas.nifcloud.com/doc/current/)
+- [サンプル＆チュートリアル](https://mbaas.nifcloud.com/doc/current/tutorial/tutorial_swift.html)
 - [ユーザーコミュニティ](https://github.com/NIFCLOUD-mbaas/UserCommunity)
 
 ## サンプル
