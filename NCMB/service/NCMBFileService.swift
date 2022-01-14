@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import MobileCoreServices
 
 struct NCMBFileService : NCMBRequestServiceProtocol {
 
@@ -23,6 +24,7 @@ struct NCMBFileService : NCMBRequestServiceProtocol {
     static let LOAD_CONTENT_TYPE_STATEMENT = "multipart/form-data; boundary=\(BOUNDARY)"
     static let BLOCK_BEGIN_DELIMTER : Data = toData(string: "--\(BOUNDARY)\r\n")
     static let BLOCK_END_DELIMTER : Data = toData(string: "--\(BOUNDARY)--\r\n\r\n")
+    static let DEFAULT_MIME_TYPE = "application/octet-stream"
 
     var apiType : NCMBApiType {
         get {
@@ -176,7 +178,13 @@ struct NCMBFileService : NCMBRequestServiceProtocol {
     func createBodyBlock(name: String, filename: String, data: Data?) -> Data {
         var result : Data = Data()
         result.append(NCMBFileService.BLOCK_BEGIN_DELIMTER)
-        result.append(NCMBFileService.toData(string: "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(filename)\"\r\n\r\n"))
+        if name == "file" {
+            let mimeType = NCMBFileService.fileNameToMime(filename)
+            result.append(NCMBFileService.toData(string: "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(filename)\"\r\n"))
+            result.append(NCMBFileService.toData(string: "Content-Type: \(mimeType)\r\n\r\n"))
+        } else {
+            result.append(NCMBFileService.toData(string: "Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(filename)\"\r\n\r\n"))
+        }
         if let data = data {
             result.append(data)
         }
@@ -189,5 +197,24 @@ struct NCMBFileService : NCMBRequestServiceProtocol {
             return data
         }
         return Data()
+    }
+    
+    /// Get mine type from file name
+    ///
+    /// - Parameter: file name
+    /// - Return: mineType. Ex: image/png or default: application/octet-stream
+    static func fileNameToMime(_ fileName: String) -> String {
+        let ext = (fileName as NSString).pathExtension
+        guard let uti = fileExtensionToUti(ext), let mime = UTTypeCopyPreferredTagWithClass(uti as CFString, kUTTagClassMIMEType) else { return DEFAULT_MIME_TYPE }
+        return mime.takeRetainedValue() as String
+    }
+    
+    /// Get UTI from file extension
+    ///
+    /// - Parameter: extension
+    /// - Return: UTI
+    static func fileExtensionToUti(_ ext: String) -> String? {
+        guard let contentType = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, ext as CFString, nil) else { return nil }
+        return contentType.takeRetainedValue() as String
     }
 }

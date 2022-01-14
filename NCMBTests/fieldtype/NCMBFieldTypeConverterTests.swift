@@ -140,14 +140,14 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
 
     func test_converToObject_NCMBIncrementOperator() {
         let incrementOperator = NCMBIncrementOperator(amount: 42)
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: incrementOperator)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: incrementOperator)
         XCTAssertEqual(object!["__op"]! as! String, "Increment")
         XCTAssertEqual(object!["amount"]! as! Int, 42)
     }
 
     func test_converToObject_NCMBAddOperator() {
         let addOperator = NCMBAddOperator(elements: ["takanokun", "takano_san"])
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: addOperator)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: addOperator)
         XCTAssertEqual(object!["__op"]! as! String, "Add")
         XCTAssertEqual((object!["objects"]! as! Array<String>).count, 2)
         XCTAssertEqual((object!["objects"]! as! Array<String>)[0], "takanokun")
@@ -156,7 +156,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
 
     func test_converToObject_NCMBAddUniqueOperator() {
         let addUniqueOperator = NCMBAddUniqueOperator(elements: ["takanokun", "takano_san"])
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: addUniqueOperator)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: addUniqueOperator)
         XCTAssertEqual(object!["__op"]! as! String, "AddUnique")
         XCTAssertEqual((object!["objects"]! as! Array<String>).count, 2)
         XCTAssertEqual((object!["objects"]! as! Array<String>)[0], "takanokun")
@@ -165,7 +165,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
 
     func test_converToObject_NCMBRemoveOperator() {
         let removeOperator = NCMBRemoveOperator(elements: ["takanokun", "takano_san"])
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: removeOperator)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: removeOperator)
         XCTAssertEqual(object!["__op"]! as! String, "Remove")
         XCTAssertEqual((object!["objects"]! as! Array<String>).count, 2)
         XCTAssertEqual((object!["objects"]! as! Array<String>)[0], "takanokun")
@@ -177,7 +177,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         let JsontoObject2 = NCMBPointer(className: "TestClass", objectId: "hogeHOGE90123456")
         let addRelationOperator = NCMBAddRelationOperator(elements: [JsontoObject1,JsontoObject2])
 
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: addRelationOperator)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: addRelationOperator)
         XCTAssertEqual(object!["__op"]! as! String, "AddRelation")
         XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>).count, 2)
         
@@ -197,7 +197,7 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
         let JsontoObject2 = NCMBPointer(className: "TestClass", objectId: "hogeHOGE90123456")
         let removeRelationOperator = NCMBRemoveRelationOperator(elements: [JsontoObject1,JsontoObject2])
         
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: removeRelationOperator)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: removeRelationOperator)
         XCTAssertEqual(object!["__op"]! as! String, "RemoveRelation")
         XCTAssertEqual((object!["objects"]! as! Array<Dictionary<String,Any>>).count, 2)
         
@@ -214,14 +214,14 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
 
     func test_converToObject_Date() {
         let date = Date(timeIntervalSince1970: 507904496.789)
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: date)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: date)
         XCTAssertEqual(object!["__type"]! as! String, "Date")
         XCTAssertEqual(object!["iso"]! as! String, "1986-02-04T12:34:56.789Z")
     }
 
     func test_converToObject_NCMBPointer() {
         let pointer = NCMBPointer(className: "TestClass", objectId: "abcde12345")
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: pointer)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: pointer)
         XCTAssertEqual(object!["__type"]! as! String, "Pointer")
         XCTAssertEqual(object!["className"]! as! String, "TestClass")
         XCTAssertEqual(object!["objectId"]! as! String, "abcde12345")
@@ -229,14 +229,14 @@ final class NCMBFieldTypeConverterTests: NCMBTestCase {
 
      func test_converToObject_NCMBRelation() {
         let relation = NCMBRelation(className: "TestClass")
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: relation)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: relation)
         XCTAssertEqual(object!["__type"]! as! String, "Relation")
         XCTAssertEqual(object!["className"]! as! String, "TestClass")
      }
 
     func test_converToObject_NCMBGeoPoint() {
         let geoPoint = NCMBGeoPoint(latitude: 35.6666269, longitude: 139.765607)
-        var object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: geoPoint)
+        let object : [String : Any]? = NCMBFieldTypeConverter.converToObject(value: geoPoint)
         XCTAssertEqual(object!["__type"]! as! String, "GeoPoint")
         XCTAssertEqual(object!["latitude"]! as! Double, Double(35.6666269))
         XCTAssertEqual(object!["longitude"]! as! Double, Double(139.765607))

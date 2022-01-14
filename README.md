@@ -17,10 +17,9 @@
 このSDKを利用する前に、ニフクラ mobile backendのアカウントを作成する必要があります。
 
 ## 動作環境
-
 - Swift version 4.2
-- iOS 12.x ～ iOS 13.x
-- Xcode 10.x ～ Xcode 11.x
+- iOS 10.x ～ iOS 14.x
+- Xcode 9.x ～ Xcode 12.x
 - armv7s, arm64, arm64e アーキテクチャ
 - iOS/Xcodeのバージョンに依って対応が必要となる可能性があります。詳細はニフクラ mobile backendのドキュメントをご覧ください。
 
@@ -33,7 +32,7 @@
 ※なお、mobile backend にて大規模な改修が行われた際は、1年半以内のSDKであっても対応出来ない場合がございます。<br>
 その際は[informationブログ](https://mbaas.nifcloud.com/info/)にてお知らせいたします。予めご了承ください。
 
-- v1.0.0 ~ (※2020年9月時点)
+- v1.1.0 ~ (※2021年9月時点)
 
 ### 現在未実装部分について
 
@@ -60,7 +59,8 @@ SDKの改修をされる際には、ご一読ください。
 ## 参考URL集
 
 - [ニフクラ mobile backend](https://mbaas.nifcloud.com/)
-- [ドキュメント](https://mbaas.nifcloud.com/doc/current/)
+- [SDKの詳細な使い方](https://mbaas.nifcloud.com/doc/current/)
+- [サンプル＆チュートリアル](https://mbaas.nifcloud.com/doc/current/tutorial/tutorial_swift.html)
 - [ユーザーコミュニティ](https://github.com/NIFCLOUD-mbaas/UserCommunity)
 
 ## サンプル

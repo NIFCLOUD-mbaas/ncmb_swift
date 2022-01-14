@@ -2189,6 +2189,56 @@ final class NCMBUserTests: NCMBTestCase {
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
+    
+    func test_logOutInBackground_failure_error_401_deleteFile() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401001", "error" : "Authentication error by header incorrect."]))))
+        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse: "{\"userName\":\"takanokun\",\"password\":\"abcdefgh\"}".data(using: .utf8)!)
+        NCMBLocalFileManagerFactory.setInstance(manager: manager)
+
+        let user : NCMBUser = NCMBUser()
+        user.userName = "takano_san"
+        user.password = "pswdpswd"
+        NCMBUser._currentUser = user
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "takano_san")
+        XCTAssertEqual(NCMBUser.currentUser!.password, "pswdpswd")
+        
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logOutInBackground_failure_error_401_deleteFile")
+        NCMBUser.logOutInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
+            XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E401001"))
+            XCTAssertEqual(error.message, "Authentication error by header incorrect.")
+            XCTAssertEqual(manager.deleteLog.count, 1)
+            XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
+    
+    func test_logOutInBackground_failure_error_404_deleteFile() {
+        NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E404001", "error" : "No data available."]))))
+        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse: "{\"userName\":\"takanokun\",\"password\":\"abcdefgh\"}".data(using: .utf8)!)
+        NCMBLocalFileManagerFactory.setInstance(manager: manager)
+
+        let user : NCMBUser = NCMBUser()
+        user.userName = "takano_san"
+        user.password = "pswdpswd"
+        NCMBUser._currentUser = user
+        XCTAssertEqual(NCMBUser.currentUser!.userName, "takano_san")
+        XCTAssertEqual(NCMBUser.currentUser!.password, "pswdpswd")
+        
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logOutInBackground_failure_error_404_deleteFile")
+        NCMBUser.logOutInBackground(callback: { (result: NCMBResult<Void>) in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
+            XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E404001"))
+            XCTAssertEqual(error.message, "No data available.")
+            XCTAssertEqual(manager.deleteLog.count, 1)
+            XCTAssertEqual(manager.deleteLog[0], NCMBLocalFileType.currentUser)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout: 1.00, handler: nil)
+    }
 
     func test_requestPasswordReset_request() {
         let contents : [String : Any] = ["createDate":"2013-09-04T04:31:43.371Z"]
@@ -2873,15 +2923,16 @@ final class NCMBUserTests: NCMBTestCase {
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw",
             expirationDate:
             Date(timeIntervalSince1970: 507904496.789))
-        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
-        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(facebookInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let facebookInfo: [String: Any] = [
+            facebookParameters.type.rawValue: facebookParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": facebookInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -2893,8 +2944,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let facebook:[String:Any] = (facebookInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookInfo))
             expectation?.fulfill()
         })
 
@@ -2966,28 +3016,28 @@ final class NCMBUserTests: NCMBTestCase {
         //Linkwith facebook
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw",expirationDate:
             Date(timeIntervalSince1970: 507904496.789))
-        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
-        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(facebookInfo, forKey: "authData")
-        let contentsFacebook : [String:Any] = (data as? [String:Any])!
+        let facebookInfo: [String: Any] = [
+            facebookParameters.type.rawValue: facebookParameters.toObject(),
+        ]
+        let contentsFacebook: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": facebookInfo,
+        ]
         let responseFacebook : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsFacebook, statusCode : 201)
         let executorFacebook = MockRequestExecutor(result: .success(responseFacebook))
         NCMBRequestExecutorFactory.setInstance(executor: executorFacebook)
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_facebook_success")
         let currentUser : NCMBUser = NCMBUser.currentUser!
-        currentUser.linkWithFacebookToken(FacebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
+        currentUser.linkWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let facebook:[String:Any] = (facebookInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookInfo))
             XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
@@ -2998,15 +3048,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_facebook_failure() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(googleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3022,13 +3073,12 @@ final class NCMBUserTests: NCMBTestCase {
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(error)))
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_facebook_failure")
         let currentUser : NCMBUser = NCMBUser.currentUser!
-        currentUser.linkWithFacebookToken(FacebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
+        currentUser.linkWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let google:[String:Any] = (googleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
             //Confirm facebook key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["facebook"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
@@ -3042,15 +3092,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_facebook_failure_E409001() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(googleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3064,14 +3115,13 @@ final class NCMBUserTests: NCMBTestCase {
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E409001", "error" : "authData is duplication."]))))
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_link_with_facebook_failure")
         let currentUser : NCMBUser = NCMBUser.currentUser!
-        currentUser.linkWithFacebookToken(FacebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
+        currentUser.linkWithFacebookToken(facebookParameters: facebookParameters, callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
             let error = NCMBTestUtil.getError(result: result)! as! NCMBApiError
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let google:[String:Any] = (googleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
             //Confirm facebook key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["facebook"])
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E409001"))
@@ -3085,15 +3135,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_is_link_with_facebook_id() {
         // Response data for login
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
-        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
-        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(facebookInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let facebookInfo: [String: Any] = [
+            facebookParameters.type.rawValue: facebookParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": facebookInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3104,8 +3155,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let facebook:[String:Any] = (facebookInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookInfo))
         // Check islinkwith facebook id
         XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
     }
@@ -3113,15 +3163,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_facebook_success() {
         // Response data for login
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
-        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
-        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(facebookInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let facebookInfo: [String: Any] = [
+            facebookParameters.type.rawValue: facebookParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": facebookInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3132,30 +3183,28 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let facebook:[String:Any] = (facebookInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookInfo))
         // Unlinkwith facebook
-        let facebookInfoUnlink:NSMutableDictionary = NSMutableDictionary()
-        facebookInfoUnlink.setValue(NSNull(), forKey: facebookParameters.type.rawValue)
-        let dataUnlink : NSMutableDictionary = NSMutableDictionary()
-        dataUnlink.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        dataUnlink.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        dataUnlink.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        dataUnlink.setValue("Yamada Tarou", forKey: "userName")
-        dataUnlink.setValue(facebookInfoUnlink, forKey: "authData")
-        let contentsUnlink : [String:Any] = (dataUnlink as? [String:Any])!
+        let facebookInfoUnlink: [String: Any] = [
+            facebookParameters.type.rawValue: NSNull(),
+        ]
+        let contentsUnlink: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": facebookInfoUnlink,
+        ]
         let responseUnlink : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsUnlink, statusCode : 201)
         let executorUnlink = MockRequestExecutor(result: .success(responseUnlink))
         NCMBRequestExecutorFactory.setInstance(executor: executorUnlink)
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_facebook_success")
-        facebookInfoUnlink.removeObject(forKey: facebookParameters.type.rawValue)
         currentUser.unlink(type: "facebook", callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let facebookUnlink:[String:Any] = (facebookInfoUnlink as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookUnlink))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: [:]))
             XCTAssertFalse(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
         })
@@ -3166,15 +3215,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_facebook_failure() {
         // Response data for login
         let facebookParameters: NCMBFacebookParameters = NCMBFacebookParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw", expirationDate: Date(timeIntervalSince1970: 507904496.789))
-        let facebookInfo:NSMutableDictionary = NSMutableDictionary()
-        facebookInfo.setValue(facebookParameters.toObject(), forKey: facebookParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(facebookInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let facebookInfo: [String: Any] = [
+            facebookParameters.type.rawValue: facebookParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": facebookInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3185,8 +3235,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let facebook:[String:Any] = (facebookInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookInfo))
         // Unlinkwith facebook
         let error = NSError(domain: "NCMBErrorDomain", code: -1, userInfo: nil)
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(error)))
@@ -3197,7 +3246,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebook))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: facebookInfo))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             XCTAssertTrue(currentUser.isLinkedWith(type: "facebook"))
             expectation?.fulfill()
@@ -3208,12 +3257,12 @@ final class NCMBUserTests: NCMBTestCase {
 
     func test_is_unlink_with_facebook_id() {
         // Response data for login
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3586,15 +3635,16 @@ final class NCMBUserTests: NCMBTestCase {
     
     func test_signWithAppleId_success() {
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let appleInfo:NSMutableDictionary = NSMutableDictionary()
-        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(appleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let appleInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3606,8 +3656,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let apple:[String:Any] = (appleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
             expectation?.fulfill()
         })
 
@@ -3642,15 +3691,16 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         //Linkwith apple id
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let appleInfo:NSMutableDictionary = NSMutableDictionary()
-        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(appleInfo, forKey: "authData")
-        let contentsApple : [String:Any] = (data as? [String:Any])!
+        let appleInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+        ]
+        let contentsApple: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfo,
+        ]
         let responseApple : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsApple, statusCode : 201)
         let executorApple = MockRequestExecutor(result: .success(responseApple))
         NCMBRequestExecutorFactory.setInstance(executor: executorApple)
@@ -3662,8 +3712,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let apple:[String:Any] = (appleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
             XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
@@ -3674,15 +3723,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_apple_id_failure() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(googleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject(), 
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3702,8 +3752,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let google:[String:Any] = (googleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
             //Confirm apple key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
@@ -3717,15 +3766,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_apple_id_success() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let appleInfo:NSMutableDictionary = NSMutableDictionary()
-        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(appleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let appleInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3736,30 +3786,28 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let apple:[String:Any] = (appleInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
         // Unlinkwith apple id
-        let appleInfoUnlink:NSMutableDictionary = NSMutableDictionary()
-        appleInfoUnlink.setValue(NSNull(), forKey: appleParameters.type.rawValue)
-        let dataUnlink : NSMutableDictionary = NSMutableDictionary()
-        dataUnlink.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        dataUnlink.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        dataUnlink.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        dataUnlink.setValue("Yamada Tarou", forKey: "userName")
-        dataUnlink.setValue(appleInfoUnlink, forKey: "authData")
-        let contentsUnlink : [String:Any] = (dataUnlink as? [String:Any])!
+        let appleInfoUnlink: [String: Any] = [
+            appleParameters.type.rawValue: NSNull(),
+        ]
+        let contentsUnlink : [String:Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfoUnlink,
+        ]
         let responseUnlink : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsUnlink, statusCode : 201)
         let executorUnlink = MockRequestExecutor(result: .success(responseUnlink))
         NCMBRequestExecutorFactory.setInstance(executor: executorUnlink)
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_apple_id_success")
-        appleInfoUnlink.removeObject(forKey: appleParameters.type.rawValue)
         currentUser.unlink(type: "apple", callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let appleUnlink:[String:Any] = (appleInfoUnlink as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleUnlink))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: [:]))
             XCTAssertFalse(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
         })
@@ -3770,15 +3818,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_apple_id_failure() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let appleInfo:NSMutableDictionary = NSMutableDictionary()
-        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(appleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let appleInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3789,8 +3838,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let apple:[String:Any] = (appleInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
         // Unlinkwith apple id
         let error = NSError(domain: "NCMBErrorDomain", code: -1, userInfo: nil)
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(error)))
@@ -3801,7 +3849,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
             expectation?.fulfill()
@@ -3813,15 +3861,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_is_link_with_apple_id() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let appleInfo:NSMutableDictionary = NSMutableDictionary()
-        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(appleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let appleInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3832,20 +3881,19 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let apple:[String:Any] = (appleInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
         // Check islinkwith apple id
         XCTAssertTrue(currentUser.isLinkedWith(type: "apple"))
     }
 
     func test_is_unlink_with_apple_id() {
         // Response data for login
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3862,15 +3910,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_apple_id_when_already_other_token_success() {
         // Response data for login
         let googleParameters : NCMBGoogleParameters = NCMBGoogleParameters(id: "google_user_id", accessToken: "google_user_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let loginData : NSMutableDictionary = NSMutableDictionary()
-        loginData.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        loginData.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        loginData.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        loginData.setValue("Yamada Tarou", forKey: "userName")
-        loginData.setValue(googleInfo, forKey: "authData")
-        let contents : [String : Any] = (loginData as? [String:Any])!
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject()
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3880,20 +3929,20 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let google:[String:Any] = (googleInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
         //Linkwith apple id
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let snsInputInfo:NSMutableDictionary = NSMutableDictionary()
-        snsInputInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        snsInputInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(snsInputInfo, forKey: "authData")
-        let contentsApple : [String:Any] = (data as? [String:Any])!
+        let snsInputInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+            googleParameters.type.rawValue: googleParameters.toObject(),
+        ]
+        let contentsApple: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": snsInputInfo,
+        ]
         let responseApple : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsApple, statusCode : 201)
         let executorApple = MockRequestExecutor(result: .success(responseApple))
         NCMBRequestExecutorFactory.setInstance(executor: executorApple)
@@ -3905,8 +3954,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let expected: [String:Any] = (snsInputInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: expected))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: snsInputInfo))
             expectation?.fulfill()
         })
 
@@ -3916,15 +3964,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_apple_id_when_already_other_token_failure() {
         // Response data for login
         let googleParameters : NCMBGoogleParameters = NCMBGoogleParameters(id: "google_user_id", accessToken: "google_user_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let loginData : NSMutableDictionary = NSMutableDictionary()
-        loginData.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        loginData.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        loginData.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        loginData.setValue("Yamada Tarou", forKey: "userName")
-        loginData.setValue(googleInfo, forKey: "authData")
-        let contents : [String : Any] = (loginData as? [String:Any])!
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3934,8 +3983,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let google:[String:Any] = (googleInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
         //Linkwith apple id
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
@@ -3947,8 +3995,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let google:[String:Any] = (googleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
             //Confirm apple key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["apple"])
             expectation?.fulfill()
@@ -3959,12 +4006,12 @@ final class NCMBUserTests: NCMBTestCase {
 
     func test_unlink_with_apple_id_token_not_found() {
         // Response data for login
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3994,15 +4041,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_other_token_failure() {
         // Response data for login
         let appleParameters: NCMBAppleParameters = NCMBAppleParameters(id: "000249.a6d59722849d4439aee4d1618ab0d109.1111", accessToken: "c1a51b66edfca470abad0d8fff1acd3d4.0.nsut.IA2zvk92-1bWebpVwxNsGw")
-        let appleInfo:NSMutableDictionary = NSMutableDictionary()
-        appleInfo.setValue(appleParameters.toObject(), forKey: appleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(appleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let appleInfo: [String: Any] = [
+            appleParameters.type.rawValue: appleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": appleInfo,
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -4013,8 +4061,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let apple:[String:Any] = (appleInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
         // Unlinkwith apple id
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_other_token_failure")
@@ -4024,7 +4071,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: apple))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: appleInfo))
             let error = NSError(domain: "NCMBErrorDomain", code: 404003, userInfo: [NSLocalizedDescriptionKey : "other token type"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             expectation?.fulfill()
