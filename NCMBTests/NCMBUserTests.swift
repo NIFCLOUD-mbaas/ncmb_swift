@@ -3279,15 +3279,16 @@ final class NCMBUserTests: NCMBTestCase {
     func test_signWithTwitter_success() {
         let twitterParameters: NCMBTwitterParameters = NCMBTwitterParameters(id: "383290743", screenName: "tanaka", oauthConsumerKey: "6T6AAJgDfyTiF0iCxKD09sgZZ", consumerSecret: "MPtTaCbWq8KIzwscwMPiiaEKAI7eYY00ffzjDEC563ICk4V772", oauthToken: "383290771-pVCqOnBCJd7lWSlVCd6MaiaaDuvVQ4XpGBsIuxXx", oauthTokenSecret: "MvG1SEItjHQ2xA26qzGdfUA5DDtc0x0JlFEY1BdW36R9R")
         
-        let twitterInfo:NSMutableDictionary = NSMutableDictionary()
-        twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(twitterInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let twitterInfo: [String: Any] = [
+            twitterParameters.type.rawValue: twitterParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": twitterInfo
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3299,8 +3300,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let twitter:[String:Any] = (twitterInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitter))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterInfo))
             expectation?.fulfill()
         })
 
@@ -3373,15 +3373,18 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         //Linkwith twitter
         let twitterParameters: NCMBTwitterParameters = NCMBTwitterParameters(id: "383290743", screenName: "tanaka", oauthConsumerKey: "6T6AAJgDfyTiF0iCxKD09sgZZ", consumerSecret: "MPtTaCbWq8KIzwscwMPiiaEKAI7eYY00ffzjDEC563ICk4V772", oauthToken: "383290771-pVCqOnBCJd7lWSlVCd6MaiaaDuvVQ4XpGBsIuxXx", oauthTokenSecret: "MvG1SEItjHQ2xA26qzGdfUA5DDtc0x0JlFEY1BdW36R9R")
-        let twitterInfo:NSMutableDictionary = NSMutableDictionary()
-        twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(twitterInfo, forKey: "authData")
-        let contentsTwitter : [String:Any] = (data as? [String:Any])!
+        
+        let twitterInfo: [String: Any] = [
+            twitterParameters.type.rawValue: twitterParameters.toObject(),
+        ]
+        let contentsTwitter: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": twitterInfo
+        ]
+        
         let responseTwitter : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsTwitter, statusCode : 201)
         let executorTwitter = MockRequestExecutor(result: .success(responseTwitter))
         NCMBRequestExecutorFactory.setInstance(executor: executorTwitter)
@@ -3393,8 +3396,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            let twitter:[String:Any] = (twitterInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitter))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterInfo))
             XCTAssertTrue(currentUser.isLinkedWith(type: "twitter"))
             expectation?.fulfill()
         })
@@ -3405,15 +3407,18 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_twitter_failure() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(googleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo
+        ]
+        
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3433,8 +3438,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let google:[String:Any] = (googleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
             //Confirm twitter key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["twitter"])
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
@@ -3448,15 +3452,17 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_link_with_twitter_failure_E409001() {
         // Response data for login
         let googleParameters: NCMBGoogleParameters = NCMBGoogleParameters(id: "googleId", accessToken: "google_access_token")
-        let googleInfo:NSMutableDictionary = NSMutableDictionary()
-        googleInfo.setValue(googleParameters.toObject(), forKey: googleParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(googleInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        
+        let googleInfo: [String: Any] = [
+            googleParameters.type.rawValue: googleParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": googleInfo
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3476,8 +3482,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let google:[String:Any] = (googleInfo as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: google))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: googleInfo))
             //Confirm twitter key will be not exist in currentUser.authData
             XCTAssertNil(NCMBUser.currentUser!.authData!["twitter"])
             XCTAssertEqual(error.errorCode, NCMBApiErrorCode(code: "E409001"))
@@ -3491,15 +3496,17 @@ final class NCMBUserTests: NCMBTestCase {
     func test_is_link_with_twitter() {
         // Response data for login
         let twitterParameters: NCMBTwitterParameters = NCMBTwitterParameters(id: "383290743", screenName: "tanaka", oauthConsumerKey: "6T6AAJgDfyTiF0iCxKD09sgZZ", consumerSecret: "MPtTaCbWq8KIzwscwMPiiaEKAI7eYY00ffzjDEC563ICk4V772", oauthToken: "383290771-pVCqOnBCJd7lWSlVCd6MaiaaDuvVQ4XpGBsIuxXx", oauthTokenSecret: "MvG1SEItjHQ2xA26qzGdfUA5DDtc0x0JlFEY1BdW36R9R")
-        let twitterInfo:NSMutableDictionary = NSMutableDictionary()
-        twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(twitterInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        
+        let twitterInfo: [String: Any] = [
+            twitterParameters.type.rawValue: twitterParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": twitterInfo
+        ]
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3510,8 +3517,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let twitter:[String:Any] = (twitterInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitter))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterInfo))
         // Check islinkwith twitter
         XCTAssertTrue(currentUser.isLinkedWith(type: "twitter"))
     }
@@ -3519,15 +3525,18 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_twitter_success() {
         // Response data for login
         let twitterParameters: NCMBTwitterParameters = NCMBTwitterParameters(id: "383290743", screenName: "tanaka", oauthConsumerKey: "6T6AAJgDfyTiF0iCxKD09sgZZ", consumerSecret: "MPtTaCbWq8KIzwscwMPiiaEKAI7eYY00ffzjDEC563ICk4V772", oauthToken: "383290771-pVCqOnBCJd7lWSlVCd6MaiaaDuvVQ4XpGBsIuxXx", oauthTokenSecret: "MvG1SEItjHQ2xA26qzGdfUA5DDtc0x0JlFEY1BdW36R9R")
-        let twitterInfo:NSMutableDictionary = NSMutableDictionary()
-        twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(twitterInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        
+        let twitterInfo: [String: Any] = [
+            twitterParameters.type.rawValue: twitterParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": twitterInfo
+        ]
+        
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3538,30 +3547,30 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let twitter:[String:Any] = (twitterInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitter))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterInfo))
         // Unlinkwith twitter
-        let twitterInfoUnlink:NSMutableDictionary = NSMutableDictionary()
-        twitterInfoUnlink.setValue(NSNull(), forKey: twitterParameters.type.rawValue)
-        let dataUnlink : NSMutableDictionary = NSMutableDictionary()
-        dataUnlink.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        dataUnlink.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        dataUnlink.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        dataUnlink.setValue("Yamada Tarou", forKey: "userName")
-        dataUnlink.setValue(twitterInfoUnlink, forKey: "authData")
-        let contentsUnlink : [String:Any] = (dataUnlink as? [String:Any])!
+        let twitterInfoUnlink: [String: Any] = [
+            twitterParameters.type.rawValue: NSNull(),
+        ]
+
+        let contentsUnlink: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": twitterInfoUnlink
+        ]
+        
         let responseUnlink : NCMBResponse = MockResponseBuilder.createResponse(contents: contentsUnlink, statusCode : 201)
         let executorUnlink = MockRequestExecutor(result: .success(responseUnlink))
         NCMBRequestExecutorFactory.setInstance(executor: executorUnlink)
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_userName_and_unlink_with_twitter_success")
-        twitterInfoUnlink.removeObject(forKey: twitterParameters.type.rawValue)
         currentUser.unlink(type: "twitter", callback: { (result: NCMBResult<Void>) in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            let twitterUnlink:[String:Any] = (twitterInfoUnlink as? [String:Any])!
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterUnlink))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: [:]))
             XCTAssertFalse(currentUser.isLinkedWith(type: "twitter"))
             expectation?.fulfill()
         })
@@ -3572,15 +3581,18 @@ final class NCMBUserTests: NCMBTestCase {
     func test_logIn_userName_and_unlink_with_twitter_failure() {
         // Response data for login
         let twitterParameters: NCMBTwitterParameters = NCMBTwitterParameters(id: "383290743", screenName: "tanaka", oauthConsumerKey: "6T6AAJgDfyTiF0iCxKD09sgZZ", consumerSecret: "MPtTaCbWq8KIzwscwMPiiaEKAI7eYY00ffzjDEC563ICk4V772", oauthToken: "383290771-pVCqOnBCJd7lWSlVCd6MaiaaDuvVQ4XpGBsIuxXx", oauthTokenSecret: "MvG1SEItjHQ2xA26qzGdfUA5DDtc0x0JlFEY1BdW36R9R")
-        let twitterInfo:NSMutableDictionary = NSMutableDictionary()
-        twitterInfo.setValue(twitterParameters.toObject(), forKey: twitterParameters.type.rawValue)
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        data.setValue(twitterInfo, forKey: "authData")
-        let contents : [String:Any] = (data as? [String:Any])!
+        
+        let twitterInfo: [String: Any] = [
+            twitterParameters.type.rawValue: twitterParameters.toObject(),
+        ]
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou",
+            "authData": twitterInfo
+        ]
+        
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
@@ -3591,8 +3603,7 @@ final class NCMBUserTests: NCMBTestCase {
         XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
         let currentUser : NCMBUser = NCMBUser.currentUser!
         XCTAssertNotNil(NCMBUser.currentUser!.authData)
-        let twitter:[String:Any] = (twitterInfo as? [String:Any])!
-        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitter))
+        XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterInfo))
         // Unlinkwith twitter
         let error = NSError(domain: "NCMBErrorDomain", code: -1, userInfo: nil)
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(error)))
@@ -3603,7 +3614,7 @@ final class NCMBUserTests: NCMBTestCase {
             XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
             XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
             XCTAssertNotNil(NCMBUser.currentUser!.authData)
-            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitter))
+            XCTAssertTrue(NSDictionary(dictionary: NCMBUser.currentUser!.authData!).isEqual(to: twitterInfo))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as NSError, error)
             XCTAssertTrue(currentUser.isLinkedWith(type: "twitter"))
             expectation?.fulfill()
@@ -3614,12 +3625,13 @@ final class NCMBUserTests: NCMBTestCase {
     
     func test_is_unlink_with_twitter() {
         // Response data for login
-        let data : NSMutableDictionary = NSMutableDictionary()
-        data.setValue("2013-08-28T11:27:16.446Z", forKey: "createDate")
-        data.setValue("epaKcaYZqsREdSMY", forKey: "objectId")
-        data.setValue("iXDIelJRY3ULBdms281VTmc5O", forKey: "sessionToken")
-        data.setValue("Yamada Tarou", forKey: "userName")
-        let contents : [String:Any] = (data as? [String:Any])!
+        let contents: [String: Any] = [
+            "createDate": "2013-08-28T11:27:16.446Z",
+            "objectId": "epaKcaYZqsREdSMY",
+            "sessionToken": "iXDIelJRY3ULBdms281VTmc5O",
+            "userName": "Yamada Tarou"
+        ]
+        
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
         let executor = MockRequestExecutor(result: .success(response))
         NCMBRequestExecutorFactory.setInstance(executor: executor)
