@@ -10,7 +10,7 @@
 - データストア
 - 会員管理
 - ファイルストア
-- SNS連携(Sign In With Apple, Facebookのみ)
+- SNS連携(Sign In With Apple, Facebook, Twitterのみ)
 
 といった機能をアプリから利用することが可能です。
 
