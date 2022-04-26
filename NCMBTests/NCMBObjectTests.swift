@@ -109,11 +109,12 @@ final class NCMBObjectTests: NCMBTestCase {
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_fetchInBackground_reset_modifiedFields")
         sut.fetchInBackground(callback: { (result: NCMBResult<Void>) in
-            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            Task(priority: .background) {
+                let _ = await sut.saveInBackground()
                 XCTAssertEqual(executor.requests.count, 2)
                 XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{}")
                 expectation?.fulfill()
-            })
+            }
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
@@ -189,7 +190,8 @@ final class NCMBObjectTests: NCMBTestCase {
         sut["field1"] = "value1"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_success_insert")
-        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+        Task(priority: .background) {
+            let result = await sut.saveInBackground()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
 
             XCTAssertEqual(executor.requests.count, 1)
@@ -199,7 +201,7 @@ final class NCMBObjectTests: NCMBTestCase {
             XCTAssertEqual(sut["field1"], "value1")
             XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             expectation?.fulfill()
-        })
+        }
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -217,19 +219,21 @@ final class NCMBObjectTests: NCMBTestCase {
         XCTAssertEqual(sut.needUpdate, true)
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_success_update")
-        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+        Task(priority: .background) {
+            let result = await sut.saveInBackground()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-
+            
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.put)
             XCTAssertEqual(String(data: executor.requests[0].body!, encoding: .utf8)!, "{\"field1\":\"value1\"}")
-
+            
             XCTAssertEqual(sut.objectId, "abcdefg12345")
             XCTAssertEqual(sut["field1"], "value1")
             XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             XCTAssertEqual(sut.needUpdate, false)
             expectation?.fulfill()
-        })
+            
+        }
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -240,12 +244,13 @@ final class NCMBObjectTests: NCMBTestCase {
         sut["field1"] = "value1"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_failure")
-        sut.saveInBackground(callback: { result in
+        Task(priority: .background) {
+            let result = await sut.saveInBackground()
             XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
             XCTAssertEqual(sut["field1"], "value1")
             expectation?.fulfill()
-        })
+        }
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -262,14 +267,14 @@ final class NCMBObjectTests: NCMBTestCase {
         sut["field1"] = "value1"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_reset_modifiedFields")
-        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+        Task(priority: .background) {
+            let _ = await sut.saveInBackground()
             sut["field2"] = "value2"
-            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
-                XCTAssertEqual(executor.requests.count, 2)
-                XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field2\":\"value2\"}")
-                expectation?.fulfill()
-            })
-        })
+            let _ = await sut.saveInBackground()
+            XCTAssertEqual(executor.requests.count, 2)
+            XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field2\":\"value2\"}")
+            expectation?.fulfill()
+        }
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -285,14 +290,14 @@ final class NCMBObjectTests: NCMBTestCase {
         sut["field1"] = "value1"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_saveInBackground_modifiedFields_null")
-        sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+        Task(priority: .background) {
+            let _ = await sut.saveInBackground()
             sut.removeField(field: "field1")
-            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
-                XCTAssertEqual(executor.requests.count, 2)
-                XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field1\":null}")
-                expectation?.fulfill()
-            })
-        })
+            let _ = await sut.saveInBackground()
+            XCTAssertEqual(executor.requests.count, 2)
+            XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field1\":null}")
+            expectation?.fulfill()
+        }
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
@@ -373,11 +378,12 @@ final class NCMBObjectTests: NCMBTestCase {
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_deleteInBackground_reset_modifiedFields")
         sut.deleteInBackground(callback: { (result: NCMBResult<Void>) in
-            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            Task(priority: .background) {
+                let _ = await sut.saveInBackground()
                 XCTAssertEqual(executor.requests.count, 2)
                 XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{}")
                 expectation?.fulfill()
-            })
+            }
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }

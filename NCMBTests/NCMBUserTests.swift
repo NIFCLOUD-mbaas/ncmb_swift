@@ -1179,7 +1179,8 @@ final class NCMBUserTests: NCMBTestCase {
             sut["field1"] = "value1"
 
             let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_add_object")
-            sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+            Task(priority: .background) {
+                let result = await sut.saveInBackground()
                 XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
 
                 XCTAssertEqual(executor.requests.count, 1)
@@ -1195,7 +1196,7 @@ final class NCMBUserTests: NCMBTestCase {
                 XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
 
                 expectation?.fulfill()
-            })
+            }
         })
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -1519,7 +1520,8 @@ final class NCMBUserTests: NCMBTestCase {
                 sut["field1"] = "value1"
 
                 let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_add_object")
-                sut.saveInBackground(callback: { (result: NCMBResult<Void>) in
+                Task(priority: .background) {
+                    let result = await sut.saveInBackground()
                     XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
 
                     XCTAssertEqual(executor.requests.count, 1)
@@ -1535,7 +1537,7 @@ final class NCMBUserTests: NCMBTestCase {
                     XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
 
                     expectation?.fulfill()
-                })
+                }
             })
         })
 
