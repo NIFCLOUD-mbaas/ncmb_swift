@@ -1106,14 +1106,16 @@ final class NCMBUserTests: NCMBTestCase {
             sut.objectId = "abcdefg12345"
             sut["field1"] = "value1"
             XCTAssertEqual(sut.needUpdate, true)
-            let result : NCMBResult<Void> = sut.save()
-            XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-
-            XCTAssertNotNil(NCMBUser.currentUser)
-            XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-            XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-            XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
-            expectation?.fulfill()
+            Task(priority: .background) {
+                let result : NCMBResult<Void> = await sut.save()
+                XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+                
+                XCTAssertNotNil(NCMBUser.currentUser)
+                XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+                XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+                XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+                expectation?.fulfill()
+            }
         })
 
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -1430,14 +1432,16 @@ final class NCMBUserTests: NCMBTestCase {
                 sut.objectId = "abcdefg12345"
                 sut["field1"] = "value1"
                 XCTAssertEqual(sut.needUpdate, true)
-                let result : NCMBResult<Void> = sut.save()
-                XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
-
-                XCTAssertNotNil(NCMBUser.currentUser)
-                XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
-                XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
-                XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
-                expectation?.fulfill()
+                Task(priority: .background) {
+                    let result : NCMBResult<Void> = await sut.save()
+                    XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
+                    
+                    XCTAssertNotNil(NCMBUser.currentUser)
+                    XCTAssertEqual(NCMBUser.currentUser!.objectId, "epaKcaYZqsREdSMY")
+                    XCTAssertEqual(NCMBUser.currentUser!.sessionToken, "iXDIelJRY3ULBdms281VTmc5O")
+                    XCTAssertEqual(NCMBUser.currentUser!.userName, "Yamada Tarou")
+                    expectation?.fulfill()
+                }
             })
         })
 

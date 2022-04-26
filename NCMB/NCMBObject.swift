@@ -71,32 +71,27 @@ public class NCMBObject : NCMBBase {
     /// オブジェクトを同期処理にて保存します。
     ///
     /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
-    public func save() -> NCMBResult<Void> {
-        var result : NCMBResult<Void> = NCMBResult<Void>.failure(NCMBApiErrorCode.genericError)
-        let semaphore = DispatchSemaphore(value: 0)
-        saveInBackground(callback: {(res: NCMBResult<Void>) -> Void in
-            result = res
-            semaphore.signal()
-        })
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-        return result
+    public func save() async -> NCMBResult<Void> {
+        return await saveInBackground()
     }
 
     /// オブジェクトを非同期処理にて保存します。
     ///
-    /// - Parameter callback: レスポンス取得後に実行されるコールバックです。
-    public func saveInBackground(callback: @escaping NCMBHandler<Void> ) -> Void {
-        NCMBObjectService().save(object: self, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
-            switch result {
+    /// - Returns: リクエストが成功した場合は `.success` 、 失敗した場合は `.failure<Error>`
+    public func saveInBackground() async -> NCMBResult<Void> {
+        return await withCheckedContinuation { continuation in
+            NCMBObjectService().save(object: self, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
+                switch result {
                 case let .success(response):
                     self.reflectResponse(response: response)
-                    callback(NCMBResult<Void>.success(()))
+                    continuation.resume(returning: NCMBResult<Void>.success(()))
                     break
                 case let .failure(error):
-                    callback(NCMBResult<Void>.failure(error))
+                    continuation.resume(returning: NCMBResult<Void>.failure((error)))
                     break
-            }
-        })
+                }
+            })
+        }
     }
 
     /// 設定されたオブジェクトIDに対応するオブジェクトを同期処理にて削除します。

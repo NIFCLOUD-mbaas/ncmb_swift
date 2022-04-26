@@ -118,7 +118,7 @@ final class NCMBObjectTests: NCMBTestCase {
         self.waitForExpectations(timeout: 1.00, handler: nil)
     }
 
-    func test_save_success_insert() {
+    func test_save_success_insert() async {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
         contents["createDate"] = "1986-02-04T12:34:56.789Z"
@@ -129,7 +129,7 @@ final class NCMBObjectTests: NCMBTestCase {
         let sut : NCMBObject = NCMBObject(className: "TestClass")
         sut["field1"] = "value1"
 
-        let result : NCMBResult<Void> = sut.save()
+        let result : NCMBResult<Void> = await sut.save()
 
         XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
         XCTAssertEqual(executor.requests.count, 1)
@@ -139,7 +139,7 @@ final class NCMBObjectTests: NCMBTestCase {
         XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
     }
 
-    func test_save_success_update() {
+    func test_save_success_update() async {
         var contents : [String : Any] = [:]
         contents["objectId"] = "abcdefg12345"
         contents["createDate"] = "1986-02-04T12:34:56.789Z"
@@ -152,7 +152,7 @@ final class NCMBObjectTests: NCMBTestCase {
         sut["field1"] = "value1"
         XCTAssertEqual(sut.needUpdate, true)
 
-        let result : NCMBResult<Void> = sut.save()
+        let result : NCMBResult<Void> = await sut.save()
 
         XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
         XCTAssertEqual(executor.requests.count, 1)
@@ -164,13 +164,13 @@ final class NCMBObjectTests: NCMBTestCase {
         XCTAssertEqual(sut.needUpdate, false)
     }
 
-    func test_save_failure() {
+    func test_save_failure() async {
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
 
         let sut : NCMBObject = NCMBObject(className: "TestClass")
         sut["field1"] = "value1"
 
-        let result : NCMBResult<Void> = sut.save()
+        let result : NCMBResult<Void> = await sut.save()
 
         XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
         XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
