@@ -19,5 +19,5 @@ Pod::Spec.new do |s|
   s.source_files  = "NCMB/**/*.{swift}"
   s.frameworks = "Foundation", "UIKit", "MobileCoreServices", "AudioToolbox", "SystemConfiguration"
   s.requires_arc = true
-  s.swift_version = '4.2'
+  s.swift_version = '5.5'
 end
