@@ -510,6 +510,101 @@ final class NCMBQueryTests: NCMBTestCase {
         XCTAssertEqual(String(describing: type(of: sut)), "NCMBQuery<NCMBObject>")
         XCTAssertEqual(sut.requestItems["where"], "{\"$or\":[{\"fieldA\":\"value1\"},{\"field2\":{\"$ne\":\"value2\"}},{\"field3\":{\"$lt\":42}}]}")
     }
+    
+    func test_where_select() {
+        var query_city_class = NCMBQuery.getQuery(className: "City")
+        query_city_class.where(field: "population", greaterThan: 1000000)
+        query_city_class.limit = 1
+        query_city_class.skip = 1
+        
+        var query_team_class = NCMBQuery.getQuery(className: "Team")
+        query_team_class.where(field: "hometown", matchesKey: "cityname", inQuery: query_city_class)
+        
+        let where_expectation: [String : Any] = ["hometown": ["$select": ["key": "cityname", "query": ["className": "City", "skip": 1, "limit": 1, "where": ["population": ["$gt": 1000000]]]]]]
+        XCTAssertTrue(NSDictionary(dictionary: query_team_class.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_where_inQuery() {
+        var query_city_class = NCMBQuery.getQuery(className: "City")
+        query_city_class.where(field: "population", greaterThan: 1000000)
+        query_city_class.limit = 1
+        query_city_class.skip = 1
+        
+        var query_team_class = NCMBQuery.getQuery(className: "Team")
+        query_team_class.where(field: "hometown", matchesQuery: query_city_class)
+        
+        let where_expectation: [String : Any] = ["hometown": ["$inQuery": ["className": "City", "skip": 1, "limit": 1, "where": ["population": ["$gt": 1000000]]]]]
+        XCTAssertTrue(NSDictionary(dictionary: query_team_class.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_where_nearGeoPoint() {
+        let latitude = 35.688499
+        let longitude = 139.684026
+        let geoPoint = NCMBGeoPoint.init(latitude: latitude, longitude: longitude)
+        var query = NCMBQuery.getQuery(className: "Shop")
+        query.where(field: "geoPoint", nearGeoPoint: geoPoint)
+        
+        let where_expectation: [String : Any] = ["geoPoint": ["$nearSphere": ["__type": "GeoPoint", "latitude": latitude, "longitude": longitude]]]
+        XCTAssertTrue(NSDictionary(dictionary: query.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_where_nearGeoPoint_withinKilometers() {
+        let latitude = 35.688499
+        let longitude = 139.684026
+        let kilometers = 10.0
+        let geoPoint = NCMBGeoPoint.init(latitude: latitude, longitude: longitude)
+        var query = NCMBQuery.getQuery(className: "Shop")
+        query.where(field: "geoPoint", nearGeoPoint: geoPoint, withinKilometers: kilometers)
+        
+        let where_expectation: [String : Any] = ["geoPoint": ["$maxDistanceInKilometers": kilometers, "$nearSphere": ["__type": "GeoPoint", "latitude": latitude, "longitude": longitude]]]
+        XCTAssertTrue(NSDictionary(dictionary: query.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_where_nearGeoPoint_withinMiles() {
+        let latitude = 35.688499
+        let longitude = 139.684026
+        let miles = 100.0
+        let geoPoint = NCMBGeoPoint.init(latitude: latitude, longitude: longitude)
+        var query = NCMBQuery.getQuery(className: "Shop")
+        query.where(field: "geoPoint", nearGeoPoint: geoPoint, withinMiles: miles)
+        
+        let where_expectation: [String : Any] = ["geoPoint": ["$maxDistanceInMiles": miles, "$nearSphere": ["__type": "GeoPoint", "latitude": latitude, "longitude": longitude]]]
+        XCTAssertTrue(NSDictionary(dictionary: query.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_where_nearGeoPoint_withinRadians() {
+        let latitude = 35.688499
+        let longitude = 139.684026
+        let radians = 180/Double.pi
+        let geoPoint = NCMBGeoPoint.init(latitude: latitude, longitude: longitude)
+        var query = NCMBQuery.getQuery(className: "Shop")
+        query.where(field: "geoPoint", nearGeoPoint: geoPoint, withinRadians: radians)
+        
+        let where_expectation: [String : Any] = ["geoPoint": ["$maxDistanceInRadians": radians, "$nearSphere": ["__type": "GeoPoint", "latitude": latitude, "longitude": longitude]]]
+        XCTAssertTrue(NSDictionary(dictionary: query.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_where_within_box() {
+        let southwest_lat = 35.688499
+        let southwest_lng = 139.684026
+        let northeast_lat = 35.695737
+        let northeast_lng = 139.687384
+        let southwest = NCMBGeoPoint.init(latitude: southwest_lat, longitude: southwest_lng)
+        let northeast = NCMBGeoPoint.init(latitude: northeast_lat, longitude: northeast_lng)
+        var query = NCMBQuery.getQuery(className: "Shop")
+        query.where(field: "geoPoint", withinGeoBoxFromSouthwest: southwest, toNortheast: northeast)
+        
+        let where_expectation: [String : Any] = ["geoPoint": ["$within": ["$box": [["__type": "GeoPoint", "latitude": southwest_lat, "longitude": southwest_lng], ["__type": "GeoPoint", "latitude": northeast_lat, "longitude": northeast_lng]]]]]
+        XCTAssertTrue(NSDictionary(dictionary: query.whereItems).isEqual(to: where_expectation))
+    }
+    
+    func test_relatedTo() {
+        var query = NCMBQuery.getQuery(className: "ClassA")
+        query.relatedTo(targetClassName: "ClassB", objectId: "fA2UG40Xd09KynDp", key: "Relation")
+        
+        let where_expectation: [String : Any] = ["$relatedTo": ["object": ["__type": "Pointer", "className": "ClassB", "objectId": "fA2UG40Xd09KynDp"], "key": "Relation"]]
+        XCTAssertTrue(NSDictionary(dictionary: query.whereItems).isEqual(to: where_expectation))
+    }
 
     static var allTests = [
         ("test_init_className", test_init_className),
@@ -558,5 +653,12 @@ final class NCMBQueryTests: NCMBTestCase {
         ("test_orQuery_1queries", test_orQuery_1queries),
         ("test_orQuery_2queries", test_orQuery_2queries),
         ("test_orQuery_3queries", test_orQuery_3queries),
+        ("test_where_select", test_where_select),
+        ("test_where_inQuery", test_where_inQuery),
+        ("test_where_nearGeoPoint", test_where_nearGeoPoint),
+        ("test_where_nearGeoPoint_withinKilometers", test_where_nearGeoPoint_withinKilometers),
+        ("test_where_nearGeoPoint_withinMiles", test_where_nearGeoPoint_withinMiles),
+        ("test_where_nearGeoPoint_withinRadians", test_where_nearGeoPoint_withinRadians),
+        ("test_relatedTo", test_relatedTo),
     ]
 }
