@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NCMBApiErrorCode Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/NCMBApiErrorCode" class="dashAnchor"></a>
+    <a title="NCMBApiErrorCode Enumeration Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">NCMB 1.3.0 Docs</a> (77% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">NCMB Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        NCMBApiErrorCode Enumeration Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/NCMB.html">NCMB</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBAnalytics.html">NCMBAnalytics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBAnonymousUtils.html">NCMBAnonymousUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBBase.html">NCMBBase</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBFile.html">NCMBFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBInstallation.html">NCMBInstallation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBObject.html">NCMBObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBPush.html">NCMBPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBRole.html">NCMBRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBUser.html">NCMBUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBApiErrorCode.html">NCMBApiErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBExpirationTimeUnitType.html">NCMBExpirationTimeUnitType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBHTTPMethod.html">NCMBHTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBInvalidRequestError.html">NCMBInvalidRequestError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBParseError.html">NCMBParseError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBResult.html">NCMBResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBUserError.html">NCMBUserError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBACL.html">NCMBACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddOperator.html">NCMBAddOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddRelationOperator.html">NCMBAddRelationOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddUniqueOperator.html">NCMBAddUniqueOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBApiError.html">NCMBApiError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAppleParameters.html">NCMBAppleParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBDateField.html">NCMBDateField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBExpirationTime.html">NCMBExpirationTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBFacebookParameters.html">NCMBFacebookParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBGeoPoint.html">NCMBGeoPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBGoogleParameters.html">NCMBGoogleParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBIncrementOperator.html">NCMBIncrementOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBPointer.html">NCMBPointer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBQuery.html">NCMBQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRelation.html">NCMBRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRemoveOperator.html">NCMBRemoveOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRemoveRelationOperator.html">NCMBRemoveRelationOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:4NCMB12NCMBResponseV">NCMBResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBScript.html">NCMBScript</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBTwitterParameters.html">NCMBTwitterParameters</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>NCMBApiErrorCode</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">NCMBApiErrorCode</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+
+                </div>
+              </div>
+            <p>APIエラーコードと対応する列挙型です。</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO24invalidResponseSignatureyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidResponseSignature" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO24invalidResponseSignatureyA2CmF">invalidResponseSignature</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidResponseSignature</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO10badRequestyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/badRequest" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO10badRequestyA2CmF">badRequest</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">badRequest</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO11invalidJsonyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidJson" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO11invalidJsonyA2CmF">invalidJson</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidJson</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO11invalidTypeyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO11invalidTypeyA2CmF">invalidType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO8requiredyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/required" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO8requiredyA2CmF">required</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kd">required</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO13invalidFormatyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidFormat" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO13invalidFormatyA2CmF">invalidFormat</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidFormat</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO12invalidValueyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO12invalidValueyA2CmF">invalidValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidValue</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO8notExistyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/notExist" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO8notExistyA2CmF">notExist</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">notExist</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO25invalidFormatSpecificLineyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidFormatSpecificLine" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO25invalidFormatSpecificLineyA2CmF">invalidFormatSpecificLine</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidFormatSpecificLine</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO011correlationC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/correlationError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO011correlationC0yA2CmF">correlationError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">correlationError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO13invalidLengthyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidLength" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO13invalidLengthyA2CmF">invalidLength</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidLength</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO12unauthorizedyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/unauthorized" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO12unauthorizedyA2CmF">unauthorized</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unauthorized</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO014authenticationC17ByHeaderIncorrectyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/authenticationErrorByHeaderIncorrect" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO014authenticationC17ByHeaderIncorrectyA2CmF">authenticationErrorByHeaderIncorrect</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">authenticationErrorByHeaderIncorrect</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO014authenticationC19WithIdPassIncorrectyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/authenticationErrorWithIdPassIncorrect" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO014authenticationC19WithIdPassIncorrectyA2CmF">authenticationErrorWithIdPassIncorrect</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">authenticationErrorWithIdPassIncorrect</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO019oAuthAuthenticationC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/oAuthAuthenticationError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO019oAuthAuthenticationC0yA2CmF">oAuthAuthenticationError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">oAuthAuthenticationError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO24noSettlementForAFreePlanyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noSettlementForAFreePlan" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO24noSettlementForAFreePlanyA2CmF">noSettlementForAFreePlan</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noSettlementForAFreePlan</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO9forbiddenyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/forbidden" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO9forbiddenyA2CmF">forbidden</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">forbidden</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO15noAccessWithACLyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noAccessWithACL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO15noAccessWithACLyA2CmF">noAccessWithACL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noAccessWithACL</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO22unauthorizedOperationsyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/unauthorizedOperations" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO22unauthorizedOperationsyA2CmF">unauthorizedOperations</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unauthorizedOperations</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO26operationThatAreProhibitedyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/operationThatAreProhibited" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO26operationThatAreProhibitedyA2CmF">operationThatAreProhibited</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">operationThatAreProhibited</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO19oneTimeTokenExpiredyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/oneTimeTokenExpired" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO19oneTimeTokenExpiredyA2CmF">oneTimeTokenExpired</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">oneTimeTokenExpired</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO14settingDisableyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/settingDisable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO14settingDisableyA2CmF">settingDisable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">settingDisable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO20invalidGeoPointValueyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidGeoPointValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO20invalidGeoPointValueyA2CmF">invalidGeoPointValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidGeoPointValue</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO15noDataAvailableyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noDataAvailable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO15noDataAvailableyA2CmF">noDataAvailable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noDataAvailable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO11noneServiceyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noneService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO11noneServiceyA2CmF">noneService</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noneService</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO9noneFieldyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noneField" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO9noneFieldyA2CmF">noneField</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noneField</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO15noneDeviceTokenyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noneDeviceToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO15noneDeviceTokenyA2CmF">noneDeviceToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noneDeviceToken</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO17noSuchApplicationyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noSuchApplication" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO17noSuchApplicationyA2CmF">noSuchApplication</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noSuchApplication</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO10noSuchUseryA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/noSuchUser" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO10noSuchUseryA2CmF">noSuchUser</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noSuchUser</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO16methodNotAllowedyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/methodNotAllowed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO16methodNotAllowedyA2CmF">methodNotAllowed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">methodNotAllowed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO11duplicationyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/duplication" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO11duplicationyA2CmF">duplication</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">duplication</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO013fileSizeLimitC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/fileSizeLimitError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO013fileSizeLimitC0yA2CmF">fileSizeLimitError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">fileSizeLimitError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO21requestEntityTooLargeyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/requestEntityTooLarge" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO21requestEntityTooLargeyA2CmF">requestEntityTooLarge</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">requestEntityTooLarge</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO019requestsThreadLimitC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/requestsThreadLimitError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO019requestsThreadLimitC0yA2CmF">requestsThreadLimitError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">requestsThreadLimitError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO18requestUriTooLargeyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/requestUriTooLarge" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO18requestUriTooLargeyA2CmF">requestUriTooLarge</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">requestUriTooLarge</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO20unsupportedMediaTypeyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/unsupportedMediaType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO20unsupportedMediaTypeyA2CmF">unsupportedMediaType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unsupportedMediaType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO11passedLimityA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/passedLimit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO11passedLimityA2CmF">passedLimit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">passedLimit</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO15tooManyRequestsyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/tooManyRequests" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO15tooManyRequestsyA2CmF">tooManyRequests</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">tooManyRequests</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO06systemC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/systemError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO06systemC0yA2CmF">systemError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">systemError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO07storageC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/storageError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO07storageC0yA2CmF">storageError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">storageError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO11mailFailureyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/mailFailure" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO11mailFailureyA2CmF">mailFailure</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">mailFailure</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO18serviceUnavailableyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/serviceUnavailable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO18serviceUnavailableyA2CmF">serviceUnavailable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">serviceUnavailable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB16NCMBApiErrorCodeO07genericC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/genericError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB16NCMBApiErrorCodeO07genericC0yA2CmF">genericError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">genericError</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://mbaas.nifcloud.com" target="_blank" rel="external noopener">FUJITSU CLOUD TECHNOLOGIES LIMITED</a>. All rights reserved. (Last updated: 2022-09-06)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
