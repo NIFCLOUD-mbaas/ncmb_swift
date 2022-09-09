@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NCMBUser Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/NCMBUser" class="dashAnchor"></a>
+    <a title="NCMBUser Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">NCMB 1.3.0 Docs</a> (77% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">NCMB Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        NCMBUser Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/NCMB.html">NCMB</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBAnalytics.html">NCMBAnalytics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBAnonymousUtils.html">NCMBAnonymousUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBBase.html">NCMBBase</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBFile.html">NCMBFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBInstallation.html">NCMBInstallation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBObject.html">NCMBObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBPush.html">NCMBPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBRole.html">NCMBRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBUser.html">NCMBUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBApiErrorCode.html">NCMBApiErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBExpirationTimeUnitType.html">NCMBExpirationTimeUnitType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBHTTPMethod.html">NCMBHTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBInvalidRequestError.html">NCMBInvalidRequestError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBParseError.html">NCMBParseError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBResult.html">NCMBResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBUserError.html">NCMBUserError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBACL.html">NCMBACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddOperator.html">NCMBAddOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddRelationOperator.html">NCMBAddRelationOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddUniqueOperator.html">NCMBAddUniqueOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBApiError.html">NCMBApiError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAppleParameters.html">NCMBAppleParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBDateField.html">NCMBDateField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBExpirationTime.html">NCMBExpirationTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBFacebookParameters.html">NCMBFacebookParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBGeoPoint.html">NCMBGeoPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBGoogleParameters.html">NCMBGoogleParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBIncrementOperator.html">NCMBIncrementOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBPointer.html">NCMBPointer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBQuery.html">NCMBQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRelation.html">NCMBRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRemoveOperator.html">NCMBRemoveOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRemoveRelationOperator.html">NCMBRemoveRelationOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:4NCMB12NCMBResponseV">NCMBResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBScript.html">NCMBScript</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBTwitterParameters.html">NCMBTwitterParameters</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>NCMBUser</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">NCMBUser</span> <span class="p">:</span> <span class="kt"><a href="../Classes/NCMBBase.html">NCMBBase</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>会員情報を操作するためのクラスです。</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserCACycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserCACycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>イニシャライズです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC23currentUserSessionTokenSSSgvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/currentUserSessionToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC23currentUserSessionTokenSSSgvpZ">currentUserSessionToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログインユーザーのセッショントークンです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="k">var</span> <span class="nv">currentUserSessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC12sessionTokenSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/sessionToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC12sessionTokenSSSgvp">sessionToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>セッショントークンです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">sessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC8userNameSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/userName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC8userNameSSSgvp">userName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ユーザー名です。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">userName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC8passwordSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/password" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC8passwordSSSgvp">password</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>パスワードです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC11mailAddressSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/mailAddress" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC11mailAddressSSSgvp">mailAddress</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>メールアドレスです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC5queryAA9NCMBQueryVyACGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC5queryAA9NCMBQueryVyACGvpZ">query</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>会員情報を検索するためのクエリです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="k">var</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBQuery.html">NCMBQuery</a></span><span class="o">&lt;</span><span class="kt">NCMBUser</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC11currentUserACSgvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/currentUser" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC11currentUserACSgvpZ">currentUser</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログインユーザー情報を返します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="k">var</span> <span class="nv">currentUser</span><span class="p">:</span> <span class="kt">NCMBUser</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC15isAuthenticatedSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isAuthenticated" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC15isAuthenticatedSbvp">isAuthenticated</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ユーザが認証済みかを表します。
+認証済みの場合は <code>true</code> 、それ以外では <code>false</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isAuthenticated</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC20automaticCurrentUserAA10NCMBResultOyACGyFZ"></a>
+                    <a name="//apple_ref/swift/Method/automaticCurrentUser()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC20automaticCurrentUserAA10NCMBResultOyACGyFZ">automaticCurrentUser()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>anonymous認証による自動会員登録を同期処理にて実行します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">automaticCurrentUser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">NCMBUser</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success&lt;NCMBUser&gt;</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC32automaticCurrentUserInBackground8callbackyyAA10NCMBResultOyACGc_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/automaticCurrentUserInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC32automaticCurrentUserInBackground8callbackyyAA10NCMBResultOyACGc_tFZ">automaticCurrentUserInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>anonymous認証による自動会員登録を非同期処理にて実行します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">automaticCurrentUserInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">NCMBUser</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC19enableAutomaticUseryyFZ"></a>
+                    <a name="//apple_ref/swift/Method/enableAutomaticUser()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC19enableAutomaticUseryyFZ">enableAutomaticUser()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>匿名ユーザの自動生成を有効化します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">enableAutomaticUser</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC20disableAutomaticUseryyFZ"></a>
+                    <a name="//apple_ref/swift/Method/disableAutomaticUser()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC20disableAutomaticUseryyFZ">disableAutomaticUser()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>匿名ユーザの自動生成を無効化します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">disableAutomaticUser</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC6signUpAA10NCMBResultOyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/signUp()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC6signUpAA10NCMBResultOyytGyF">signUp()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定された内容から会員情報を同期処理にて登録します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC18signUpInBackground8callbackyyAA10NCMBResultOyytGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/signUpInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC18signUpInBackground8callbackyyAA10NCMBResultOyytGc_tF">signUpInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定された内容から会員情報を非同期処理にて登録します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signUpInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC25requestAuthenticationMail11mailAddressAA10NCMBResultOyytGSS_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/requestAuthenticationMail(mailAddress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC25requestAuthenticationMail11mailAddressAA10NCMBResultOyytGSS_tFZ">requestAuthenticationMail(mailAddress:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>指定メールアドレスに対して、会員登録を行うためのメールを送信します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">requestAuthenticationMail</span><span class="p">(</span><span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mailAddress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>メールアドレス</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC37requestAuthenticationMailInBackground11mailAddress8callbackySS_yAA10NCMBResultOyytGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/requestAuthenticationMailInBackground(mailAddress:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC37requestAuthenticationMailInBackground11mailAddress8callbackySS_yAA10NCMBResultOyytGctFZ">requestAuthenticationMailInBackground(mailAddress:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>指定メールアドレスに対して、会員登録を行うためのメールを送信します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">requestAuthenticationMailInBackground</span><span class="p">(</span><span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mailAddress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>メールアドレス</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC5logIn8userName8passwordAA10NCMBResultOyytGSS_SStFZ"></a>
+                    <a name="//apple_ref/swift/Method/logIn(userName:password:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC5logIn8userName8passwordAA10NCMBResultOyytGSS_SStFZ">logIn(userName:<wbr>password:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログインを同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">logIn</span><span class="p">(</span><span class="nv">userName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ユーザー名</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>パスワード</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC05logInD10Background8userName8password8callbackySS_SSyAA10NCMBResultOyytGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/logInInBackground(userName:password:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC05logInD10Background8userName8password8callbackySS_SSyAA10NCMBResultOyytGctFZ">logInInBackground(userName:<wbr>password:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログインを非同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">logInInBackground</span><span class="p">(</span><span class="nv">userName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ユーザー名</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>パスワード</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC5logIn11mailAddress8passwordAA10NCMBResultOyytGSS_SStFZ"></a>
+                    <a name="//apple_ref/swift/Method/logIn(mailAddress:password:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC5logIn11mailAddress8passwordAA10NCMBResultOyytGSS_SStFZ">logIn(mailAddress:<wbr>password:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログインを同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">logIn</span><span class="p">(</span><span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mailAddress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>メールアドレス</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>パスワード</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC05logInD10Background11mailAddress8password8callbackySS_SSyAA10NCMBResultOyytGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/logInInBackground(mailAddress:password:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC05logInD10Background11mailAddress8password8callbackySS_SSyAA10NCMBResultOyytGctFZ">logInInBackground(mailAddress:<wbr>password:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログインを非同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">logInInBackground</span><span class="p">(</span><span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mailAddress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>メールアドレス</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>パスワード</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC6logOutAA10NCMBResultOyytGyFZ"></a>
+                    <a name="//apple_ref/swift/Method/logOut()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC6logOutAA10NCMBResultOyytGyFZ">logOut()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログアウトを同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">logOut</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC18logOutInBackground8callbackyyAA10NCMBResultOyytGc_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/logOutInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC18logOutInBackground8callbackyyAA10NCMBResultOyytGc_tFZ">logOutInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログアウトを非同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">logOutInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC20requestPasswordReset11mailAddressAA10NCMBResultOyytGSS_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/requestPasswordReset(mailAddress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC20requestPasswordReset11mailAddressAA10NCMBResultOyytGSS_tFZ">requestPasswordReset(mailAddress:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>指定メールアドレスに該当する会員に対して、パスワード再発行を行うためのメールを送信するためのリクエストを同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">requestPasswordReset</span><span class="p">(</span><span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mailAddress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>メールアドレス</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC32requestPasswordResetInBackground11mailAddress8callbackySS_yAA10NCMBResultOyytGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/requestPasswordResetInBackground(mailAddress:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC32requestPasswordResetInBackground11mailAddress8callbackySS_yAA10NCMBResultOyytGctFZ">requestPasswordResetInBackground(mailAddress:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>指定メールアドレスに該当する会員に対して、パスワード再発行を行うためのメールを送信するためのリクエストを非同期処理にて行います。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">requestPasswordResetInBackground</span><span class="p">(</span><span class="nv">mailAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mailAddress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>メールアドレス</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC17fetchInBackground8callbackyyAA10NCMBResultOyytGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/fetchInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC17fetchInBackground8callbackyyAA10NCMBResultOyytGc_tF">fetchInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたオブジェクトIDに対応する会員情報を非同期処理にて取得します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC4saveAA10NCMBResultOyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/save()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC4saveAA10NCMBResultOyytGyF">save()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>会員情報を同期処理にて保存します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC16saveInBackground8callbackyyAA10NCMBResultOyytGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/saveInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC16saveInBackground8callbackyyAA10NCMBResultOyytGc_tF">saveInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>会員情報を非同期処理にて保存します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC6deleteAA10NCMBResultOyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/delete()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC6deleteAA10NCMBResultOyytGyF">delete()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたオブジェクトIDに対応する会員情報を同期処理にて削除します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC18deleteInBackground8callbackyyAA10NCMBResultOyytGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/deleteInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC18deleteInBackground8callbackyyAA10NCMBResultOyytGc_tF">deleteInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたオブジェクトIDに対応する会員情報を非同期処理にて削除します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC22signUpWithTwitterToken17twitterParameters8callbackyAA011NCMBTwitterI0V_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/signUpWithTwitterToken(twitterParameters:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC22signUpWithTwitterToken17twitterParameters8callbackyAA011NCMBTwitterI0V_yAA10NCMBResultOyytGctF">signUpWithTwitterToken(twitterParameters:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>twitterのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signUpWithTwitterToken</span><span class="p">(</span><span class="nv">twitterParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBTwitterParameters.html">NCMBTwitterParameters</a></span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>twitterParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NCMBTwitterParameters</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC23signUpWithFacebookToken18facebookParameters8callbackyAA012NCMBFacebookI0V_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/signUpWithFacebookToken(facebookParameters:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC23signUpWithFacebookToken18facebookParameters8callbackyAA012NCMBFacebookI0V_yAA10NCMBResultOyytGctF">signUpWithFacebookToken(facebookParameters:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>facebookのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signUpWithFacebookToken</span><span class="p">(</span><span class="nv">facebookParameters</span><span class="p">:</span>
+
+    <span class="kt"><a href="../Structs/NCMBFacebookParameters.html">NCMBFacebookParameters</a></span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">)</span>
+
+    <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>facebookParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NCMBFacebookParameters</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC20signUpWithAppleToken15appleParameters8callbackyAA09NCMBAppleI0V_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/signUpWithAppleToken(appleParameters:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC20signUpWithAppleToken15appleParameters8callbackyAA09NCMBAppleI0V_yAA10NCMBResultOyytGctF">signUpWithAppleToken(appleParameters:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>appleのauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signUpWithAppleToken</span><span class="p">(</span><span class="nv">appleParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBAppleParameters.html">NCMBAppleParameters</a></span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>appleParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NCMBAppleParameters</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC15signUpWithToken7snsInfo8callbackySDySSypG_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/signUpWithToken(snsInfo:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC15signUpWithToken7snsInfo8callbackySDySSypG_yAA10NCMBResultOyytGctF">signUpWithToken(snsInfo:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>typeで指定したsns情報のauthDataをもとにニフクラ mobile backendへの会員登録(ログイン)を行う</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signUpWithToken</span><span class="p">(</span><span class="nv">snsInfo</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>snsInfo</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>snsの認証に必要なauthData</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC20linkWithTwitterToken17twitterParameters8callbackyAA011NCMBTwitterH0V_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/linkWithTwitterToken(twitterParameters:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC20linkWithTwitterToken17twitterParameters8callbackyAA011NCMBTwitterH0V_yAA10NCMBResultOyytGctF">linkWithTwitterToken(twitterParameters:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログイン中のユーザー情報に、Twitterの認証情報を紐付ける</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">linkWithTwitterToken</span><span class="p">(</span><span class="nv">twitterParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBTwitterParameters.html">NCMBTwitterParameters</a></span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>twitterParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NCMBTwitterParameters</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC21linkWithFacebookToken18facebookParameters8callbackyAA012NCMBFacebookH0V_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/linkWithFacebookToken(facebookParameters:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC21linkWithFacebookToken18facebookParameters8callbackyAA012NCMBFacebookH0V_yAA10NCMBResultOyytGctF">linkWithFacebookToken(facebookParameters:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログイン中のユーザー情報に、Facebookの認証情報を紐付ける</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">linkWithFacebookToken</span><span class="p">(</span><span class="nv">facebookParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBFacebookParameters.html">NCMBFacebookParameters</a></span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>FacebookParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NCMBFacebookParameters</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC18linkWithAppleToken15appleParameters8callbackyAA09NCMBAppleH0V_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/linkWithAppleToken(appleParameters:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC18linkWithAppleToken15appleParameters8callbackyAA09NCMBAppleH0V_yAA10NCMBResultOyytGctF">linkWithAppleToken(appleParameters:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログイン中のユーザー情報に、Appleの認証情報を紐付ける</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">linkWithAppleToken</span><span class="p">(</span><span class="nv">appleParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBAppleParameters.html">NCMBAppleParameters</a></span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>appleParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NCMBAppleParameters</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC13linkWithToken7snsInfo8callbackySDySSypG_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/linkWithToken(snsInfo:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC13linkWithToken7snsInfo8callbackySDySSypG_yAA10NCMBResultOyytGctF">linkWithToken(snsInfo:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ログイン中のユーザー情報に、snsの認証情報を紐付ける</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">linkWithToken</span><span class="p">(</span><span class="nv">snsInfo</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>snsInfo</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSMutableDictionary</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC12isLinkedWith4typeSbSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/isLinkedWith(type:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC12isLinkedWith4typeSbSS_tF">isLinkedWith(type:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>会員情報に、引数で指定したtypeの認証情報が含まれているか確認する</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">isLinkedWith</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>認証情報のtype（googleもしくはtwitter、facebook、apple）</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>bool</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBUserC6unlink4type8callbackySS_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/unlink(type:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBUserC6unlink4type8callbackySS_yAA10NCMBResultOyytGctF">unlink(type:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>会員情報から、引数で指定したtypeの認証情報を削除する</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">unlink</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>認証情報のtype（googleもしくはtwitter、facebook、apple）</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://mbaas.nifcloud.com" target="_blank" rel="external noopener">FUJITSU CLOUD TECHNOLOGIES LIMITED</a>. All rights reserved. (Last updated: 2022-09-06)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
