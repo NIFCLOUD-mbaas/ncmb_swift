@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "NCMB",
     platforms: [
-        .iOS(.v10), .macOS(.v10_12)
+        .iOS(.v15), .macOS(.v12_5)
     ],
     products: [
         .library(name: "NCMB", targets: ["NCMB"]),
