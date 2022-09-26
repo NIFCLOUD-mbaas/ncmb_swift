@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://mbaas.nifcloud.com"
   s.license      = "Apache License, Version 2.0"
   s.author       = "FUJITSU CLOUD TECHNOLOGIES LIMITED"
-  s.platform     = :ios, "10.0"
+  s.platform     = :ios, "15.0"
   s.source       = { :git => 'https://github.com/NIFCloud-mbaas/ncmb_swift.git', :tag => "v#{s.version}" }
   s.source_files  = "NCMB/**/*.{swift}"
   s.frameworks = "Foundation", "UIKit", "MobileCoreServices", "AudioToolbox", "SystemConfiguration"
