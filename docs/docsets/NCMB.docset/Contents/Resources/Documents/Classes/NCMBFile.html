@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NCMBFile Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/NCMBFile" class="dashAnchor"></a>
+    <a title="NCMBFile Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">NCMB 1.3.0 Docs</a> (77% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">NCMB Reference</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        NCMBFile Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/NCMB.html">NCMB</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBAnalytics.html">NCMBAnalytics</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBAnonymousUtils.html">NCMBAnonymousUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBBase.html">NCMBBase</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBFile.html">NCMBFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBInstallation.html">NCMBInstallation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBObject.html">NCMBObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBPush.html">NCMBPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBRole.html">NCMBRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NCMBUser.html">NCMBUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBApiErrorCode.html">NCMBApiErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBExpirationTimeUnitType.html">NCMBExpirationTimeUnitType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBHTTPMethod.html">NCMBHTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBInvalidRequestError.html">NCMBInvalidRequestError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBParseError.html">NCMBParseError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBResult.html">NCMBResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/NCMBUserError.html">NCMBUserError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBACL.html">NCMBACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddOperator.html">NCMBAddOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddRelationOperator.html">NCMBAddRelationOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAddUniqueOperator.html">NCMBAddUniqueOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBApiError.html">NCMBApiError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBAppleParameters.html">NCMBAppleParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBDateField.html">NCMBDateField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBExpirationTime.html">NCMBExpirationTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBFacebookParameters.html">NCMBFacebookParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBGeoPoint.html">NCMBGeoPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBGoogleParameters.html">NCMBGoogleParameters</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBIncrementOperator.html">NCMBIncrementOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBPointer.html">NCMBPointer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBQuery.html">NCMBQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRelation.html">NCMBRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRemoveOperator.html">NCMBRemoveOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBRemoveRelationOperator.html">NCMBRemoveRelationOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:4NCMB12NCMBResponseV">NCMBResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBScript.html">NCMBScript</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NCMBTwitterParameters.html">NCMBTwitterParameters</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>NCMBFile</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">NCMBFile</span> <span class="p">:</span> <span class="kt"><a href="../Classes/NCMBBase.html">NCMBBase</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>ファイルストアへの操作を行うクラスです。</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC8fileNameSSvp"></a>
+                    <a name="//apple_ref/swift/Property/fileName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC8fileNameSSvp">fileName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイル名です。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC5queryAA9NCMBQueryVyACGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC5queryAA9NCMBQueryVyACGvpZ">query</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイルを検索するためのクエリです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="k">var</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBQuery.html">NCMBQuery</a></span><span class="o">&lt;</span><span class="kt">NCMBFile</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC8mimeTypeSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/mimeType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC8mimeTypeSSSgvp">mimeType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>MIME-TYPEです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">mimeType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC8fileSizeSiSgvp"></a>
+                    <a name="//apple_ref/swift/Property/fileSize" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC8fileSizeSiSgvp">fileSize</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイルサイズ（バイト単位）です。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fileSize</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC8fileName3aclACSS_AA7NCMBACLVSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(fileName:acl:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC8fileName3aclACSS_AA7NCMBACLVSgtcfc">init(fileName:<wbr>acl:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>イニシャライズです。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">acl</span><span class="p">:</span> <span class="kt"><a href="../Structs/NCMBACL.html">NCMBACL</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>fileName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ファイル名</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>acl</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ACL</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC5fetchAA10NCMBResultOy10Foundation4DataVSgGyF"></a>
+                    <a name="//apple_ref/swift/Method/fetch()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC5fetchAA10NCMBResultOy10Foundation4DataVSgGyF">fetch()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイルを同期処理にて取得します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Data</span><span class="p">?</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC17fetchInBackground8callbackyyAA10NCMBResultOy10Foundation4DataVSgGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/fetchInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC17fetchInBackground8callbackyyAA10NCMBResultOy10Foundation4DataVSgGc_tF">fetchInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたファイル名のファイルを非同期処理にて取得します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetchInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Data</span><span class="p">?</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC4save4dataAA10NCMBResultOyytG10Foundation4DataV_tF"></a>
+                    <a name="//apple_ref/swift/Method/save(data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC4save4dataAA10NCMBResultOyytG10Foundation4DataV_tF">save(data:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたファイル名のファイルを同期処理にて取得します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ファイルデータ</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC16saveInBackground4data8callbacky10Foundation4DataV_yAA10NCMBResultOyytGctF"></a>
+                    <a name="//apple_ref/swift/Method/saveInBackground(data:callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC16saveInBackground4data8callbacky10Foundation4DataV_yAA10NCMBResultOyytGctF">saveInBackground(data:<wbr>callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイルを非同期処理にて保存します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveInBackground</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ファイルデータ</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC6updateAA10NCMBResultOyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/update()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC6updateAA10NCMBResultOyytGyF">update()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイルのACLを同期処理にて更新します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">update</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC18updateInBackground8callbackyyAA10NCMBResultOyytGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/updateInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC18updateInBackground8callbackyyAA10NCMBResultOyytGc_tF">updateInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>ファイルのACLを非同期処理にて更新します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">updateInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC6deleteAA10NCMBResultOyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/delete()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC6deleteAA10NCMBResultOyytGyF">delete()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたファイル名のファイルを同期処理にて削除します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/NCMBResult.html">NCMBResult</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>リクエストが成功した場合は <code>.success</code> 、 失敗した場合は <code>.failure&lt;Error&gt;</code></p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4NCMB8NCMBFileC18deleteInBackground8callbackyyAA10NCMBResultOyytGc_tF"></a>
+                    <a name="//apple_ref/swift/Method/deleteInBackground(callback:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4NCMB8NCMBFileC18deleteInBackground8callbackyyAA10NCMBResultOyytGc_tF">deleteInBackground(callback:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>設定されたファイル名のファイルを非同期処理にて削除します。</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteInBackground</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4NCMB11NCMBHandlera">NCMBHandler</a></span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callback</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>レスポンス取得後に実行されるコールバックです。</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2022 <a class="link" href="https://mbaas.nifcloud.com" target="_blank" rel="external noopener">FUJITSU CLOUD TECHNOLOGIES LIMITED</a>. All rights reserved. (Last updated: 2022-09-06)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
