@@ -32,7 +32,8 @@ let package = Package(
 #endif
             }(),
             resources: [
-                .process("NCMB_Info.plist")]
+                .process("NCMB_Info.plist")
+            ],
             path: "NCMB"
         ),
         .testTarget(
