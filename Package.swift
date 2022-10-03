@@ -31,10 +31,10 @@ let package = Package(
                 ]
 #endif
             }(),
+            path: "NCMB",
             resources: [
                 .process("NCMB_Info.plist")
-            ],
-            path: "NCMB"
+            ]
         ),
         .testTarget(
             name: "NCMBTests",
