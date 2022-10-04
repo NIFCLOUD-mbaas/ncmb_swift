@@ -1,11 +1,11 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "NCMB",
     platforms: [
-        .iOS(.v15), .macOS(.v12_5)
+        .iOS(.v15), .macOS(.v12)
     ],
     products: [
         .library(name: "NCMB", targets: ["NCMB"]),
@@ -31,7 +31,10 @@ let package = Package(
                 ]
 #endif
             }(),
-            path: "NCMB"
+            path: "NCMB",
+            resources: [
+                .process("NCMB_Info.plist")
+            ]
         ),
         .testTarget(
             name: "NCMBTests",
