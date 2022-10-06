@@ -20,7 +20,7 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
       run: |
         git config --global user.email "$EMAIL"
-        git config --global user.name "tanaka-kokoro"
+        git config --global user.name "ncmbadmin"
         
     - name: Commit docs
       run: |
