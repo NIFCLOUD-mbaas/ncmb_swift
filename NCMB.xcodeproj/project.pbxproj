@@ -56,7 +56,6 @@
 		13B70D61224208CE000AA26F /* NCMBResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D23224208CE000AA26F /* NCMBResult.swift */; };
 		13B70D62224208CE000AA26F /* NCMBBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D24224208CE000AA26F /* NCMBBase.swift */; };
 		13B70D63224208CE000AA26F /* NCMBDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D25224208CE000AA26F /* NCMBDateFormatter.swift */; };
-		13B70D64224208CE000AA26F /* NCMBDeviceSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D26224208CE000AA26F /* NCMBDeviceSystem.swift */; };
 		13B70D65224208CE000AA26F /* NCMBJsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D27224208CE000AA26F /* NCMBJsonConverter.swift */; };
 		13B70D66224208CE000AA26F /* NCMBInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D28224208CE000AA26F /* NCMBInstallation.swift */; };
 		13B70D67224208CE000AA26F /* NCMBRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D29224208CE000AA26F /* NCMBRole.swift */; };
@@ -111,7 +110,6 @@
 		13B70DD7224208EC000AA26F /* NCMBJsonConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70D9F224208EB000AA26F /* NCMBJsonConverterTests.swift */; };
 		13B70DD8224208EC000AA26F /* NCMBDateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA0224208EB000AA26F /* NCMBDateFormatterTests.swift */; };
 		13B70DD9224208EC000AA26F /* NCMBBaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA1224208EB000AA26F /* NCMBBaseTests.swift */; };
-		13B70DDA224208EC000AA26F /* NCMBDeviceSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA2224208EB000AA26F /* NCMBDeviceSystemTests.swift */; };
 		13B70DDB224208EC000AA26F /* NCMBAddUniqueOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA4224208EB000AA26F /* NCMBAddUniqueOperatorTests.swift */; };
 		13B70DDC224208EC000AA26F /* NCMBIncrementOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA5224208EB000AA26F /* NCMBIncrementOperatorTests.swift */; };
 		13B70DDD224208EC000AA26F /* NCMBDateFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B70DA6224208EB000AA26F /* NCMBDateFieldTests.swift */; };
@@ -203,7 +201,6 @@
 		13B70D23224208CE000AA26F /* NCMBResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBResult.swift; sourceTree = "<group>"; };
 		13B70D24224208CE000AA26F /* NCMBBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBBase.swift; sourceTree = "<group>"; };
 		13B70D25224208CE000AA26F /* NCMBDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBDateFormatter.swift; sourceTree = "<group>"; };
-		13B70D26224208CE000AA26F /* NCMBDeviceSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBDeviceSystem.swift; sourceTree = "<group>"; };
 		13B70D27224208CE000AA26F /* NCMBJsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBJsonConverter.swift; sourceTree = "<group>"; };
 		13B70D28224208CE000AA26F /* NCMBInstallation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBInstallation.swift; sourceTree = "<group>"; };
 		13B70D29224208CE000AA26F /* NCMBRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBRole.swift; sourceTree = "<group>"; };
@@ -258,7 +255,6 @@
 		13B70D9F224208EB000AA26F /* NCMBJsonConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBJsonConverterTests.swift; sourceTree = "<group>"; };
 		13B70DA0224208EB000AA26F /* NCMBDateFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBDateFormatterTests.swift; sourceTree = "<group>"; };
 		13B70DA1224208EB000AA26F /* NCMBBaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBBaseTests.swift; sourceTree = "<group>"; };
-		13B70DA2224208EB000AA26F /* NCMBDeviceSystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBDeviceSystemTests.swift; sourceTree = "<group>"; };
 		13B70DA4224208EB000AA26F /* NCMBAddUniqueOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBAddUniqueOperatorTests.swift; sourceTree = "<group>"; };
 		13B70DA5224208EB000AA26F /* NCMBIncrementOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBIncrementOperatorTests.swift; sourceTree = "<group>"; };
 		13B70DA6224208EB000AA26F /* NCMBDateFieldTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NCMBDateFieldTests.swift; sourceTree = "<group>"; };
@@ -405,7 +401,6 @@
 				13B70D23224208CE000AA26F /* NCMBResult.swift */,
 				13B70D24224208CE000AA26F /* NCMBBase.swift */,
 				13B70D25224208CE000AA26F /* NCMBDateFormatter.swift */,
-				13B70D26224208CE000AA26F /* NCMBDeviceSystem.swift */,
 				13B70D27224208CE000AA26F /* NCMBJsonConverter.swift */,
 			);
 			path = component;
@@ -501,7 +496,6 @@
 				13B70D9F224208EB000AA26F /* NCMBJsonConverterTests.swift */,
 				13B70DA0224208EB000AA26F /* NCMBDateFormatterTests.swift */,
 				13B70DA1224208EB000AA26F /* NCMBBaseTests.swift */,
-				13B70DA2224208EB000AA26F /* NCMBDeviceSystemTests.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -727,7 +721,6 @@
 				13B70D69224208CE000AA26F /* NCMBFileService.swift in Sources */,
 				13B70D4B224208CE000AA26F /* NCMBUserError.swift in Sources */,
 				13B70D38224208CE000AA26F /* NCMBRequestExecutor.swift in Sources */,
-				13B70D64224208CE000AA26F /* NCMBDeviceSystem.swift in Sources */,
 				13B70D68224208CE000AA26F /* NCMBRequestMailAddressUserEntryService.swift in Sources */,
 				13B70D5D224208CE000AA26F /* NCMBRemoveOperator.swift in Sources */,
 				13B70D60224208CE000AA26F /* NCMBPointer.swift in Sources */,
@@ -807,7 +800,6 @@
 				13B70DD8224208EC000AA26F /* NCMBDateFormatterTests.swift in Sources */,
 				07CEC65F233A088900171200 /* NCMBExpirationTimeTests.swift in Sources */,
 				13B70DBE224208EC000AA26F /* NCMBRoleServiceTests.swift in Sources */,
-				13B70DDA224208EC000AA26F /* NCMBDeviceSystemTests.swift in Sources */,
 				13B70DB3224208EC000AA26F /* NCMBGoogleParametersTests.swift in Sources */,
 				13B70DCB224208EC000AA26F /* NCMBApiErrorCodeTests.swift in Sources */,
 				13B70DC2224208EC000AA26F /* NCMBPushServiceTests.swift in Sources */,

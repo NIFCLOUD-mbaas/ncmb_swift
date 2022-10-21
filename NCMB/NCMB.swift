@@ -24,7 +24,7 @@ public class NCMB {
     public static let DEFAULT_API_VERSION : String = "2013-09-01"
     public static let DEFAULT_SCRIPT_ENDPOINT : String = "https://script.mbaas.api.nifcloud.com/"
     public static let DEFAULT_SCRIPT_API_VERSION : String = "2015-09-01"
-
+    public static let DEVICE_TYPE : String = "ios"
     private static let shared = NCMB()
     private var _domainURL : String = DEFAULT_DOMAIN_URL
     private var _apiVersion : String = DEFAULT_API_VERSION

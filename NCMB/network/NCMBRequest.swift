@@ -94,7 +94,7 @@ struct NCMBRequest {
                 request.setValue(sessionToken, forHTTPHeaderField: NCMBRequest.SESSION_TOKEN_FIELD)
             }
             request.setValue("swift-" + NCMB.SDK_VERSION, forHTTPHeaderField: NCMBRequest.SDK_VERSION_FIELD)
-            request.setValue(NCMBDeviceSystem.osVersion, forHTTPHeaderField: NCMBRequest.OS_VERSION_FIELD)
+            request.setValue(NCMB.DEVICE_TYPE, forHTTPHeaderField: NCMBRequest.OS_VERSION_FIELD)
             if let contentType : String = self.contentType {
                 request.setValue(contentType, forHTTPHeaderField: NCMBRequest.CONTENT_TYPE_FIELD)
             }
