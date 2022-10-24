@@ -18,7 +18,7 @@
 
 ## 動作環境
 - Swift version 4.2, 5.x
-- iOS 13.x ～ iOS 15.x
+- iOS 13.x ～ iOS 16.x
 - Xcode 13.2.1以降
 - armv7s, arm64, arm64e アーキテクチャ
 - iOS/Xcodeのバージョンに依って対応が必要となる可能性があります。詳細はニフクラ mobile backendのドキュメントをご覧ください。
