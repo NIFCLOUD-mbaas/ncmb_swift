@@ -42,7 +42,7 @@ public class NCMBInstallation : NCMBBase {
     public init() {
         super.init(className: NCMBInstallation.CLASSNAME)
         let channels : [String] = []
-        self[NCMBInstallation.FIELDNAME_DEVICE_TYPE] = NCMBDeviceSystem.osType
+        self[NCMBInstallation.FIELDNAME_DEVICE_TYPE] = NCMB.DEVICE_TYPE
         self[NCMBInstallation.FIELDNAME_APPLICATION_NAME] = NCMBInstallation.getApplicationName()
         self[NCMBInstallation.FIELDNAME_APP_VERSION] = NCMBInstallation.getAppVersion()
         self[NCMBInstallation.FIELDNAME_TIMEZONE] = NCMBInstallation.getTimeZone()

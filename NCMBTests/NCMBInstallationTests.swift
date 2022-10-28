@@ -71,7 +71,7 @@ final class NCMBInstallationTests: NCMBTestCase {
 
     func test_init() {
         let sut : NCMBInstallation = NCMBInstallation()
-        XCTAssertEqual(sut["deviceType"], NCMBDeviceSystem.osType)
+        XCTAssertEqual(sut["deviceType"], NCMB.DEVICE_TYPE)
         XCTAssertEqual(sut["sdkVersion"], NCMB.SDK_VERSION)
         XCTAssertEqual((sut["channels"]! as [String]).count, 0)
 
