@@ -23,13 +23,14 @@ struct NCMBLoginService {
         }
     }
     
-    func logIn(userName: String?, mailAddress: String?,password:String, callback : @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
+    func logIn(userName: String?, mailAddress: String? , password: String, callback : @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
         var requestBody : Data?
         do {
-            if userName != nil {
+            // nil判定
+            if let userName = userName {
                 requestBody = try NCMBJsonConverter.convertToJson(["userName": userName,
                                                                    "password":password])
-            } else if mailAddress != nil {
+            } else if let mailAddress = mailAddress {
                 requestBody = try NCMBJsonConverter.convertToJson(["mailAddress": mailAddress,
                                                                    "password":password])
             }
