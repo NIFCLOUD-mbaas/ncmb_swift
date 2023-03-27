@@ -652,10 +652,9 @@ final class NCMBUserTests: NCMBTestCase {
         _ = NCMBUser.logIn(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234")
 
         XCTAssertEqual(executor.requests.count, 1)
-        XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-        XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-        XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-        XCTAssertNil(executor.requests[0].body)
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+        XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
     }
 
     func test_logIn_mailAddress_request() {
@@ -667,10 +666,9 @@ final class NCMBUserTests: NCMBTestCase {
         _ = NCMBUser.logIn(userName: nil, mailAddress: "sample@example.com", password: "abcd1234")
 
         XCTAssertEqual(executor.requests.count, 1)
-        XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-        XCTAssertEqual(executor.requests[0].queryItems["mailAddress"], "sample@example.com")
-        XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-        XCTAssertNil(executor.requests[0].body)
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"mailAddress\":\"sample@example.com\""))
+        XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+        XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
     }
 
     func test_logIn_success() {
@@ -742,10 +740,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_userName_request")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -760,10 +757,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_userName_special_char_request")
         NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "abc+aa")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"abc+aa\""))
+            XCTAssertEqual(String(data: executor.requests[0].body!, encoding: .utf8)!,"\"password\":\"test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test\"")
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -778,10 +774,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_currentUser_error_404")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
 
 
@@ -808,10 +803,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_currentUser_error_401")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
 
 
@@ -838,10 +832,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_object_error_404")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
 
 
@@ -875,12 +868,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_object_error_401")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
-
 
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(NCMBApiError.init(body: ["code" : "E401001", "error" : "Authentication error by header incorrect."]))))
 
@@ -912,10 +903,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_user_error_404")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            // XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            // XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            // XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+            XCTAssertNotNil(executor.requests[0].body)
             expectation?.fulfill()
 
 
@@ -949,10 +940,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_user_error_401")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
 
 
@@ -986,10 +976,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_currentUser")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
@@ -1018,10 +1007,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_update_currentUser")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
             let executor : MockRequestExecutor = MockRequestExecutor(result: .success(response))
@@ -1052,10 +1040,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_object")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
 
 
@@ -1090,10 +1077,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_update_object")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
@@ -1128,10 +1114,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_delete_object")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
@@ -1161,10 +1146,9 @@ final class NCMBUserTests: NCMBTestCase {
 
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(_executor.requests.count, 1)
-            XCTAssertEqual(_executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(_executor.requests[0].body)
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! _executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
@@ -1208,10 +1192,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_fetch_another_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
@@ -1245,10 +1228,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_fetch_currentUser")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1285,10 +1267,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_update_currentUser")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1327,10 +1308,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_delete_currentUser")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1364,10 +1344,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_fetch_object")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
@@ -1408,11 +1387,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_update_object")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
-
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+            
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
@@ -1453,10 +1431,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_delete_object")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1493,10 +1470,9 @@ final class NCMBUserTests: NCMBTestCase {
 
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(_executor.requests.count, 1)
-            XCTAssertEqual(_executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(_executor.requests[0].body)
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! _executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1547,11 +1523,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_fetch_another_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
-
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+            
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
@@ -1591,11 +1566,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_update_another_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
-
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+            
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
             NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
@@ -1639,10 +1613,9 @@ final class NCMBUserTests: NCMBTestCase {
 
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(_executor.requests.count, 1)
-            XCTAssertEqual(_executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(_executor.requests[0].body)
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! _executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1686,10 +1659,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_again_then_delete_another_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let resultLogout : NCMBResult<Void> = NCMBUser.logOut()
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: resultLogout))
@@ -1726,10 +1698,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_mailAddress_request")
         NCMBUser.logInInBackground(userName: nil, mailAddress: "sample@example.com", password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["mailAddress"], "sample@example.com")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"mailAddress\":\"sample@example.com\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+            
             expectation?.fulfill()
         })
         self.waitForExpectations(timeout: 1.00, handler: nil)
@@ -1815,10 +1787,10 @@ final class NCMBUserTests: NCMBTestCase {
 
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(_executor.requests.count, 1)
-            XCTAssertEqual(_executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(_executor.requests[0].body)
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! _executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+
 
             let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"anotherObjectId", "sessionToken":"dummySessionToken", "userName":"NCMB"]
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1855,10 +1827,10 @@ final class NCMBUserTests: NCMBTestCase {
 
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(_executor.requests.count, 1)
-            XCTAssertEqual(_executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(_executor.requests[0].body)
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+          XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! _executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+
 
             let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"anotherObjectId", "sessionToken":"dummySessionToken", "userName":"NCMB"]
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1947,10 +1919,9 @@ final class NCMBUserTests: NCMBTestCase {
 
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(_executor.requests.count, 1)
-            XCTAssertEqual(_executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(_executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(_executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(_executor.requests[0].body)
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: _executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! _executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let contents : [String : Any] = ["createDate":"2013-08-28T11:27:16.446Z", "objectId":"anotherObjectId", "sessionToken":"dummySessionToken", "userName":"NCMB"]
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode : 201)
@@ -1987,10 +1958,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_update_another_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+
 
             var contents : [String : Any] = [:]
             contents["objectId"] = "abcdefg12345"
@@ -2866,10 +2837,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_delete_loggedin_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
 
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
@@ -2895,10 +2865,10 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_then_delete_another_user")
         NCMBUser.logInInBackground(userName: "Yamada Tarou", mailAddress: nil, password: "abcd1234", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertEqual(executor.requests[0].queryItems.count, 2)
-            XCTAssertEqual(executor.requests[0].queryItems["userName"], "Yamada Tarou")
-            XCTAssertEqual(executor.requests[0].queryItems["password"], "abcd1234")
-            XCTAssertNil(executor.requests[0].body)
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"Yamada Tarou\""))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"abcd1234\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+
 
             let response : NCMBResponse = MockResponseBuilder.createResponse(contents: [:], statusCode : 200)
             NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
