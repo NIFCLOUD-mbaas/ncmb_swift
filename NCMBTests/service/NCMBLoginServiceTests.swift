@@ -25,24 +25,20 @@ final class NCMBLoginServiceTests: NCMBTestCase {
         let executor = MockRequestExecutor()
         NCMBRequestExecutorFactory.setInstance(executor: executor)
 
-        var queryItems : [String : String?] = [:]
-        queryItems["name"] = "abcdef012345"
-        queryItems["password"] = "vwxyz98765"
-        queryItems["mail"] = "takanokun@example.com"
+        let userName = "abcdef012345"
+        let password = "vwxyz98765"
+        let mailAddress = "takanokun@example.com"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_request")
         let sut = NCMBLoginService()
-        sut.logIn(queryItems: queryItems, callback: {result in
+        sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.login)
-            XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.get)
+            XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
             XCTAssertEqual(executor.requests[0].subpathItems, [])
-            XCTAssertEqual(executor.requests[0].queryItems.count, 3)
-            XCTAssertEqual(executor.requests[0].queryItems["name"]!!, "abcdef012345")
-            XCTAssertEqual(executor.requests[0].queryItems["password"]!!, "vwxyz98765")
-            XCTAssertEqual(executor.requests[0].queryItems["mail"]!!, "takanokun@example.com")
-            XCTAssertNil(executor.requests[0].body)
-            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login?mail=takanokun@example.com&name=abcdef012345&password=vwxyz98765"))
+            let bodyString : String = String(data: executor.requests[0].body!, encoding: .utf8)!
+            XCTAssertTrue(bodyString.contains("\"password\":vwxyz98765"))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             XCTAssertEqual(executor.requests[0].timeoutInterval, 10.0)
             expectation?.fulfill()
         })
@@ -55,15 +51,14 @@ final class NCMBLoginServiceTests: NCMBTestCase {
         contents["test2"] = 42
         let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 200)
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .success(response)))
-
-        var queryItems : [String : String?] = [:]
-        queryItems["name"] = "abcdef012345"
-        queryItems["password"] = "vwxyz98765"
-        queryItems["mail"] = "takanokun@example.com"
+        
+        let userName = "abcdef012345"
+        let password = "vwxyz98765"
+        let mailAddress = "takanokun@example.com"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_recieveResponse")
         let sut = NCMBLoginService()
-        sut.logIn(queryItems: queryItems, callback: {result in
+        sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
             XCTAssertTrue(NCMBTestUtil.checkResultIsSuccess(result: result))
             let response = NCMBTestUtil.getResponse(result: result)!
             XCTAssertEqual(response.contents.count, 2)
@@ -77,14 +72,13 @@ final class NCMBLoginServiceTests: NCMBTestCase {
     func test_logIn_invalidRequest() {
         NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
 
-        var queryItems : [String : String?] = [:]
-        queryItems["name"] = "abcdef012345"
-        queryItems["password"] = "vwxyz98765"
-        queryItems["mail"] = "takanokun@example.com"
+        let userName = "abcdef012345"
+        let password = "vwxyz98765"
+        let mailAddress = "takanokun@example.com"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_invalidRequest")
         let sut = NCMBLoginService()
-        sut.logIn(queryItems: queryItems, callback: {result in
+        sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
             XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
             XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
             expectation?.fulfill()
@@ -92,30 +86,9 @@ final class NCMBLoginServiceTests: NCMBTestCase {
         self.waitForExpectations(timeout:1.00, handler: nil)
     }
 
-    func test_createGetRequest() {
-        var queryItems : [String : String?] = [:]
-        queryItems["name"] = "abcdef012345"
-        queryItems["password"] = "vwxyz98765"
-        queryItems["mail"] = "takanokun@example.com"
-        let sut = NCMBLoginService()
-        let request : NCMBRequest = sut.createGetRequest(queryItems: queryItems)
-        XCTAssertEqual(request.apiType, NCMBApiType.login)
-        XCTAssertEqual(request.method, NCMBHTTPMethod.get)
-        XCTAssertEqual(request.subpathItems, [])
-        XCTAssertEqual(request.headerItems.count, 0)
-        XCTAssertEqual(request.queryItems.count, 3)
-        XCTAssertEqual(request.queryItems["name"]!!, "abcdef012345")
-        XCTAssertEqual(request.queryItems["password"]!!, "vwxyz98765")
-        XCTAssertEqual(request.queryItems["mail"]!!, "takanokun@example.com")
-        XCTAssertNil(request.body)
-        XCTAssertEqual(try! request.getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login?mail=takanokun@example.com&name=abcdef012345&password=vwxyz98765"))
-        XCTAssertEqual(request.timeoutInterval, 10.0)
-    }
-
     static var allTests = [
         ("test_logIn_request", test_logIn_request),
         ("test_logIn_recieveResponse", test_logIn_recieveResponse),
         ("test_logIn_invalidRequest", test_logIn_invalidRequest),
-        ("test_createGetRequest", test_createGetRequest),
     ]
 }
