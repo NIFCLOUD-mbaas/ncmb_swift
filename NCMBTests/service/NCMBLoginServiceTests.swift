@@ -36,8 +36,7 @@ final class NCMBLoginServiceTests: NCMBTestCase {
             XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.login)
             XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
             XCTAssertEqual(executor.requests[0].subpathItems, [])
-            let bodyString : String = String(data: executor.requests[0].body!, encoding: .utf8)!
-            XCTAssertTrue(bodyString.contains("\"password\":vwxyz98765"))
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"vwxyz98765\""))
             XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             XCTAssertEqual(executor.requests[0].timeoutInterval, 10.0)
             expectation?.fulfill()
