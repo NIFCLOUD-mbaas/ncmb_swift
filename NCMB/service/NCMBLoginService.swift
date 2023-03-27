@@ -23,16 +23,27 @@ struct NCMBLoginService {
         }
     }
     
-    func logIn(userName: [String : String?], mailAddress: [String : String?],password:[String : String], callback : @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
-        
-        let request : NCMBRequest
+    func logIn(userName: String?, mailAddress: String?,password:String, callback : @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
+        var requestBody : Data?
         do {
-            request = try createPostRequest(userName: userName, mailAddress: mailAddress,password:password)
+            if userName != nil {
+                requestBody = try NCMBJsonConverter.convertToJson(["userName": userName,
+                                                                   "password":password])
+            } else if mailAddress != nil {
+                requestBody = try NCMBJsonConverter.convertToJson(["mailAddress": mailAddress,
+                                                                   "password":password])
+            }
         } catch let error {
             let result = NCMBResult<NCMBResponse>.failure(error)
             callback(result)
             return;
         }
+        
+        let request : NCMBRequest = NCMBRequest(
+            apiType: apiType,
+            method: NCMBHTTPMethod.post,
+            body: requestBody)
+        
         let executor : NCMBRequestExecutorProtocol = NCMBRequestExecutorFactory.getInstance()
         executor.exec(request: request, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             callback(result)
@@ -46,28 +57,5 @@ struct NCMBLoginService {
 //        request.queryItems = queryItems
 //        return request
 //    }
-    
-    func createPostRequest(userName: [String : String?], mailAddress: [String : String?],password:[String : String]) throws -> NCMBRequest{
-        
-        var requestBody : Data?
-        do{
-            if (userName != nil){
-                requestBody = try NCMBJsonConverter.convertToJson(["userName": userName,
-                                                                   "password":password])
-            } else if (mailAddress != nil){
-                requestBody = try NCMBJsonConverter.convertToJson(["mailAddress": mailAddress,
-                                                                   "password":password])
-            }
-        } catch let error{
-            throw error
-        }
-        
-        var request : NCMBRequest = NCMBRequest(
-            apiType: apiType,
-            method: NCMBHTTPMethod.post,
-            body: requestBody)
-        
-        return request
-    }
     
 }
