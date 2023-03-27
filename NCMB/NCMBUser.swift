@@ -328,7 +328,7 @@ public class NCMBUser : NCMBBase {
         NCMBLoginService().logIn(
                 userName: userName,
                 mailAddress: mailAddress,
-                password: password
+                password: password,
                 callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
                 case let .success(response):
