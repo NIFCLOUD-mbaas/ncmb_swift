@@ -325,16 +325,10 @@ public class NCMBUser : NCMBBase {
             mailAddress: String?,
             password: String,
             callback: @escaping NCMBHandler<Void>) -> Void {
-        var queryItems : [String : String?] = [:]
-        if let userName : String = userName {
-            queryItems[FIELDNAME_USER_NAME] = userName
-        }
-        if let mailAddress : String = mailAddress {
-            queryItems[FIELDNAME_MAIL_ADDRESS] = mailAddress
-        }
-        queryItems[FIELDNAME_PASSWORD] = password
         NCMBLoginService().logIn(
-                queryItems: queryItems,
+                userName: userName,
+                mailAddress: mailAddress,
+                password: password
                 callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             switch result {
                 case let .success(response):
