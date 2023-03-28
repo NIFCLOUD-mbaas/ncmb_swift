@@ -758,7 +758,7 @@ final class NCMBUserTests: NCMBTestCase {
         NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
             XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"abc+aa\""))
-            XCTAssertEqual(String(data: executor.requests[0].body!, encoding: .utf8)!,"\"password\":\"test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test\"")
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test\""))
             XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
         })
