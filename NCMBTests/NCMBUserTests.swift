@@ -757,8 +757,9 @@ final class NCMBUserTests: NCMBTestCase {
         let expectation : XCTestExpectation? = self.expectation(description: "test_logInInBackground_userName_special_char_request")
         NCMBUser.logInInBackground(userName: "abc+aa", mailAddress: nil, password: "test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test", callback: { (result: NCMBResult<Void>) in
             XCTAssertEqual(executor.requests.count, 1)
-            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"userName\":\"abc+aa\""))
-            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test\""))
+            let requestBodyKeyValue = try! NCMBJsonConverter.convertToKeyValue(executor.requests[0].body!)
+            XCTAssertEqual(requestBodyKeyValue["userName"] as! String,"abc+aa")
+            XCTAssertEqual(requestBodyKeyValue["password"] as! String,"test!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~test")
             XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
             expectation?.fulfill()
         })
