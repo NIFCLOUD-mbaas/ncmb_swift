@@ -51,12 +51,4 @@ struct NCMBLoginService {
         })
     }
     
-//    func createGetRequest(queryItems: [String : String?]) -> NCMBRequest {
-//        var request : NCMBRequest = NCMBRequest(
-//            apiType: apiType,
-//            method: NCMBHTTPMethod.get)
-//        request.queryItems = queryItems
-//        return request
-//    }
-    
 }
