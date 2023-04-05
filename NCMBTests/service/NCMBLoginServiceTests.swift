@@ -27,6 +27,29 @@ final class NCMBLoginServiceTests: NCMBTestCase {
 
         let userName = "abcdef012345"
         let password = "vwxyz98765"
+        let mailAddress: String? = nil
+
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_request")
+        let sut = NCMBLoginService()
+        sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
+            XCTAssertEqual(executor.requests.count, 1)
+            XCTAssertEqual(executor.requests[0].apiType, NCMBApiType.login)
+            XCTAssertEqual(executor.requests[0].method, NCMBHTTPMethod.post)
+            XCTAssertEqual(executor.requests[0].subpathItems, [])
+            XCTAssertTrue(String(data: executor.requests[0].body!, encoding: .utf8)!.contains("\"password\":\"vwxyz98765\""))
+            XCTAssertEqual(try! executor.requests[0].getURL(), URL(string: "https://mbaas.api.nifcloud.com/2013-09-01/login"))
+            XCTAssertEqual(executor.requests[0].timeoutInterval, 10.0)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout:1.00, handler: nil)
+    }
+    
+    func test_logIn_request_only_mailAddress() {
+        let executor = MockRequestExecutor()
+        NCMBRequestExecutorFactory.setInstance(executor: executor)
+
+        let userName: String? = nil
+        let password = "vwxyz98765"
         let mailAddress = "takanokun@example.com"
 
         let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_request")
@@ -43,6 +66,23 @@ final class NCMBLoginServiceTests: NCMBTestCase {
         })
         self.waitForExpectations(timeout:1.00, handler: nil)
     }
+    
+    func test_logIn_request_without_userName_and_mailAddress() {
+            NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+
+            let userName: String? = nil
+            let password = "vwxyz98765"
+            let mailAddress: String? = nil
+
+            let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_requestwithout_userName_and_mailAddress")
+            let sut = NCMBLoginService()
+            sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
+                XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+                XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
+                expectation?.fulfill()
+            })
+            self.waitForExpectations(timeout:1.00, handler: nil)
+        }
 
     func test_logIn_recieveResponse() {
         var contents : [String : Any] = [:]
