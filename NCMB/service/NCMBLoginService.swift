@@ -33,6 +33,8 @@ struct NCMBLoginService {
             } else if let mailAddress = mailAddress {
                 requestBody = try NCMBJsonConverter.convertToJson(["mailAddress": mailAddress,
                                                                    "password":password])
+            } else {
+                throw NCMBInvalidRequestError.emptyUserNameAndMailAddress
             }
         } catch let error {
             let result = NCMBResult<NCMBResponse>.failure(error)
