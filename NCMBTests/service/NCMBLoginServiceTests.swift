@@ -67,22 +67,20 @@ final class NCMBLoginServiceTests: NCMBTestCase {
         self.waitForExpectations(timeout:1.00, handler: nil)
     }
     
-    func test_logIn_request_without_userName_and_mailAddress() {
-            NCMBRequestExecutorFactory.setInstance(executor: MockRequestExecutor(result: .failure(DummyErrors.dummyError)))
+    func test_logIn_request_empty_userName_and_mailAddress() {
+        let userName: String? = nil
+        let password = "vwxyz98765"
+        let mailAddress: String? = nil
 
-            let userName: String? = nil
-            let password = "vwxyz98765"
-            let mailAddress: String? = nil
-
-            let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_requestwithout_userName_and_mailAddress")
-            let sut = NCMBLoginService()
-            sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
-                XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
-                XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! DummyErrors, DummyErrors.dummyError)
-                expectation?.fulfill()
-            })
-            self.waitForExpectations(timeout:1.00, handler: nil)
-        }
+        let expectation : XCTestExpectation? = self.expectation(description: "test_logIn_request_empty_userName_and_mailAddress")
+        let sut = NCMBLoginService()
+        sut.logIn(userName: userName,mailAddress: mailAddress,password: password, callback: {result in
+            XCTAssertTrue(NCMBTestUtil.checkResultIsFailure(result: result))
+            XCTAssertEqual(NCMBTestUtil.getError(result: result)! as! NCMBInvalidRequestError,NCMBInvalidRequestError.emptyUserNameAndMailAddress)
+            expectation?.fulfill()
+        })
+        self.waitForExpectations(timeout:1.00, handler: nil)
+    }
 
     func test_logIn_recieveResponse() {
         var contents : [String : Any] = [:]
