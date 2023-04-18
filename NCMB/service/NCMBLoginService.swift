@@ -13,29 +13,44 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-
+import Foundation
 
 struct NCMBLoginService {
-
+    
     var apiType : NCMBApiType {
         get {
             return NCMBApiType.login
         }
     }
-
-    func logIn(queryItems: [String : String?], callback : @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
-        let request : NCMBRequest = createGetRequest(queryItems: queryItems)
+    
+    func logIn(userName: String?, mailAddress: String? , password: String, callback : @escaping (NCMBResult<NCMBResponse>) -> Void ) -> Void {
+        var requestBody : Data?
+        do {
+            // nil判定
+            if let userName = userName {
+                requestBody = try NCMBJsonConverter.convertToJson(["userName": userName,
+                                                                   "password":password])
+            } else if let mailAddress = mailAddress {
+                requestBody = try NCMBJsonConverter.convertToJson(["mailAddress": mailAddress,
+                                                                   "password":password])
+            } else {
+                throw NCMBInvalidRequestError.emptyUserNameAndMailAddress
+            }
+        } catch let error {
+            let result = NCMBResult<NCMBResponse>.failure(error)
+            callback(result)
+            return;
+        }
+        
+        let request : NCMBRequest = NCMBRequest(
+            apiType: apiType,
+            method: NCMBHTTPMethod.post,
+            body: requestBody)
+        
         let executor : NCMBRequestExecutorProtocol = NCMBRequestExecutorFactory.getInstance()
         executor.exec(request: request, callback: {(result: NCMBResult<NCMBResponse>) -> Void in
             callback(result)
         })
     }
-
-    func createGetRequest(queryItems: [String : String?]) -> NCMBRequest {
-        var request : NCMBRequest = NCMBRequest(
-                apiType: apiType,
-                method: NCMBHTTPMethod.get)
-        request.queryItems = queryItems
-        return request
-    }
+    
 }

@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    # - name: Select Xcode version
-      # run: sudo xcode-select -s '/Applications/Xcode_11.3.app/Contents/Developer'
+    - name: Select Xcode version
+      run: sudo xcode-select -s '/Applications/Xcode_14.1.0.app/Contents/Developer'
     - name: Build
       run: xcodebuild
            -scheme NCMB
@@ -25,5 +25,5 @@ jobs:
       run: xcodebuild
            -scheme NCMBTests
            -sdk iphonesimulator
-           -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max'
+           -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max,OS=16.1'
            clean test
