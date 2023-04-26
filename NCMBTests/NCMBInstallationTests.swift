@@ -540,8 +540,7 @@ final class NCMBInstallationTests: NCMBTestCase {
     }
 
     func test_currentInstallation_update_version() {
-        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse: 
-"{\"deviceType\":\"beos\",\"deviceToken\":\"abcdefghijk0123456789\",\"applicationName\":\"takanokun\",\"appVersion\":\"-2.7.18\",\"timeZone\":\"Moon/MareTranquillitatis\",\"sdkVersion\":\"-3.1.4\",\"channels\":[\"fuag\",\"piyo\"]}".data(using: 
+        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse:"{\"deviceType\":\"beos\",\"deviceToken\":\"abcdefghijk0123456789\",\"applicationName\":\"takanokun\",\"appVersion\":\"-2.7.18\",\"timeZone\":\"Moon/MareTranquillitatis\",\"sdkVersion\":\"-3.1.4\",\"channels\":[\"fuag\",\"piyo\"]}".data(using: 
 .utf8)!)
         NCMBLocalFileManagerFactory.setInstance(manager: manager)
         let currentInstallation = NCMBInstallation.currentInstallation
