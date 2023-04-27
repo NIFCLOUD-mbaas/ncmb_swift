@@ -1,6 +1,9 @@
 name: Swift
 
-on: [push, pull_request]
+on: 
+  push:
+  pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,12 +21,12 @@ jobs:
     - name: Build
       run: xcodebuild
            -scheme NCMB
-           -sdk iphonesimulator
+           CODE_SIGNING_ALLOWED=NO
            -configuration Debug
            build
     - name: Run tests
       run: xcodebuild
            -scheme NCMBTests
            -sdk iphonesimulator
-           -destination 'name=iPhone 14'
+           -destination 'platform=iOS Simulator,name=iPhone 14'
            clean test
