@@ -540,7 +540,7 @@ final class NCMBInstallationTests: NCMBTestCase {
     }
 
     func test_currentInstallation_update_version() {
-        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse: "{\"deviceType\":\"beos\",\"deviceToken\":\"abcdefghijk0123456789\",\"applicationName\":\"takanokun\",\"appVersion\":\"-2.7.18\",\"timeZone\":\"Moon/MareTranquillitatis\",\"sdkVersion\":\"-3.1.4\",\"channels\":[\"fuag\",\"piyo\"]}".data(using: .utf8)!)
+        let manager : MockLocalFileManager = MockLocalFileManager(loadResponse:"{\"deviceType\":\"beos\",\"deviceToken\":\"abcdefghijk0123456789\",\"applicationName\":\"takanokun\",\"appVersion\":\"-2.7.18\",\"timeZone\":\"Moon/MareTranquillitatis\",\"sdkVersion\":\"-3.1.4\",\"channels\":[\"fuag\",\"piyo\"]}".data(using: .utf8)!)
         NCMBLocalFileManagerFactory.setInstance(manager: manager)
         let currentInstallation = NCMBInstallation.currentInstallation
         XCTAssertEqual(currentInstallation["sdkVersion"], NCMB.SDK_VERSION)
@@ -552,7 +552,7 @@ final class NCMBInstallationTests: NCMBTestCase {
         NCMBLocalFileManagerFactory.setInstance(manager: manager)
         _ = NCMBInstallation.currentInstallation
         XCTAssertEqual(manager.saveLog.count, 1)
-        XCTAssertTrue(String(data: manager.saveLog[0].data, encoding: .utf8)!.contains("\"sdkVersion\":\"1.3.1\""))
+        XCTAssertTrue(String(data: manager.saveLog[0].data, encoding: .utf8)!.contains("\"sdkVersion\":\"1.4.0\""))
         XCTAssertEqual(manager.saveLog[0].type, NCMBLocalFileType.currentInstallation)
     }
 
