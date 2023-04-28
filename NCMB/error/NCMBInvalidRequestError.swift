@@ -25,4 +25,5 @@ public enum NCMBInvalidRequestError : Error {
     case emptyObjectId
     case automaticUserNotAvailable
     case invalidACL
+    case emptyUserNameAndMailAddress
 }
