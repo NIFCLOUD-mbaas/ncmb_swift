@@ -1,6 +1,6 @@
 name: Swift
 
-on: 
+on:
   push:
   pull_request:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Select Xcode version
-      run: sudo xcode-select -s '/Applications/Xcode_14.2.app/Contents/Developer'
+      run: sudo xcode-select -s '/Applications/Xcode_14.1.app/Contents/Developer'
     - name: Build
       run: xcodebuild
            -scheme NCMB
