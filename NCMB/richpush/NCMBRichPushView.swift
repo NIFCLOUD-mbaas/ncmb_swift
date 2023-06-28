@@ -47,10 +47,11 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         
         var safeAreaTop:Int = 0
         var safeAreaBottom:Int = 0
+        let window = UIApplication.shared.windows.first
         
-        if #available(iOS 11.0, *) {
-            safeAreaTop = Int((UIApplication.shared.keyWindow?.safeAreaInsets.top)!)
-            safeAreaBottom = Int((UIApplication.shared.keyWindow?.safeAreaInsets.top)!)
+        if #available(iOS 13.0, *) {
+            safeAreaTop = Int(window?.safeAreaInsets.top ?? 0)
+            safeAreaBottom = Int(window?.safeAreaInsets.bottom ?? 0)
         }
         
         let rect = CGRect(x: 0,
