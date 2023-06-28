@@ -439,7 +439,7 @@ public class NCMBPush : NCMBBase {
                 richPushView.richUrl = urlStr
                 richPushView.closeCallback = completion
                 DispatchQueue.main.async {
-                    UIApplication.shared.keyWindow?.rootViewController?.present(richPushView, animated: true, completion: nil)
+                    UIApplication.shared.windows.first?.rootViewController?.present(richPushView, animated: true, completion: nil)
                 }
             }
         #endif
