@@ -64,10 +64,11 @@ public class NCMBFile : NCMBBase {
     /// - Parameter fields: フィールド内容
     /// - Parameter modifiedFieldKeys: 更新フィールド名一覧
     required init(className: String, fields: [String : Any], modifiedFieldKeys: Set<String> = []) {
-        if (fields.keys.contains(NCMBFile.FIELDNAME_FILENAME) && fields[NCMBFile.FIELDNAME_FILENAME] is String) {
-            self._fileName = fields[NCMBFile.FIELDNAME_FILENAME] as! String
-        } else {
-            self._fileName = ""
+        self._fileName = ""
+        if let value = fields[NCMBFile.FIELDNAME_FILENAME] as Any? {
+            if let filename = value as? String {
+                self._fileName = filename
+            }
         }
         super.init(className: className, fields: fields, modifiedFieldKeys: modifiedFieldKeys)
     }
