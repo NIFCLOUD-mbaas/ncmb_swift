@@ -280,6 +280,21 @@ final class NCMBQueryTests: NCMBTestCase {
         XCTAssertEqual(results.count, 3)
         XCTAssertEqual(results[2]["objectId"], "opqr76543stu")
     }
+    
+    func test_getResultObjects_file() {
+        let objectA : [String : Any] = ["fileName":"filename_a", "fileSize":1234, "mimeType":"text/plain"]
+        let objectB : [String : Any] = ["fileName":"filename_b", "fileSize":1222, "mimeType":"image/jpg"]
+        let objectC : [String : Any] = [ "fileName":"filename_c", "fileSize":778977, "mimeType":"image/jpg"]
+        let contents : [String : Any] = ["count":3, "results":[objectA, objectB, objectC]]
+        let response : NCMBResponse = MockResponseBuilder.createResponse(contents: contents, statusCode: 201)
+
+        let sut = NCMBFile.query
+        let results : [NCMBFile] = sut.getResultObjects(response: response)
+        XCTAssertEqual(results.count, 3)
+        XCTAssertEqual(results[0].fileName , "filename_a")
+        XCTAssertEqual(results[1].fileName , "filename_b")
+        XCTAssertEqual(results[2].fileName , "filename_c")
+    }
 
     func test_getResultObjects_invalidMember() {
         let objectA : [String : Any] = ["objectId":"abcdefg12345", "field_a":"value_a", "field_b":"value_b", "field_c":"value_c"]
