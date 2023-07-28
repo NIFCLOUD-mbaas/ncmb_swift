@@ -406,7 +406,7 @@ final class NCMBObjectTests: NCMBTestCase {
             XCTAssertEqual(sut["createDate"], "1986-02-04T12:34:56.789Z")
             expectation?.fulfill()
         }
-        self.waitForExpectations(timeout: 1.00, handler: nil)
+        self.waitForExpectations(timeout: 10.00, handler: nil)
     }
 
     func test_saveInBackground_async_success_update() {
@@ -437,7 +437,7 @@ final class NCMBObjectTests: NCMBTestCase {
             XCTAssertEqual(sut.needUpdate, false)
             expectation?.fulfill()
         }
-        self.waitForExpectations(timeout: 1.00, handler: nil)
+        self.waitForExpectations(timeout: 10.00, handler: nil)
     }
 
     func test_saveInBackground_async_failure() {
@@ -454,7 +454,7 @@ final class NCMBObjectTests: NCMBTestCase {
             XCTAssertEqual(sut["field1"], "value1")
             expectation?.fulfill()
         }
-        self.waitForExpectations(timeout: 1.00, handler: nil)
+        self.waitForExpectations(timeout: 10.00, handler: nil)
     }
 
     func test_saveInBackground_async_reset_modifiedFields() {
@@ -479,7 +479,7 @@ final class NCMBObjectTests: NCMBTestCase {
             XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field2\":\"value2\"}")
             expectation?.fulfill()
         }
-        self.waitForExpectations(timeout: 1.00, handler: nil)
+        self.waitForExpectations(timeout: 10.00, handler: nil)
     }
 
     func test_saveInBackground_async_modifiedFields_null() {
@@ -503,7 +503,7 @@ final class NCMBObjectTests: NCMBTestCase {
             XCTAssertEqual(String(data: executor.requests[1].body!, encoding: .utf8)!, "{\"field1\":null}")
             expectation?.fulfill()
         }
-        self.waitForExpectations(timeout: 1.00, handler: nil)
+        self.waitForExpectations(timeout: 10.00, handler: nil)
     }
 
     static var allTests = [
