@@ -73,7 +73,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         _activityIndicator = UIActivityIndicatorView()
         _activityIndicator.center = self.view.center
         _activityIndicator.hidesWhenStopped = true
-        _activityIndicator.style = UIActivityIndicatorView.Style.gray
+        _activityIndicator.style = UIActivityIndicatorView.Style.medium
         
         view.addSubview(_activityIndicator)
         showActivityIndicator(show: true)
