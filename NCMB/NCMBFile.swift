@@ -1,5 +1,5 @@
 /*
- Copyright 2019 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
+ Copyright 2019-2023 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -65,6 +65,11 @@ public class NCMBFile : NCMBBase {
     /// - Parameter modifiedFieldKeys: 更新フィールド名一覧
     required init(className: String, fields: [String : Any], modifiedFieldKeys: Set<String> = []) {
         self._fileName = ""
+        if let value = fields[NCMBFile.FIELDNAME_FILENAME] as Any? {
+            if let filename = value as? String {
+                self._fileName = filename
+            }
+        }
         super.init(className: className, fields: fields, modifiedFieldKeys: modifiedFieldKeys)
     }
 

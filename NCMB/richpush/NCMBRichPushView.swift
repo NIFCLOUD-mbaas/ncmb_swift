@@ -1,5 +1,5 @@
 /*
- Copyright 2019 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
+ Copyright 2019-2023 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -47,10 +47,11 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         
         var safeAreaTop:Int = 0
         var safeAreaBottom:Int = 0
+        let window = UIApplication.shared.windows.first
         
-        if #available(iOS 11.0, *) {
-            safeAreaTop = Int((UIApplication.shared.keyWindow?.safeAreaInsets.top)!)
-            safeAreaBottom = Int((UIApplication.shared.keyWindow?.safeAreaInsets.top)!)
+        if #available(iOS 13.0, *) {
+            safeAreaTop = Int(window?.safeAreaInsets.top ?? 0)
+            safeAreaBottom = Int(window?.safeAreaInsets.bottom ?? 0)
         }
         
         let rect = CGRect(x: 0,
@@ -73,7 +74,7 @@ class NCMBRichPushView: UIViewController, WKNavigationDelegate {
         _activityIndicator = UIActivityIndicatorView()
         _activityIndicator.center = self.view.center
         _activityIndicator.hidesWhenStopped = true
-        _activityIndicator.style = UIActivityIndicatorView.Style.gray
+        _activityIndicator.style = UIActivityIndicatorView.Style.medium
         
         view.addSubview(_activityIndicator)
         showActivityIndicator(show: true)

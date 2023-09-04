@@ -1,5 +1,5 @@
 /*
- Copyright 2019 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
+ Copyright 2019-2023 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -439,7 +439,7 @@ public class NCMBPush : NCMBBase {
                 richPushView.richUrl = urlStr
                 richPushView.closeCallback = completion
                 DispatchQueue.main.async {
-                    UIApplication.shared.keyWindow?.rootViewController?.present(richPushView, animated: true, completion: nil)
+                    UIApplication.shared.windows.first?.rootViewController?.present(richPushView, animated: true, completion: nil)
                 }
             }
         #endif

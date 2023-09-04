@@ -1,5 +1,5 @@
 /*
- Copyright 2019 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
+ Copyright 2019-2023 FUJITSU CLOUD TECHNOLOGIES LIMITED All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -552,7 +552,7 @@ final class NCMBInstallationTests: NCMBTestCase {
         NCMBLocalFileManagerFactory.setInstance(manager: manager)
         _ = NCMBInstallation.currentInstallation
         XCTAssertEqual(manager.saveLog.count, 1)
-        XCTAssertTrue(String(data: manager.saveLog[0].data, encoding: .utf8)!.contains("\"sdkVersion\":\"1.4.0\""))
+        XCTAssertTrue(String(data: manager.saveLog[0].data, encoding: .utf8)!.contains("\"sdkVersion\":\"1.4.1\""))
         XCTAssertEqual(manager.saveLog[0].type, NCMBLocalFileType.currentInstallation)
     }
 
