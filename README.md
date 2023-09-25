@@ -20,7 +20,6 @@
 - Swift version 4.2, 5.x
 - iOS 13.x ～ iOS 17.x
 - Xcode 13.2.1 〜 Xcode 15.x
-- armv7k, arm64, arm64e アーキテクチャ  
 (※2023年9月時点)  
 - iOS/Xcodeのバージョンに依って対応が必要となる可能性があります。詳細はニフクラ mobile backendのドキュメントをご覧ください。
 
